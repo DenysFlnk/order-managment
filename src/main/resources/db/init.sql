@@ -58,5 +58,5 @@ CREATE TABLE apostille (
 	title VARCHAR,
 	submission_country VARCHAR,
 	submission_department VARCHAR,
-	apostlle_cost INTEGER
+	apostille_cost INTEGER
 )
