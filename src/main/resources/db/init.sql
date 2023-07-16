@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS orders;
 DROP TYPE IF EXISTS order_status;
 DROP TABLE IF EXISTS user_role;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS translator;
 
 CREATE TABLE users
 (
@@ -58,5 +59,14 @@ CREATE TABLE apostille (
 	title VARCHAR,
 	submission_country VARCHAR,
 	submission_department VARCHAR,
-	apostille_cost INTEGER
-)
+	apostlle_cost INTEGER
+);
+
+CREATE TABLE translator (
+	translator_id SERIAL PRIMARY KEY,
+	name VARCHAR NOT NULL,
+	email VARCHAR NOT NULL,
+	phone_number VARCHAR,
+	language VARCHAR NOT NULL,
+	translator_rate VARCHAR
+);
