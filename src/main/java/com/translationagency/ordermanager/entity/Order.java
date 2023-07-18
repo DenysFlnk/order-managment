@@ -9,6 +9,7 @@ import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -16,7 +17,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"surcharge", "summaryCost", "note"})
+@ToString
 public class Order extends BaseEntity {
 
     @Column(name = "customer_name")
@@ -38,9 +39,11 @@ public class Order extends BaseEntity {
     private int prepaid;
 
     @Column(name = "surcharge")
+    @ToString.Exclude
     private int surcharge;
 
     @Column(name = "summary_cost")
+    @ToString.Exclude
     private int summaryCost;
 
     @Column(name = "creation_date")
@@ -56,5 +59,14 @@ public class Order extends BaseEntity {
 
     @Column(name = "note")
     @Size(max = 200)
+    @ToString.Exclude
     private String note;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<Document> documents;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private List<Apostille> apostilles;
 }

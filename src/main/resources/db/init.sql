@@ -2,9 +2,10 @@ DROP TABLE IF EXISTS documents;
 DROP TABLE IF EXISTS apostille;
 DROP TABLE IF EXISTS orders;
 DROP TYPE IF EXISTS order_status;
+DROP TABLE IF EXISTS translator;
 DROP TABLE IF EXISTS user_role;
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS translator;
+
 
 CREATE TABLE users
 (
@@ -40,6 +41,15 @@ CREATE TABLE orders (
 	note TEXT
 );
 
+CREATE TABLE translator (
+	translator_id SERIAL PRIMARY KEY,
+	name VARCHAR NOT NULL,
+	email VARCHAR NOT NULL,
+	phone_number VARCHAR,
+	language VARCHAR NOT NULL,
+	translator_rate VARCHAR
+);
+
 CREATE TABLE documents (
 	order_id INTEGER REFERENCES orders(order_id) ON DELETE CASCADE NOT NULL,
 	document_id SERIAL PRIMARY KEY,
@@ -48,7 +58,7 @@ CREATE TABLE documents (
 	signs_number INTEGER,
 	notarization INTEGER,
 	office_cost INTEGER NOT NULL,
-	translator VARCHAR,
+	translator_id INTEGER REFERENCES translator(translator_id),
 	translator_rate VARCHAR,
 	translator_tax INTEGER
 );
@@ -59,14 +69,6 @@ CREATE TABLE apostille (
 	title VARCHAR,
 	submission_country VARCHAR,
 	submission_department VARCHAR,
-	apostlle_cost INTEGER
+	apostille_cost INTEGER
 );
 
-CREATE TABLE translator (
-	translator_id SERIAL PRIMARY KEY,
-	name VARCHAR NOT NULL,
-	email VARCHAR NOT NULL,
-	phone_number VARCHAR,
-	language VARCHAR NOT NULL,
-	translator_rate VARCHAR
-);

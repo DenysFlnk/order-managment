@@ -1,6 +1,7 @@
 package com.translationagency.ordermanager.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
@@ -14,9 +15,9 @@ import org.hibernate.validator.constraints.Range;
 @ToString
 public class Document extends BaseEntity {
 
-    @Column(name = "order_id")
-    @NotNull
-    private int orderId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private Order order;
 
     @Column(name = "document_language")
     @Enumerated(EnumType.STRING)
@@ -37,10 +38,12 @@ public class Document extends BaseEntity {
     @Column(name = "office_cost")
     private int officeCost;
 
-    @Column(name = "translator")
-    private String translator;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Translator translator;
 
     @Column(name = "translator_rate")
+    @NotNull
+    @NotBlank
     private String translatorRate;
 
     @Column(name = "translator_tax")

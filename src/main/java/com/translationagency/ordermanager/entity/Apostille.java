@@ -1,15 +1,10 @@
 package com.translationagency.ordermanager.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
 @Entity
@@ -18,11 +13,12 @@ import org.hibernate.validator.constraints.Range;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Apostille extends BaseEntity {
 
-    @Column(name = "order_id")
-    @NotNull
-    private int orderId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private Order order;
 
     @Column(name = "title")
     @NotNull
