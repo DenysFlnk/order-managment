@@ -1,5 +1,6 @@
 package com.translationagency.ordermanager.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -62,11 +63,13 @@ public class Order extends BaseEntity {
     @ToString.Exclude
     private String note;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "order")
+    @JsonManagedReference
     @ToString.Exclude
     private List<Document> documents;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "order")
+    @JsonManagedReference
     @ToString.Exclude
     private List<Apostille> apostilles;
 }

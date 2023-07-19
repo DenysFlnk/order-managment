@@ -1,5 +1,6 @@
 package com.translationagency.ordermanager.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -16,6 +17,7 @@ import org.hibernate.validator.constraints.Range;
 public class Document extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     @ToString.Exclude
     private Order order;
 
@@ -24,13 +26,16 @@ public class Document extends BaseEntity {
     @NotNull
     private Language documentLanguage;
 
+    @Column(name = "hard_complexity")
+    private boolean isHardComplexity;
+
     @Column(name = "office_rate")
     @NotNull
     @Range(min = 1)
     private int officeRate;
 
     @Column(name = "signs_number")
-    private int signsNumber;
+    private double signsNumber;
 
     @Column(name = "notarization")
     private int notarizationCost;

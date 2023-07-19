@@ -4,43 +4,41 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
 @Entity
-@Table(name = "apostille")
+@Table(name = "language_rate")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Apostille extends BaseEntity {
+public class LanguageRate extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
     @ToString.Exclude
-    private Order order;
+    private Translator translator;
 
-    @Column(name = "title")
+    @Column(name = "language")
+    @Enumerated(EnumType.STRING)
     @NotNull
     @NotBlank
-    @Size(min = 3)
-    private String title;
+    private Language language;
 
-    @Column(name = "submission_country")
-    @NotNull
-    @NotBlank
-    @Size(min = 2)
-    private String submissionCountry;
-
-    @Column(name = "submission_department")
-    @NotNull
-    @NotBlank
-    private String submissionDepartment;
-
-    @Column(name = "apostille_cost")
+    @Column(name = "common_rate")
     @NotNull
     @Range(min = 1)
-    private int cost;
+    private int commonRate;
+
+    @Column(name = "hard_rate")
+    @NotNull
+    @Range(min = 1)
+    private int hardRate;
+
+    @Column(name = "signs")
+    @NotNull
+    @Range(min = 1)
+    private double signs;
 }

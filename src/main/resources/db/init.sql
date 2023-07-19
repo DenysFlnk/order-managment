@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS documents;
 DROP TABLE IF EXISTS apostille;
 DROP TABLE IF EXISTS orders;
 DROP TYPE IF EXISTS order_status;
+DROP TABLE IF EXISTS language_rate;
 DROP TABLE IF EXISTS translator;
 DROP TABLE IF EXISTS user_role;
 DROP TABLE IF EXISTS users;
@@ -9,7 +10,7 @@ DROP TABLE IF EXISTS users;
 
 CREATE TABLE users
 (
-    user_id  		SERIAL PRIMARY KEY,
+    id  		SERIAL PRIMARY KEY,
     user_name  		VARCHAR		         NOT NULL,
     user_password 	VARCHAR			     NOT NULL,
     enabled  		BOOLEAN DEFAULT TRUE NOT NULL
@@ -21,14 +22,14 @@ CREATE TABLE user_role
     user_id INTEGER      NOT NULL,
     role    VARCHAR		 NOT NULL,
     CONSTRAINT user_role_idx UNIQUE (user_id, role),
-    FOREIGN KEY (user_id) REFERENCES USERS (user_id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES USERS (id) ON DELETE CASCADE
 );
 
 
-CREATE TYPE order_status AS ENUM ('IN WORK', 'COMPLETED');
+CREATE TYPE order_status AS ENUM ('IN_WORK', 'COMPLETED');
 
 CREATE TABLE orders (
-	order_id 		SERIAL 		PRIMARY KEY,
+	id 		SERIAL 		PRIMARY KEY,
 	customer_name 	VARCHAR 	NOT NULL,
 	customer_phone 	VARCHAR,
 	customer_email 	VARCHAR,
@@ -37,35 +38,44 @@ CREATE TABLE orders (
 	summary_cost 	INTEGER 	DEFAULT 0,
 	creation_date 	DATE 		DEFAULT NOW(),
 	delivery_date 	DATE,
-	status 			order_status DEFAULT 'IN WORK',
+	status 			order_status DEFAULT 'IN_WORK',
 	note TEXT
 );
 
 CREATE TABLE translator (
-	translator_id SERIAL PRIMARY KEY,
+	id SERIAL PRIMARY KEY,
 	name VARCHAR NOT NULL,
 	email VARCHAR NOT NULL,
-	phone_number VARCHAR,
-	language VARCHAR NOT NULL,
-	translator_rate VARCHAR
+	phone_number VARCHAR
+);
+
+CREATE TABLE language_rate (
+    translator_id INTEGER REFERENCES translator(id) ON DELETE CASCADE,
+    id SERIAL PRIMARY KEY,
+    language VARCHAR,
+    common_rate INTEGER,
+    hard_rate INTEGER,
+    signs FLOAT,
+    CONSTRAINT translator_language_idx UNIQUE (translator_id,language)
 );
 
 CREATE TABLE documents (
-	order_id INTEGER REFERENCES orders(order_id) ON DELETE CASCADE NOT NULL,
-	document_id SERIAL PRIMARY KEY,
+	order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE NOT NULL,
+	id SERIAL PRIMARY KEY,
 	document_language VARCHAR NOT NULL,
+	hard_complexity BOOLEAN DEFAULT FALSE,
 	office_rate INTEGER NOT NULL,
-	signs_number INTEGER,
+	signs_number FLOAT,
 	notarization INTEGER,
 	office_cost INTEGER NOT NULL,
-	translator_id INTEGER REFERENCES translator(translator_id),
+	translator_id INTEGER REFERENCES translator(id),
 	translator_rate VARCHAR,
 	translator_tax INTEGER
 );
 
 CREATE TABLE apostille (
-	order_id INTEGER REFERENCES orders(order_id) ON DELETE CASCADE NOT NULL,
-	apostille_id SERIAL PRIMARY KEY,
+	order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE NOT NULL,
+	id SERIAL PRIMARY KEY,
 	title VARCHAR,
 	submission_country VARCHAR,
 	submission_department VARCHAR,
