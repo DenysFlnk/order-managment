@@ -37,4 +37,7 @@ public class Translator extends BaseEntity {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "translator")
     @JsonManagedReference
     private List<LanguageRate> rates;
+
+    @Column(name = "available")
+    private boolean available;
 }

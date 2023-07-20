@@ -1,7 +1,6 @@
 DROP TABLE IF EXISTS documents;
 DROP TABLE IF EXISTS apostille;
 DROP TABLE IF EXISTS orders;
-DROP TYPE IF EXISTS order_status;
 DROP TABLE IF EXISTS language_rate;
 DROP TABLE IF EXISTS translator;
 DROP TABLE IF EXISTS user_role;
@@ -25,9 +24,6 @@ CREATE TABLE user_role
     FOREIGN KEY (user_id) REFERENCES USERS (id) ON DELETE CASCADE
 );
 
-
-CREATE TYPE order_status AS ENUM ('IN_WORK', 'COMPLETED');
-
 CREATE TABLE orders (
 	id 		SERIAL 		PRIMARY KEY,
 	customer_name 	VARCHAR 	NOT NULL,
@@ -38,7 +34,7 @@ CREATE TABLE orders (
 	summary_cost 	INTEGER 	DEFAULT 0,
 	creation_date 	DATE 		DEFAULT NOW(),
 	delivery_date 	DATE,
-	status 			order_status DEFAULT 'IN_WORK',
+	status 			VARCHAR DEFAULT 'IN_WORK',
 	note TEXT
 );
 
@@ -46,7 +42,8 @@ CREATE TABLE translator (
 	id SERIAL PRIMARY KEY,
 	name VARCHAR NOT NULL,
 	email VARCHAR NOT NULL,
-	phone_number VARCHAR
+	phone_number VARCHAR,
+	available BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE language_rate (

@@ -63,12 +63,12 @@ public class Order extends BaseEntity {
     @ToString.Exclude
     private String note;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "order")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
     @JsonManagedReference
     @ToString.Exclude
     private List<Document> documents;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "order")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
     @JsonManagedReference
     @ToString.Exclude
     private List<Apostille> apostilles;
