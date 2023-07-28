@@ -8,7 +8,7 @@ import java.util.List;
 
 public class OrderUtil {
 
-    public static final String ORDER_REST_URL = "/orders";
+    public static final String ORDER_REST_URL = "rest-api/orders";
 
     public static final String ID_PREFIX = "KP0";
 
