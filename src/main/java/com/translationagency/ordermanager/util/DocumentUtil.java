@@ -22,7 +22,8 @@ public class DocumentUtil {
     private static DocumentTo getTo(Document document) {
         return new DocumentTo(document.getOrder().id(), document.id(), document.getDocumentLanguage(),
                 document.getOfficeRate(), document.getSignsNumber(), document.getNotarizationCost(),
-                document.getOfficeCost(), document.getTranslator().getName(), document.getTranslatorRate(),
+                document.getOfficeCost(), document.getTranslator() != null ? document.getTranslator().getName() : null,
+                document.getTranslatorRate(),
                 document.getTranslatorTax());
     }
 

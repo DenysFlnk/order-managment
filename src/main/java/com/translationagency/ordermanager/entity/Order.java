@@ -41,11 +41,11 @@ public class Order extends BaseEntity {
 
     @Column(name = "surcharge")
     @ToString.Exclude
-    private int surcharge;
+    private Integer surcharge;
 
     @Column(name = "summary_cost")
     @ToString.Exclude
-    private int summaryCost;
+    private Integer summaryCost;
 
     @Column(name = "creation_date")
     private LocalDate creationDate;

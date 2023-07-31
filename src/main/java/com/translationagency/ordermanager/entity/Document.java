@@ -35,12 +35,13 @@ public class Document extends BaseEntity {
     private int officeRate;
 
     @Column(name = "signs_number")
-    private double signsNumber;
+    private Double signsNumber;
 
     @Column(name = "notarization")
     private int notarizationCost;
 
     @Column(name = "office_cost")
+    @NotNull
     private int officeCost;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -52,5 +53,5 @@ public class Document extends BaseEntity {
     private String translatorRate;
 
     @Column(name = "translator_tax")
-    private int translatorTax;
+    private Integer translatorTax;
 }

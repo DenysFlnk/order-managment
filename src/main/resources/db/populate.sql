@@ -26,5 +26,8 @@ VALUES (1, 'ENGLISH', 300, 1.5, 0, 450, 1, '180/1000', 270),
        (2, 'GERMAN', 350, 1.0, 250, 600, 2, '200/1000', 200),
        (3, 'KOREAN', 500, 3.0, 250, 1750, 2, '400/1500', 800);
 
+INSERT INTO documents(order_id, document_language, office_rate, office_cost)
+VALUES (2, 'ENGLISH', 300, 450);
+
 INSERT INTO apostille(order_id, title, submission_country, submission_department, apostille_cost)
 VALUES (2, 'Apostille to Spain', 'Spain', 'ABC', 1500)
