@@ -1,5 +1,7 @@
 package com.translationagency.ordermanager.util;
 
+import com.translationagency.ordermanager.entity.Apostille;
+import com.translationagency.ordermanager.entity.Document;
 import com.translationagency.ordermanager.entity.Order;
 import com.translationagency.ordermanager.to.OrderDetailTo;
 import com.translationagency.ordermanager.to.OrderTo;
@@ -7,8 +9,6 @@ import com.translationagency.ordermanager.to.OrderTo;
 import java.util.List;
 
 public class OrderUtil {
-
-    public static final String ORDER_REST_URL = "rest-api/orders";
 
     public static final String ID_PREFIX = "KP0";
 
@@ -28,6 +28,13 @@ public class OrderUtil {
 
     public static List<OrderTo> getTos(List<Order> orders) {
         return orders.stream().map(OrderUtil::getTo).toList();
+    }
+
+    public static int calculateOrderCost(Order order){
+        int documentsCost = order.getDocuments().stream().mapToInt(Document::getOfficeCost).sum();
+        int apostillesCost = order.getApostilles().stream().mapToInt(Apostille::getCost).sum();
+
+        return documentsCost + apostillesCost;
     }
 
     private static OrderTo getTo(Order order) {

@@ -34,7 +34,7 @@ CREATE TABLE orders (
 	summary_cost 	INTEGER,
 	creation_date 	DATE 		DEFAULT NOW(),
 	delivery_date 	DATE,
-	status 			VARCHAR DEFAULT 'IN_WORK',
+	status 			VARCHAR NOT NULL DEFAULT 'IN_WORK',
 	note TEXT
 );
 

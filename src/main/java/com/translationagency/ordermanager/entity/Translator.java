@@ -34,8 +34,9 @@ public class Translator extends BaseEntity {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "translator")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "translator")
     @JsonManagedReference
+    @ToString.Exclude
     private List<LanguageRate> rates;
 
     @Column(name = "available")

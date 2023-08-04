@@ -8,6 +8,7 @@ import com.translationagency.ordermanager.to.OrderTo;
 import com.translationagency.ordermanager.util.OrderUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +18,14 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = OrderUtil.ORDER_REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = OrderController.ORDER_REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 @Slf4j
 public class OrderController {
+
+    public static final String ORDER_REST_URL = "rest-api/orders";
+
+    public static final String ORDER_URL = "/orders";
 
     private OrderService orderService;
 
@@ -36,24 +41,25 @@ public class OrderController {
         return OrderUtil.getDetailTo(orderService.get(id));
     }
 
-    @PostMapping
-    public ResponseEntity<OrderDetailTo> create(@RequestBody Order order) {
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> create(@RequestBody Order order) {
         log.info("create {}", order);
         Order created = orderService.create(order);
-        OrderDetailTo orderDetailTo = OrderUtil.getDetailTo(created);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(OrderUtil.ORDER_REST_URL + "/{id}")
+                .path(ORDER_URL + "/{id}")
                 .buildAndExpand(created.id()).toUri();
-        return ResponseEntity.created(uriOfNewResource).body(orderDetailTo);
+        return ResponseEntity.created(uriOfNewResource).build();
     }
 
-    @PutMapping
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@RequestBody Order order) {
         log.info("update {}", order);
         orderService.update(order);
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
         log.info("delete {}", id);
         orderService.delete(id);
