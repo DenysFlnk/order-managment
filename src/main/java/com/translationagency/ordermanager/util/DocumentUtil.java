@@ -15,7 +15,7 @@ public class DocumentUtil {
     }
 
     public static DocumentTo getTo(Document document) {
-        return new DocumentTo(document.getOrder().id(), document.id(), document.getDocumentLanguage(), document.isHardComplexity(),
+        return new DocumentTo( document.id(), document.getOrder().id(), document.getDocumentLanguage(), document.isHardComplexity(),
                 document.getOfficeRate(), document.getSignsNumber(), document.getNotarizationCost(),
                 document.getOfficeCost(), document.getTranslator() != null ? document.getTranslator().getName() : null,
                 document.getTranslatorRate(),
