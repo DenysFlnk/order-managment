@@ -12,15 +12,9 @@ public class TranslatorUtil {
     public TranslatorUtil() {
     }
 
-    public static List<TranslatorTo> filterByLanguageAndGetTos(Language language, boolean isHardComplexity,
+    public static List<TranslatorTo> getTos(Language language, boolean isHardComplexity,
                                                         List<Translator> translators) {
-        List<Translator> filtered = filterByLanguage(language, translators);
-        return filtered.stream().map(t -> getTo(language, isHardComplexity, t)).toList();
-    }
-
-    private static List<Translator> filterByLanguage(Language language, List<Translator> translators) {
-        return translators.stream().filter(translator -> translator.getRates().stream()
-                .anyMatch(rate -> rate.getLanguage() == language)).toList();
+        return translators.stream().map(t -> getTo(language, isHardComplexity, t)).toList();
     }
 
     private static TranslatorTo getTo(Language language, boolean isHardComplexity, Translator translator) {
