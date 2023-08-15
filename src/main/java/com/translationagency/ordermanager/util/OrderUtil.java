@@ -14,8 +14,11 @@ public class OrderUtil {
 
     private OrderUtil(){}
 
-    public static List<OrderDetailTo> getDetailTos(List<Order> orders) {
-        return orders.stream().map(OrderUtil::getDetailTo).toList();
+    public static int calculateOrderCost(Order order){
+        int documentsCost = order.getDocuments().stream().mapToInt(Document::getOfficeCost).sum();
+        int apostillesCost = order.getApostilles().stream().mapToInt(Apostille::getCost).sum();
+
+        return documentsCost + apostillesCost;
     }
 
     public static OrderDetailTo getDetailTo(Order order) {
@@ -28,13 +31,6 @@ public class OrderUtil {
 
     public static List<OrderTo> getTos(List<Order> orders) {
         return orders.stream().map(OrderUtil::getTo).toList();
-    }
-
-    public static int calculateOrderCost(Order order){
-        int documentsCost = order.getDocuments().stream().mapToInt(Document::getOfficeCost).sum();
-        int apostillesCost = order.getApostilles().stream().mapToInt(Apostille::getCost).sum();
-
-        return documentsCost + apostillesCost;
     }
 
     private static OrderTo getTo(Order order) {
