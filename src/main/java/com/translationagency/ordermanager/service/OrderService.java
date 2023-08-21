@@ -3,6 +3,7 @@ package com.translationagency.ordermanager.service;
 import com.translationagency.ordermanager.entity.Apostille;
 import com.translationagency.ordermanager.entity.Order;
 import com.translationagency.ordermanager.entity.OrderStatus;
+import com.translationagency.ordermanager.repository.ApostilleRepository;
 import com.translationagency.ordermanager.repository.OrderRepository;
 import com.translationagency.ordermanager.util.OrderUtil;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ public class OrderService {
 
     private OrderRepository orderRepository;
 
-    private ApostilleService apostilleService;
+    private ApostilleRepository apostilleRepository;
 
     public List<Order> getAll() {
         return orderRepository.getAll();
@@ -24,7 +25,7 @@ public class OrderService {
 
     public Order get(int id) {
         Order order = orderRepository.getWithDocument(id).orElseThrow(() -> new RuntimeException("Not found"));
-        List<Apostille> apostilles = apostilleService.getAllByOrder(id);
+        List<Apostille> apostilles = apostilleRepository.getAllByOrderId(id);
         order.setApostilles(apostilles);
         return order;
     }
