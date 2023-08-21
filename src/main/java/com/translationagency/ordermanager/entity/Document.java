@@ -2,7 +2,6 @@ package com.translationagency.ordermanager.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
@@ -27,7 +26,7 @@ public class Document extends BaseEntity {
     private Language documentLanguage;
 
     @Column(name = "hard_complexity")
-    private boolean isHardComplexity;
+    private Boolean isHardComplexity;
 
     @Column(name = "office_rate")
     @NotNull
@@ -48,8 +47,6 @@ public class Document extends BaseEntity {
     private Translator translator;
 
     @Column(name = "translator_rate")
-    @NotNull
-    @NotBlank
     private String translatorRate;
 
     @Column(name = "translator_tax")
