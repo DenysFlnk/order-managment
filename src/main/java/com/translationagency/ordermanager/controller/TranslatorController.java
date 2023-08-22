@@ -28,7 +28,7 @@ public class TranslatorController {
 
     @GetMapping("/document")
     public List<TranslatorTo> getAllActiveByLanguage(@RequestParam String language,
-                                                     @RequestParam boolean isHardComplexity,
+                                                     @RequestParam Boolean isHardComplexity,
                                                      @RequestParam(defaultValue = "0") Integer page,
                                                      @RequestParam(defaultValue = "5") Integer size) {
         log.info("getAllActiveByLanguage language {}, isHardComplexity {}, page {}, size {}", language,

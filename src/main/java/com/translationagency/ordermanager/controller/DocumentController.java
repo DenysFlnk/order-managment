@@ -47,10 +47,15 @@ public class DocumentController {
 
     @PutMapping("/{documentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable int id, @PathVariable int documentId,
+    public void update(@PathVariable int id,  @RequestParam(required = false) Integer translatorId,
+                       @PathVariable int documentId,
                        @RequestBody Document document) {
-        log.info("update document {} with data {} for order {}", documentId, document, id);
-        documentService.update(document, id);
+        log.info("update document {} with data {} for order {}, translatorId {}", documentId, document, id, translatorId);
+        if (translatorId == null) {
+            documentService.update(document, id);
+        } else {
+            documentService.update(document, id, translatorId);
+        }
     }
 
     @DeleteMapping("/{documentId}")

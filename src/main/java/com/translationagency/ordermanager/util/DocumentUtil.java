@@ -15,9 +15,11 @@ public class DocumentUtil {
     }
 
     public static DocumentTo getTo(Document document) {
-        return new DocumentTo( document.id(), document.getOrder().id(), document.getDocumentLanguage(), document.getIsHardComplexity(),
+        return new DocumentTo(document.id(), document.getOrder().getId(), document.getDocumentLanguage(),
+                document.getIsHardComplexity(),
                 document.getOfficeRate(), document.getSignsNumber(), document.getNotarizationCost(),
-                document.getOfficeCost(), document.getTranslator() != null ? document.getTranslator().getName() : null,
+                document.getOfficeCost(), document.getTranslator() != null ? document.getTranslator().getId() : null,
+                document.getTranslator() != null ? document.getTranslator().getName() : null,
                 document.getTranslatorRate(),
                 document.getTranslatorTax());
     }
