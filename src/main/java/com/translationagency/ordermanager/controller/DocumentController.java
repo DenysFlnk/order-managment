@@ -38,9 +38,11 @@ public class DocumentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Document create(@PathVariable int id, @RequestBody Document document) {
-        log.info("create document {} for order {}", document, id);
-        return documentService.create(document, id);
+    public Document create(@PathVariable int id, @RequestParam(required = false) Integer translatorId,
+                           @RequestBody Document document) {
+        log.info("create document {} for order {}, translatorId {}", document, id, translatorId);
+        return translatorId == null ?
+                documentService.create(document, id) : documentService.create(document, id, translatorId);
     }
 
     @PutMapping("/{documentId}")

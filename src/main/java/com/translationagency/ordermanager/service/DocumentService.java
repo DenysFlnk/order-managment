@@ -37,6 +37,17 @@ public class DocumentService {
         return created;
     }
 
+    public Document create(Document document, int orderId, int translatorId) {
+        document.setOrder(orderService.getReference(orderId));
+        document.setTranslator(translatorService.get(translatorId));
+
+        Document created = documentRepository.save(document);
+
+        orderService.recalculateOrderCost(orderId);
+
+        return created;
+    }
+
     public void update(Document document, int orderId) {
         document.setOrder(orderService.getReference(orderId));
         documentRepository.save(document);
