@@ -10,7 +10,7 @@
 <h2 class="text-center">Order list</h2>
 <br/>
 <div class="container-fluid">
-    <button class="btn btn-success btn-lg btn-block" onclick="add()">
+    <button class="btn btn-success btn-lg btn-block" onclick="openModal('createOrder')">
         <span class="fas fa-plus fa-lg"></span>
         Add order
     </button>
@@ -37,7 +37,7 @@
     </tbody>
 </table>
 
-<div class="modal fade" tabindex="-1" id="editRow">
+<div class="modal fade" tabindex="-1" id="createOrder">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

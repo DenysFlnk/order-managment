@@ -96,9 +96,9 @@ function save() {
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: ordersRestUrl,
-        data: convertFormToJson(form)
+        data: convertFormToJsonString(form)
     }).done(function (data, textStatus, jqXHR) {
-        $("#editRow").modal("hide");
+        closeModal("editRow");
         if (textStatus === "success"){
             redirectTo(jqXHR.getResponseHeader('Location'));
         }
