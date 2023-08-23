@@ -90,4 +90,11 @@ table tr.in-work {
     display: none;
 }
 
+.grey-background {
+    background-color: #E9ECEF;
+    padding: 20px;
+    border-radius: 10px;
+    display: block;
+}
+
 

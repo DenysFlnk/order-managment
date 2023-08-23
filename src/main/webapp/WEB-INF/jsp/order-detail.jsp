@@ -11,64 +11,80 @@
 <br/>
 <h2 class="text-center" id="orderNumber"></h2>
 <div class="container">
-    <form style="background-color: #E9ECEF; padding: 20px; border-radius: 10px; display: block" id="orderForm">
+    <form class="grey-background" id="orderForm">
+        <input type="hidden" id="id" name="id">
         <h5>Customer info:</h5>
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="customerName">Name</label>
-                <input type="text" class="form-control" id="customerName" placeholder="Example E.E.">
+                <input type="text" class="form-control" id="customerName" name="customerName"
+                       placeholder="Example E.E.">
             </div>
             <div class="form-group col-md-4">
                 <label for="customerPhone">Phone</label>
-                <input type="text" class="form-control" id="customerPhone" placeholder="+38(***)***-**-**">
+                <input type="text" class="form-control" id="customerPhone" name="customerPhone"
+                       placeholder="+38(***)***-**-**">
             </div>
             <div class="form-group col-md-4">
                 <label for="customerEmail">Email</label>
-                <input type="text" class="form-control" id="customerEmail" placeholder="example@example.com">
+                <input type="text" class="form-control" id="customerEmail" name="customerEmail"
+                       placeholder="example@example.com">
             </div>
         </div>
         <h5>Order info:</h5>
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="creationDate">Creation date</label>
-                <input type="date" class="form-control" id="creationDate">
+                <input type="date" class="form-control" id="creationDate" name="creationDate">
             </div>
             <div class="form-group col-md-4">
                 <label for="deliveryDate">Delivery date</label>
-                <input type="date" class="form-control" id="deliveryDate">
+                <input type="date" class="form-control" id="deliveryDate" name="deliveryDate">
             </div>
             <div class="form-group col-md-3">
                 <label for="orderStatus">Order status:</label>
-                <select class="form-control" id="orderStatus">
-                    <option selected>in work</option>
-                    <option>completed</option>
+                <select class="form-control" id="orderStatus" name="orderStatus">
+                    <option value="IN_WORK" selected>in work</option>
+                    <option value="COMPLETED">completed</option>
                 </select>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="prepaid">Prepaid</label>
-                <input type="number" class="form-control" id="prepaid" placeholder="0">
+                <input type="number" class="form-control" id="prepaid" name="prepaid" placeholder="0">
             </div>
             <div class="form-group col-md-4">
                 <label for="surcharge">Surcharge</label>
-                <input type="number" class="form-control" id="surcharge" placeholder="0" readonly>
+                <input type="number" class="form-control" id="surcharge" name="surcharge" placeholder="0" readonly>
             </div>
             <div class="form-group col-md-4">
                 <label for="summaryCost">Summary cost</label>
-                <input type="number" class="form-control" id="summaryCost" placeholder="0" readonly>
+                <input type="number" class="form-control" id="summaryCost" name="summaryCost" placeholder="0" readonly>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="note">Note</label>
-                <input type="text" class="form-control" id="note" placeholder="some notes...">
+                <input type="text" class="form-control" id="note" name="note" placeholder="some notes...">
             </div>
         </div>
 
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-lg" onclick="location.href='orders'">
+                <span class="fa fa-close"></span>
+                Cancel
+            </button>
+            <button type="button" class="btn btn-success btn-lg" onclick="saveOrder()">
+                <span class="fa fa-check"></span>
+                Save
+            </button>
+        </div>
+    </form>
+    <div class="grey-background">
         <div class="modal-footer d-flex justify-content-start">
             <h5>Documents</h5>
-            <button type="button" class="btn btn-success" onclick="openModal('docModal')">
+            <button type="button" class="btn btn-success" onclick="openDocumentModal()">
                 <span class="fa fa-plus"></span>
             </button>
         </div>
@@ -118,17 +134,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary btn-lg" onclick="location.href='orders'">
-                <span class="fa fa-close"></span>
-                Cancel
-            </button>
-            <button type="button" class="btn btn-success btn-lg" onclick="saveOrder()">
-                <span class="fa fa-check"></span>
-                Save
-            </button>
-        </div>
-    </form>
+    </div>
 </div>
 
 
@@ -235,7 +241,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearDocumentForm()">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNoty()">
                     <span class="fa fa-close"></span>
                     Cancel
                 </button>

@@ -12,6 +12,8 @@ function loadContent() {
 
     let order = JSON.parse(doGet(ordersRestUrl + '/' + orderId).responseText);
 
+    document.getElementById("id").setAttribute("value", orderId);
+
     let customerName = document.getElementById("customerName");
     customerName.setAttribute("value", order.customerName);
 
@@ -30,8 +32,7 @@ function loadContent() {
     deliveryDate.setAttribute("value", formatDate(getDateFromArray(order.deliveryDate), dateFormat));
 
     let orderStatus = document.getElementById("orderStatus");
-    let status = order.orderStatus === 'IN_WORK' ? 'in work' : 'completed';
-    orderStatus.setAttribute("value", status);
+    orderStatus.value = order.orderStatus;
 
     let prepaid = document.getElementById("prepaid");
     prepaid.setAttribute("value", order.prepaid);
@@ -352,6 +353,7 @@ function saveDocument() {
         data: JSON.stringify(json),
         success: function () {
             closeModal("docModal");
+            clearDocumentForm();
             loadContent();
         }
     });
@@ -407,9 +409,7 @@ function createSpanMinus() {
     return spanMinus;
 }
 
-function clearDocumentForm() {
-    closeNoty();
-    $('#documentLanguage').val('Select a language');
-    $('#isHardComplexity').val("false");
-    $('#translatorTableBody').empty();
+function openDocumentModal() {
+    openModal("docModal");
+    $('#isHardComplexity').prop('checked', false);
 }
