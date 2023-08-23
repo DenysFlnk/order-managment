@@ -65,6 +65,9 @@ function loadDocuments(order) {
 
     for (let i = 0; i < documents.length; i++) {
         let tr = document.createElement("tr");
+        if (documents[i].isHardComplexity) {
+            tr.classList.add("hard-complexity");
+        }
 
         let td1 = document.createElement("td");
         td1.setAttribute("hidden", 'hidden');
@@ -130,8 +133,10 @@ function loadDocuments(order) {
         deleteButton.setAttribute("class", "btn btn-danger");
         deleteButton.appendChild(createSpanMinus());
         deleteButton.addEventListener("click", function () {
-            doDelete(ordersRestUrl + "/" + orderId + "/documents/" + documents[i].id);
-            loadContent();
+            if (confirm("Are you sure?")) {
+                doDelete(ordersRestUrl + "/" + orderId + "/documents/" + documents[i].id);
+                loadContent();
+            }
         });
 
         let td10 = document.createElement("td");
@@ -283,8 +288,10 @@ function loadApostilles(order) {
         deleteButton.setAttribute("class", "btn btn-danger");
         deleteButton.appendChild(createSpanMinus());
         deleteButton.addEventListener("click", function () {
-            doDelete(ordersRestUrl + "/" + orderId + "/apostilles/" + apostilles[i].id);
-            loadContent();
+            if (confirm("Are you sure?")) {
+                doDelete(ordersRestUrl + "/" + orderId + "/apostilles/" + apostilles[i].id);
+                loadContent();
+            }
         });
 
         let td6 = document.createElement("td");

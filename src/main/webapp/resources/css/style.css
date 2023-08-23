@@ -78,6 +78,10 @@ table tr.in-work {
     color: darkred !important;
 }
 
+table tr.hard-complexity {
+    color: #ff9248;
+}
+
 .table tr {
     color: inherit;
 }

@@ -69,7 +69,9 @@ function loadContent() {
         deleteButton.setAttribute("class", "btn btn-danger btn-lg");
         deleteButton.appendChild(document.createTextNode("Delete"));
         deleteButton.addEventListener("click", function () {
-            deleteAndUpdateTable(orders[i].id);
+            if (confirm("Are you sure?")) {
+                deleteAndUpdateTable(orders[i].id);
+            }
         });
 
         let td11 = document.createElement("td");
