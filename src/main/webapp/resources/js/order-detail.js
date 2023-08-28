@@ -1,10 +1,9 @@
 let translatorPage = 0;
+let translatorsInPage = 5;
 const translatorPagination = $('#translatorPagination');
 
 let orderUrl = window.location.pathname;
 let orderId = parseOrderIdFromUrl(orderUrl);
-
-let lastSavedDoc;
 
 function loadContent() {
     let orderNumberH2 = document.getElementById("orderNumber");
@@ -182,7 +181,6 @@ function getPaginatedTranslators(orderDocument, currentPage) {
         method: 'GET',
         success: function (data) {
             $('#translatorTableBody').empty();
-            console.log(orderDocument)
             data.forEach(object => {
                 const newRow = `<tr>
                               <td hidden="hidden">${object.id}</td>
@@ -199,7 +197,7 @@ function getPaginatedTranslators(orderDocument, currentPage) {
                             </tr>`;
                 $('#translatorTableBody').append(newRow);
             });
-            updatePagination(orderDocument, data.length);
+            updatePagination(orderDocument, translatorsInPage);
         }
     });
 }
@@ -210,7 +208,7 @@ function updatePagination(orderDocument, objectsInPage) {
         url: translatorsRestUrl + `/document/count?language=${orderDocument.language}`,
         method: 'GET',
         success: function (data) {
-            let pages = data / objectsInPage;
+            let pages = Math.ceil(data / objectsInPage);
             for (let i = 1; i <= pages; i++) {
                 const isActive = i === translatorPage + 1 ? 'active' : '';
                 translatorPagination.append(`<li class="page-item ${isActive}">

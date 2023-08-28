@@ -2,11 +2,11 @@ package com.translationagency.ordermanager.service;
 
 import com.translationagency.ordermanager.entity.Apostille;
 import com.translationagency.ordermanager.entity.Order;
-import com.translationagency.ordermanager.entity.OrderStatus;
 import com.translationagency.ordermanager.repository.ApostilleRepository;
 import com.translationagency.ordermanager.repository.OrderRepository;
 import com.translationagency.ordermanager.util.OrderUtil;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +19,12 @@ public class OrderService {
 
     private ApostilleRepository apostilleRepository;
 
-    public List<Order> getAll() {
-        return orderRepository.getAll();
+    public List<Order> getAll(Pageable pageable) {
+        return orderRepository.getAll(pageable);
+    }
+
+    public int getAllCount() {
+        return orderRepository.getAll().size();
     }
 
     public Order get(int id) {
@@ -42,14 +46,6 @@ public class OrderService {
     public void delete(int id) {
         Order delete = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
         orderRepository.delete(delete);
-    }
-
-    public void setStatus(int id, boolean isCompleted) {
-        Order order = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
-
-        OrderStatus newStatus = isCompleted ? OrderStatus.COMPLETED : OrderStatus.IN_WORK;
-
-        order.setOrderStatus(newStatus);
     }
 
     public Order getReference(int id) {

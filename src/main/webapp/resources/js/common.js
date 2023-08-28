@@ -44,15 +44,13 @@ function formatDate(date, format) {
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
 
-    const formattedDate = format
+    return format
         .replace('YYYY', year)
         .replace('YY', year.slice(-2))
         .replace('MM', month)
         .replace('M', parseInt(month, 10).toString())
         .replace('DD', day)
         .replace('D', parseInt(day, 10).toString());
-
-    return formattedDate;
 }
 
 

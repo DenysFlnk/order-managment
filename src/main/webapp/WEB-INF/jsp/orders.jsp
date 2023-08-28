@@ -2,7 +2,7 @@
 <html>
 <jsp:include page="fragments/header.jsp"/>
 
-<body onload="loadContent()">
+<body onload="loadContent(0)">
 <jsp:include page="fragments/body-header.jsp"/>
 <script type="text/javascript" src="resources/js/common.js" defer></script>
 <script type="text/javascript" src="resources/js/orders.js" defer></script>
@@ -36,6 +36,10 @@
     <tbody id="datatableBody">
     </tbody>
 </table>
+<div class="d-flex justify-content-center">
+    <ul class="pagination" id="orderPagination">
+    </ul>
+</div>
 
 <div class="modal fade" tabindex="-1" id="createOrder">
     <div class="modal-dialog">

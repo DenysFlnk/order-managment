@@ -316,7 +316,7 @@
                 No, do it later
             </button>
             <button type="button" class="btn btn-primary" data-dismiss="modal"
-                    onclick="showTranslatorsFor('lastSavedDoc')">
+                    onclick="showTranslatorsFor()">
                 <span class="fa fa-check"></span>
                 Yes, show translators
             </button>

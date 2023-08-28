@@ -8,6 +8,8 @@ import com.translationagency.ordermanager.to.OrderTo;
 import com.translationagency.ordermanager.util.OrderUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -30,9 +32,17 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping
-    public List<OrderTo> getAll() {
+    public List<OrderTo> getAll(@RequestParam(defaultValue = "0") Integer page,
+                                @RequestParam(defaultValue = "10") Integer size) {
         log.info("getAll");
-        return OrderUtil.getTos(orderService.getAll());
+        Pageable pageable = PageRequest.of(page, size);
+        return OrderUtil.getTos(orderService.getAll(pageable));
+    }
+
+    @GetMapping("/count")
+    public int getAllCount() {
+        log.info("getAllCount");
+        return orderService.getAllCount();
     }
 
     @GetMapping("/{id}")
@@ -63,11 +73,5 @@ public class OrderController {
     public void delete(@PathVariable int id) {
         log.info("delete {}", id);
         orderService.delete(id);
-    }
-
-    @PatchMapping("/{id}")
-    public void setStatus(@PathVariable int id, @RequestParam boolean isCompleted) {
-        log.info("setStatus {} to {}", isCompleted ? OrderStatus.COMPLETED : OrderStatus.IN_WORK, id);
-        orderService.setStatus(id, isCompleted);
     }
 }
