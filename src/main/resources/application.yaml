@@ -1,8 +1,6 @@
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/translation_agency
-    username: postgres
-    password: userPassword
+  profiles:
+    active: prod
 
   jpa:
     show-sql: true
