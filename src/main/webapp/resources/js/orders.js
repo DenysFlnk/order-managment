@@ -6,7 +6,7 @@ let orderPage;
 let objectsInPage = 10;
 
 function loadContent(currentPage) {
-    orderPage = currentPage;
+    orderPage = currentPage === undefined ? 0 : currentPage;
     $.ajax({
         url: ordersRestUrl + `?page=${orderPage}`,
         method: "GET",
@@ -74,10 +74,7 @@ function addStatusStyle(order, row) {
 }
 
 function deleteAndUpdateTable(id) {
-    if (confirm("Are you sure?")) {
-        doDelete(ordersRestUrl + '/' + id);
-        loadContent(orderPage);
-    }
+        doDelete(`${ordersRestUrl}/${id}`);
 }
 
 function save() {
