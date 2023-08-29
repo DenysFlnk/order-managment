@@ -3,18 +3,16 @@ const ordersUrl = "orders"
 
 const translatorsRestUrl = "rest-api/translators";
 
-function doGet(url) {
-    let Httpreq = new XMLHttpRequest();
-    Httpreq.open("GET", url, false);
-    Httpreq.send(null);
-    return Httpreq;
-}
-
 function doDelete(url) {
-    let Httpreq = new XMLHttpRequest();
-    Httpreq.open("DELETE", url, false);
-    Httpreq.send(null);
-    return Httpreq;
+    if (confirm("Are you sure?")) {
+        $.ajax({
+            url: url,
+            method: "DELETE",
+            success: function () {
+                loadContent();
+            }
+        });
+    }
 }
 
 function openModal(id) {

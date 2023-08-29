@@ -44,7 +44,7 @@
             <div class="form-group col-md-3">
                 <label for="orderStatus">Order status:</label>
                 <select class="form-control" id="orderStatus" name="orderStatus">
-                    <option value="IN_WORK" selected>in work</option>
+                    <option value="IN_WORK">in work</option>
                     <option value="COMPLETED">completed</option>
                 </select>
             </div>

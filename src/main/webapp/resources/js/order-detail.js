@@ -5,48 +5,25 @@ const translatorPagination = $('#translatorPagination');
 let orderUrl = window.location.pathname;
 let orderId = parseOrderIdFromUrl(orderUrl);
 
+const dateFormat = "YYYY-MM-DD";
+
 function loadContent() {
-    let orderNumberH2 = document.getElementById("orderNumber");
-    orderNumberH2.textContent = "Order #KP0" + orderId;
+    $('#orderNumber').prop("textContent", "Order #KP0" + orderId);
+    $.ajax({
+        url: `${ordersRestUrl}/${orderId}`,
+        method: "GET",
+        success: function (data) {
+            $.each(data, function (key, value) {
+                $('#orderForm').find("input[name='" + key + "']").val(value);
+            });
+            $('#orderStatus').val(data.orderStatus);
+            $('#creationDate').val(formatDate(getDateFromArray(data.creationDate), dateFormat));
+            $('#deliveryDate').val(formatDate(getDateFromArray(data.deliveryDate), dateFormat));
 
-    let order = JSON.parse(doGet(ordersRestUrl + '/' + orderId).responseText);
-
-    document.getElementById("id").setAttribute("value", orderId);
-
-    let customerName = document.getElementById("customerName");
-    customerName.setAttribute("value", order.customerName);
-
-    let customerPhone = document.getElementById("customerPhone");
-    customerPhone.setAttribute("value", order.customerPhone);
-
-    let customerEmail = document.getElementById("customerEmail");
-    customerEmail.setAttribute("value", order.customerEmail);
-
-    const dateFormat = "YYYY-MM-DD";
-
-    let creationDate = document.getElementById("creationDate");
-    creationDate.setAttribute("value", formatDate(getDateFromArray(order.creationDate), dateFormat));
-
-    let deliveryDate = document.getElementById("deliveryDate");
-    deliveryDate.setAttribute("value", formatDate(getDateFromArray(order.deliveryDate), dateFormat));
-
-    let orderStatus = document.getElementById("orderStatus");
-    orderStatus.value = order.orderStatus;
-
-    let prepaid = document.getElementById("prepaid");
-    prepaid.setAttribute("value", order.prepaid);
-
-    let surcharge = document.getElementById("surcharge");
-    surcharge.setAttribute("value", order.surcharge);
-
-    let summaryCost = document.getElementById("summaryCost");
-    summaryCost.setAttribute("value", order.summaryCost);
-
-    let note = document.getElementById("note");
-    note.setAttribute("value", order.note);
-
-    loadDocuments(order);
-    loadApostilles(order);
+            loadDocuments(data);
+            loadApostilles(data);
+        }
+    });
 }
 
 function parseOrderIdFromUrl(url) {
@@ -57,98 +34,45 @@ function parseOrderIdFromUrl(url) {
 }
 
 function loadDocuments(order) {
-    let documentTable = document.getElementById("docTableBody");
-    documentTable.innerHTML = "";
-
+    $('#docTableBody').empty();
     let documents = order.documentTos;
-
-    for (let i = 0; i < documents.length; i++) {
-        let tr = document.createElement("tr");
-        if (documents[i].isHardComplexity) {
-            tr.classList.add("hard-complexity");
+    documents.forEach(doc => {
+        let newRow = $('<tr>');
+        if (doc.isHardComplexity) {
+            newRow.prop("class", "hard-complexity");
         }
 
-        let td1 = document.createElement("td");
-        td1.setAttribute("hidden", 'hidden');
-        td1.appendChild(document.createTextNode(documents[i].id));
-        tr.appendChild(td1);
+        newRow.append(`<td hidden="hidden">${doc.id}</td>
+                       <td>${doc.language.toLowerCase()}</td>   
+                       <td>${doc.officeRate}</td> 
+                       <td>${doc.signsNumber === null ? "-" : doc.signsNumber}</td>
+                       <td>${doc.notarizationCost}</td> 
+                       <td>${doc.officeCost}</td>`);
 
-        let td2 = document.createElement("td");
-        td2.appendChild(document.createTextNode(documents[i].language.toLowerCase()));
-        tr.appendChild(td2);
-
-        let td3 = document.createElement("td");
-        td3.appendChild(document.createTextNode(documents[i].officeRate));
-        tr.appendChild(td3);
-
-        let td4 = document.createElement("td");
-        td4.appendChild(document.createTextNode(documents[i].signsNumber === null ? "-" : documents[i].signsNumber));
-        tr.appendChild(td4);
-
-        let td5 = document.createElement("td");
-        td5.appendChild(document.createTextNode(documents[i].notarizationCost));
-        tr.appendChild(td5);
-
-        let td6 = document.createElement("td");
-        td6.appendChild(document.createTextNode(documents[i].officeCost));
-        tr.appendChild(td6);
-
-
-        let td7 = document.createElement("td");
-        if (documents[i].translatorName === null) {
-            let addTranslatorButton = document.createElement("button");
-            addTranslatorButton.setAttribute("type", "button");
-            addTranslatorButton.setAttribute("class", "btn btn-success");
-            addTranslatorButton.addEventListener("click", function () {
-                showTranslatorsFor(documents[i]);
-            });
-            let spanPlus = document.createElement("span");
-            spanPlus.setAttribute("class", "fa fa-plus");
-            addTranslatorButton.appendChild(spanPlus);
-            td7.appendChild(addTranslatorButton);
+        if (doc.translatorName === null) {
+            newRow.append(`<td><button type="button" class="btn btn-success" 
+                                onclick="showTranslatorsFor('${doc}')"><span class="fa fa-plus"></span></button>
+                                </td>`);
         } else {
-            td7.appendChild(document.createTextNode(documents[i].translatorName));
+            newRow.append(`<td>${doc.translatorName}</td>`);
         }
-        tr.appendChild(td7);
 
-        let td8 = document.createElement("td");
-        td8.appendChild(document.createTextNode(documents[i].translatorRate === null ? "-" : documents[i].translatorRate));
-        tr.appendChild(td8);
+        newRow.append(`<td>${doc.translatorRate === null ? "-" : doc.translatorRate}</td>
+                       <td>${doc.translatorTax === null ? "-" : doc.translatorTax}</td>
+                       <td><button type="button" class="btn btn-warning" 
+                                onclick="editDocument('${doc.id}')"><span class="fa fa-ellipsis"></span></button>
+                                </td>
+                       <td><button type="button" class="btn btn-danger" 
+                                onclick="deleteDocument('${doc.id}')">
+                                <span class="fa fa-minus"></span></button>
+                                </td>`);
 
-        let td9 = document.createElement("td");
-        td9.appendChild(document.createTextNode(documents[i].translatorTax === null ? "-" : documents[i].translatorTax));
-        tr.appendChild(td9);
+        $('#docTableBody').append(newRow);
+    });
+}
 
-        let editButton = document.createElement("button");
-        editButton.setAttribute("type", "button");
-        editButton.setAttribute("class", "btn btn-warning");
-        editButton.appendChild(createSpanEllipsis());
-        editButton.addEventListener("click", function () {
-            editDocument(documents[i].id);
-        });
-
-        let deleteButton = document.createElement("button");
-        deleteButton.setAttribute("type", "button");
-        deleteButton.setAttribute("class", "btn btn-danger");
-        deleteButton.appendChild(createSpanMinus());
-        deleteButton.addEventListener("click", function () {
-            if (confirm("Are you sure?")) {
-                doDelete(ordersRestUrl + "/" + orderId + "/documents/" + documents[i].id);
-                loadContent();
-            }
-        });
-
-        let td10 = document.createElement("td");
-        td10.appendChild(editButton);
-        tr.appendChild(td10);
-
-        let td11 = document.createElement("td");
-        td11.appendChild(deleteButton);
-        tr.appendChild(td11);
-
-        documentTable.appendChild(tr);
-    }
-
+function deleteDocument(id) {
+    doDelete(`${ordersRestUrl}/${orderId}/documents/${id}`);
 }
 
 function showTranslatorsFor(doc) {
@@ -244,64 +168,33 @@ function updateTranslator(documentId, translatorId, translatorName, translatorRa
 }
 
 function loadApostilles(order) {
-    let apostilleTable = document.getElementById("aposTableBody");
-    apostilleTable.innerHTML = "";
-
+    $('#aposTableBody').empty();
     let apostilles = order.apostilles;
 
-    for (let i = 0; i < apostilles.length; i++) {
-        let tr = document.createElement("tr");
+    apostilles.forEach(apostille => {
+        let newRow = `<tr>
+                        <td hidden="hidden">${apostille.id}</td>
+                        <td>${apostille.title}</td>
+                        <td>${apostille.submissionCountry}</td>
+                        <td>${apostille.submissionDepartment}</td>
+                        <td>${apostille.cost}</td>
+                        <td><button type="button" class="btn btn-warning" onclick="editApostille('${apostille.id}')">
+                                    <span class="fa fa-ellipsis"></span>
+                            </button>
+                        </td>
+                        <td><button type="button" class="btn btn-danger" onclick="deleteApostille('${apostille.id}')">
+                                    <span class="fa fa-minus"></span>
+                            </button>
+                        </td>
+                       </tr>`;
 
-        let td1 = document.createElement("td");
-        td1.setAttribute("hidden", 'hidden');
-        td1.appendChild(document.createTextNode(apostilles[i].id));
-        tr.appendChild(td1);
+        $('#aposTableBody').append(newRow);
+    });
 
-        let td2 = document.createElement("td");
-        td2.appendChild(document.createTextNode(apostilles[i].title));
-        tr.appendChild(td2);
+}
 
-        let td3 = document.createElement("td");
-        td3.appendChild(document.createTextNode(apostilles[i].submissionCountry));
-        tr.appendChild(td3);
-
-        let td4 = document.createElement("td");
-        td4.appendChild(document.createTextNode(apostilles[i].submissionDepartment));
-        tr.appendChild(td4);
-
-        let td5 = document.createElement("td");
-        td5.appendChild(document.createTextNode(apostilles[i].cost));
-        tr.appendChild(td5);
-
-        let editButton = document.createElement("button");
-        editButton.setAttribute("type", "button");
-        editButton.setAttribute("class", "btn btn-warning");
-        editButton.appendChild(createSpanEllipsis());
-        editButton.addEventListener("click", function () {
-            editApostille(apostilles[i].id);
-        });
-
-        let deleteButton = document.createElement("button");
-        deleteButton.setAttribute("type", "button");
-        deleteButton.setAttribute("class", "btn btn-danger");
-        deleteButton.appendChild(createSpanMinus());
-        deleteButton.addEventListener("click", function () {
-            if (confirm("Are you sure?")) {
-                doDelete(ordersRestUrl + "/" + orderId + "/apostilles/" + apostilles[i].id);
-                loadContent();
-            }
-        });
-
-        let td6 = document.createElement("td");
-        td6.appendChild(editButton);
-        tr.appendChild(td6);
-
-        let td7 = document.createElement("td");
-        td7.appendChild(deleteButton);
-        tr.appendChild(td7);
-
-        apostilleTable.appendChild(tr);
-    }
+function deleteApostille(id) {
+    doDelete(`${ordersRestUrl}/${orderId}/apostilles/${id}`);
 }
 
 function editApostille(apostilleId) {
@@ -358,7 +251,6 @@ function saveDocument() {
         data: JSON.stringify(json),
         success: function () {
             closeModal("docModal");
-            clearDocumentForm();
             loadContent();
         }
     });
@@ -382,7 +274,6 @@ function saveApostille() {
         data: convertFormToJsonString(editForm),
         success: function () {
             closeModal("aposModal");
-            editForm.empty();
             loadContent();
         }
     });
@@ -390,7 +281,6 @@ function saveApostille() {
 
 function saveOrder() {
     const editForm = $('#orderForm');
-    console.log(convertFormToJson(editForm));
     $.ajax({
         url: ordersRestUrl,
         contentType: "application/json; charset=utf-8",
@@ -400,18 +290,6 @@ function saveOrder() {
             location.href = "orders";
         }
     })
-}
-
-function createSpanEllipsis() {
-    let spanEllipsis = document.createElement("span");
-    spanEllipsis.setAttribute("class", "fa fa-ellipsis");
-    return spanEllipsis;
-}
-
-function createSpanMinus() {
-    let spanMinus = document.createElement("span");
-    spanMinus.setAttribute("class", "fa fa-minus");
-    return spanMinus;
 }
 
 function openDocumentModal() {
