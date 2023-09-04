@@ -41,4 +41,14 @@ public class LanguageRate extends BaseEntity {
     @NotNull
     @Range(min = 1)
     private double signs;
+
+    public LanguageRate(Integer id, Translator translator, Language language, int commonRate, int hardRate,
+                        double signs) {
+        super(id);
+        this.translator = translator;
+        this.language = language;
+        this.commonRate = commonRate;
+        this.hardRate = hardRate;
+        this.signs = signs;
+    }
 }

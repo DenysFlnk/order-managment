@@ -51,4 +51,20 @@ public class Document extends BaseEntity {
 
     @Column(name = "translator_tax")
     private Integer translatorTax;
+
+    public Document(Integer id, Order order, Language documentLanguage, Boolean isHardComplexity, int officeRate,
+                    Double signsNumber, int notarizationCost, int officeCost, Translator translator,
+                    String translatorRate, Integer translatorTax) {
+        super(id);
+        this.order = order;
+        this.documentLanguage = documentLanguage;
+        this.isHardComplexity = isHardComplexity;
+        this.officeRate = officeRate;
+        this.signsNumber = signsNumber;
+        this.notarizationCost = notarizationCost;
+        this.officeCost = officeCost;
+        this.translator = translator;
+        this.translatorRate = translatorRate;
+        this.translatorTax = translatorTax;
+    }
 }

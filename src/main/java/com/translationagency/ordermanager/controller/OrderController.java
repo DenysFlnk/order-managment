@@ -1,7 +1,6 @@
 package com.translationagency.ordermanager.controller;
 
 import com.translationagency.ordermanager.entity.Order;
-import com.translationagency.ordermanager.entity.OrderStatus;
 import com.translationagency.ordermanager.service.OrderService;
 import com.translationagency.ordermanager.to.OrderDetailTo;
 import com.translationagency.ordermanager.to.OrderTo;
@@ -52,6 +51,7 @@ public class OrderController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> create(@RequestBody Order order) {
         log.info("create {}", order);
         Order created = orderService.create(order);

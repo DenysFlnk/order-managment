@@ -72,4 +72,38 @@ public class Order extends BaseEntity {
     @JsonManagedReference
     @ToString.Exclude
     private List<Apostille> apostilles;
+
+    public Order(Integer id, String customerName, String customerPhone, String customerEmail, int prepaid,
+                 Integer surcharge, Integer summaryCost, LocalDate creationDate, LocalDate deliveryDate,
+                 OrderStatus orderStatus, String note, List<Document> documents, List<Apostille> apostilles) {
+        super(id);
+        this.customerName = customerName;
+        this.customerPhone = customerPhone;
+        this.customerEmail = customerEmail;
+        this.prepaid = prepaid;
+        this.surcharge = surcharge;
+        this.summaryCost = summaryCost;
+        this.creationDate = creationDate;
+        this.deliveryDate = deliveryDate;
+        this.orderStatus = orderStatus;
+        this.note = note;
+        this.documents = documents;
+        this.apostilles = apostilles;
+    }
+
+    public Order(Order order) {
+        super(order.getId());
+        this.customerName = order.getCustomerName();
+        this.customerPhone = order.getCustomerPhone();
+        this.customerEmail = order.getCustomerEmail();
+        this.prepaid = order.getPrepaid();
+        this.surcharge = order.getSurcharge();
+        this.summaryCost = order.getSummaryCost();
+        this.creationDate = order.getCreationDate();
+        this.deliveryDate = order.getDeliveryDate();
+        this.orderStatus = order.getOrderStatus();
+        this.note = order.getNote();
+        this.documents = order.getDocuments();
+        this.apostilles = order.getApostilles();
+    }
 }

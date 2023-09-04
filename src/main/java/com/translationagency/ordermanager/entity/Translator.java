@@ -41,4 +41,14 @@ public class Translator extends BaseEntity {
 
     @Column(name = "available")
     private boolean available;
+
+    public Translator(Integer id, String name, String email, String phoneNumber, List<LanguageRate> rates,
+                      boolean available) {
+        super(id);
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.rates = rates;
+        this.available = available;
+    }
 }

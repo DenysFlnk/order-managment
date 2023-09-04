@@ -43,4 +43,14 @@ public class Apostille extends BaseEntity {
     @NotNull
     @Range(min = 1)
     private int cost;
+
+    public Apostille(Integer id, Order order, String title, String submissionCountry, String submissionDepartment,
+                     int cost) {
+        super(id);
+        this.order = order;
+        this.title = title;
+        this.submissionCountry = submissionCountry;
+        this.submissionDepartment = submissionDepartment;
+        this.cost = cost;
+    }
 }
