@@ -2,6 +2,8 @@ package com.translationagency.ordermanager.data;
 
 import com.translationagency.ordermanager.entity.Apostille;
 
+import java.util.List;
+
 import static com.translationagency.ordermanager.data.OrderTestData.*;
 
 public class ApostilleTestData {
@@ -23,4 +25,23 @@ public class ApostilleTestData {
 
     public static final Apostille stevenOrder_apos = new Apostille(6, stevenOrder, "Apostille to Latvia",
             "Latvia", "ABC", 1100);
+
+    public static List<Apostille> markApostilles = List.of(markOrder_apos);
+
+    public static Apostille getNew() {
+        return new Apostille(karenOrder, "New apostille", "Ukraine",
+                "CCC", 1000);
+    }
+
+    public static int getNewId() {
+        return stevenOrder_apos.id() + 1;
+    }
+
+    public static Apostille getUpdated() {
+        Apostille updated = new Apostille(stevenOrder_apos);
+        updated.setCost(1500);
+        updated.setSubmissionDepartment("AAA");
+
+        return updated;
+    }
 }

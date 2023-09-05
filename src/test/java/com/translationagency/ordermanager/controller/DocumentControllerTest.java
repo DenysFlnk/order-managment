@@ -93,7 +93,7 @@ class DocumentControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        assertThrows(ClassNotFoundException.class, () -> documentRepository.findById(12)
+        assertThrows(ClassNotFoundException.class, () -> documentRepository.findById(michelleOrder_doc.id())
                 .orElseThrow(ClassNotFoundException::new));
     }
 

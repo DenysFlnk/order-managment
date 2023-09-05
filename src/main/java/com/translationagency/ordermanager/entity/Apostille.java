@@ -53,4 +53,13 @@ public class Apostille extends BaseEntity {
         this.submissionDepartment = submissionDepartment;
         this.cost = cost;
     }
+
+    public Apostille(Apostille apostille) {
+        super(apostille.id);
+        this.order = apostille.getOrder();
+        this.title = apostille.getTitle();
+        this.submissionCountry = apostille.getSubmissionCountry();
+        this.submissionDepartment = apostille.getSubmissionDepartment();
+        this.cost = apostille.getCost();
+    }
 }
