@@ -2,9 +2,14 @@ package com.translationagency.ordermanager.data;
 
 import com.translationagency.ordermanager.entity.Document;
 import com.translationagency.ordermanager.entity.Language;
+import com.translationagency.ordermanager.to.DocumentTo;
+import com.translationagency.ordermanager.util.DocumentUtil;
+
+import java.util.List;
 
 import static com.translationagency.ordermanager.data.OrderTestData.*;
 import static com.translationagency.ordermanager.data.TranslatorTestData.*;
+
 public class DocumentTestData {
     public static final Document nancyOrder_doc = new Document(1, nancyOrder, Language.ENGLISH, false,
             300, 1.5, 0, 450, jared, "180/1000", 270);
@@ -62,4 +67,40 @@ public class DocumentTestData {
 
     public static final Document jackieOrder_doc = new Document(18, jackieOrder, Language.POLISH, false,
             250, 1.0, 0, 250, margaret, "200/1000", 200);
+
+    public static final List<Document> carolDocs = List.of(carolOrder_doc1, carolOrder_doc2);
+
+    public static final List<DocumentTo> carolDocsTo = DocumentUtil.getTos(carolDocs);
+
+    public static DocumentTo getTo() {
+        return DocumentUtil.getTo(michelleOrder_doc);
+    }
+
+    public static Document getNew() {
+        return new Document(joyOrder, Language.FRENCH, true, 800, 2.0,
+                400, 2000, null, null, null);
+    }
+
+    public static Document getUpdated() {
+        Document updated = new Document(michelleOrder_doc);
+        updated.setTranslatorTax(300);
+
+        return updated;
+    }
+
+    public static Document getWithChangedComplexity() {
+        Document updated = new Document(sarahOrder_doc);
+        updated.setIsHardComplexity(true);
+        updated.setTranslatorRate("120/1000");
+
+        return updated;
+    }
+
+    public static Document getWithChangedTranslator() {
+        Document updated = new Document(sarahOrder_doc);
+        updated.setTranslator(jared);
+        updated.setTranslatorRate("180/1000");
+
+        return updated;
+    }
 }

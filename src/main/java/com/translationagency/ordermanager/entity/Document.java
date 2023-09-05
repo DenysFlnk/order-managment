@@ -67,4 +67,18 @@ public class Document extends BaseEntity {
         this.translatorRate = translatorRate;
         this.translatorTax = translatorTax;
     }
+
+    public Document(Document document) {
+        super(document.getId());
+        this.order = document.getOrder();
+        this.documentLanguage = document.getDocumentLanguage();
+        this.isHardComplexity = document.getIsHardComplexity();
+        this.officeRate = document.getOfficeRate();
+        this.signsNumber = document.getSignsNumber();
+        this.notarizationCost = document.getNotarizationCost();
+        this.officeCost = document.getOfficeCost();
+        this.translator = document.getTranslator();
+        this.translatorRate = document.getTranslatorRate();
+        this.translatorTax = document.getTranslatorTax();
+    }
 }
