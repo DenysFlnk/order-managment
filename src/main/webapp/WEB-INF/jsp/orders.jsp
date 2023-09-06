@@ -26,8 +26,8 @@
         <th scope="col">Prepaid, uah</th>
         <th scope="col">Surcharge, uah</th>
         <th scope="col">Summary cost, uah</th>
-        <th scope="col" style="color: lightgreen">Creation date</th>
-        <th scope="col" style="color: orange">Delivery date</th>
+        <th scope="col">Creation date</th>
+        <th scope="col">Delivery date</th>
         <th scope="col">Notes</th>
         <th scope="col"><span class="fa fa-ellipsis"></span></th>
         <th scope="col"><span class="fa fa-ellipsis"></span></th>

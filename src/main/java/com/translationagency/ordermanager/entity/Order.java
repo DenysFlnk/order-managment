@@ -40,11 +40,9 @@ public class Order extends BaseEntity {
     private int prepaid;
 
     @Column(name = "surcharge")
-    @ToString.Exclude
     private Integer surcharge;
 
     @Column(name = "summary_cost")
-    @ToString.Exclude
     private Integer summaryCost;
 
     @Column(name = "creation_date")
@@ -60,7 +58,6 @@ public class Order extends BaseEntity {
 
     @Column(name = "note")
     @Size(max = 200)
-    @ToString.Exclude
     private String note;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")

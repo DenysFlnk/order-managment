@@ -40,6 +40,7 @@ public class OrderService {
     }
 
     public void update(Order order) {
+        updateSurcharge(order);
         orderRepository.save(order);
     }
 
@@ -52,14 +53,22 @@ public class OrderService {
         return orderRepository.getReferenceById(id);
     }
 
-    public void recalculateOrderCost(int id) {
+    public void recalculateOrderCostAndSave(int id) {
         Order order = get(id);
+        recalculateOrderCost(order);
+        orderRepository.save(order);
+    }
+
+    private void recalculateOrderCost(Order order) {
         int orderCost = OrderUtil.calculateOrderCost(order);
         order.setSummaryCost(orderCost);
 
         int surcharge = orderCost - order.getPrepaid();
         order.setSurcharge(surcharge);
+    }
 
-        update(order);
+    private void updateSurcharge(Order order) {
+        int surcharge = order.getSummaryCost() - order.getPrepaid();
+        order.setSurcharge(surcharge);
     }
 }

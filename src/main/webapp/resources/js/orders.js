@@ -33,9 +33,11 @@ function loadContent(currentPage) {
                                <td>${deliveryDate}</td> 
                                <td>${order.note}</td>
                                <td><button type="button" class="btn btn-warning btn-lg" 
-                                onclick="redirectTo('${detailsUrl}')">Details</button></td>
+                                onclick="redirectTo('${detailsUrl}')">
+                                <span class="fa fa-ellipsis"></span></button></td>
                                <td><button type="button" class="btn btn-danger btn-lg" 
-                                onclick="deleteAndUpdateTable(${order.id})">Delete</button></td>`);
+                                onclick="deleteAndUpdateTable(${order.id})">
+                                <span class="fa fa-minus"></span></button></td>`);
                 orderTable.append(newRow);
             });
             updatePagination(objectsInPage);
@@ -68,8 +70,6 @@ function updatePagination(objectsInPage) {
 function addStatusStyle(order, row) {
     if (order.orderStatus === "COMPLETED") {
         row.prop("class", "completed");
-    } else {
-        row.prop("class", "in-work");
     }
 }
 
