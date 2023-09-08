@@ -102,7 +102,7 @@ class DocumentControllerTest extends AbstractControllerTest {
         Document updated = getWithChangedComplexity();
         mockMvc.perform(MockMvcRequestBuilders.patch(OrderTestData.URL + "/" +
                         OrderTestData.sarahOrder.id() + "/documents/" + sarahOrder_doc.id() +
-                        "/complexity?isHardComplexity=true"))
+                        "/complexity?isHardComplexity=true&updateRate=true"))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 

@@ -67,10 +67,10 @@ public class DocumentController {
 
     @PatchMapping("/{documentId}/complexity")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void changeComplexity(@PathVariable int id, @PathVariable int documentId,
-                                 @RequestParam boolean isHardComplexity) {
+    public DocumentTo changeComplexity(@PathVariable int id, @PathVariable int documentId,
+                                 @RequestParam boolean isHardComplexity, @RequestParam boolean updateRate) {
         log.info("changeComplexity of {}, isHardComplexity to {}", documentId, isHardComplexity);
-        documentService.changeComplexity(id, documentId, isHardComplexity);
+        return DocumentUtil.getTo(documentService.changeComplexity(id, documentId, isHardComplexity, updateRate));
     }
 
     @PatchMapping("/{documentId}/translator")

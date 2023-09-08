@@ -94,6 +94,7 @@
                 <thead>
                 <tr>
                     <th hidden="hidden" scope="col">Id</th>
+                    <th scope="col">Hard complexity</th>
                     <th scope="col">Language</th>
                     <th scope="col">Office rate</th>
                     <th scope="col">Signs</th>
@@ -148,9 +149,11 @@
             <div class="modal-body">
                 <form id="docForm">
                     <input type="hidden" id="documentId" name="id">
-                    <div class="form-group">
-                        <label for="isHardComplexity" class="col-form-label">Hard complexity</label>
-                        <input type="checkbox" id="isHardComplexity" name="isHardComplexity">
+                    <div id="appendPlaceCheckbox">
+                        <div class="form-group" id="checkBoxGroup">
+                            <label for="isHardComplexity" class="col-form-label">Hard complexity</label>
+                            <input type="checkbox" id="isHardComplexity" name="isHardComplexity">
+                        </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">

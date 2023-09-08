@@ -38,11 +38,15 @@ function loadDocuments(order) {
     let documents = order.documentTos;
     documents.forEach(doc => {
         let newRow = $('<tr>');
-        if (doc.isHardComplexity) {
+        let isHardComplexity = doc.isHardComplexity;
+        let checkBox = "";
+        if (isHardComplexity) {
             newRow.prop("class", "hard-complexity");
+            checkBox = "checked";
         }
 
         newRow.append(`<td hidden="hidden">${doc.id}</td>
+                       <td><input type="checkbox" ${checkBox} onclick="changeDocumentComplexity($(this), ${doc.id})"></td>
                        <td>${doc.language.toLowerCase()}</td>   
                        <td>${doc.officeRate}</td> 
                        <td>${doc.signsNumber === null ? "-" : doc.signsNumber}</td>
@@ -211,8 +215,11 @@ function editApostille(apostilleId) {
     });
 }
 
+let checkBoxGroup;
+
 function editDocument(documentId) {
     openModal("docModal");
+    checkBoxGroup = $('#checkBoxGroup').detach();
     const editForm = $('#docForm');
     $.ajax({
         url: ordersRestUrl + `/${orderId}/documents/${documentId}`,
@@ -223,6 +230,24 @@ function editDocument(documentId) {
             });
             $('#documentLanguage').val(data.language);
             $('#isHardComplexity').prop('checked', data.isHardComplexity);
+        }
+    });
+}
+
+function changeDocumentComplexity(checkbox, id) {
+    let isHardComplexity = checkbox.is(":checked");
+    let updateRate = false;
+
+    if (confirm("Update translator rate?")) {
+        updateRate = true;
+    }
+
+    $.ajax({
+        url: ordersRestUrl +
+            `/${orderId}/documents/${id}/complexity?isHardComplexity=${isHardComplexity}&updateRate=${updateRate}`,
+        method: "PATCH",
+        success: function () {
+            loadContent();
         }
     });
 }
@@ -294,5 +319,9 @@ function saveOrder() {
 
 function openDocumentModal() {
     openModal("docModal");
+    if (checkBoxGroup !== undefined) {
+        $('#appendPlaceCheckbox').append(checkBoxGroup);
+        checkBoxGroup = undefined;
+    }
     $('#isHardComplexity').prop('checked', false);
 }

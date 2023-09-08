@@ -32,7 +32,7 @@ public class DocumentService {
         document.setOrder(orderService.getReference(orderId));
         Document created = documentRepository.save(document);
 
-        orderService.recalculateOrderCost(orderId);
+        orderService.recalculateOrderCostAndSave(orderId);
 
         return created;
     }
@@ -43,7 +43,7 @@ public class DocumentService {
 
         Document created = documentRepository.save(document);
 
-        orderService.recalculateOrderCost(orderId);
+        orderService.recalculateOrderCostAndSave(orderId);
 
         return created;
     }
@@ -52,7 +52,7 @@ public class DocumentService {
         document.setOrder(orderService.getReference(orderId));
         documentRepository.save(document);
 
-        orderService.recalculateOrderCost(orderId);
+        orderService.recalculateOrderCostAndSave(orderId);
     }
 
     public void update(Document document, int orderId, int translatorId) {
@@ -60,14 +60,14 @@ public class DocumentService {
         document.setTranslator(translatorService.get(translatorId));
         documentRepository.save(document);
 
-        orderService.recalculateOrderCost(orderId);
+        orderService.recalculateOrderCostAndSave(orderId);
     }
 
     public void delete(int orderId, int documentId) {
         Document delete = documentRepository.getDocumentByIdAndOrderId(documentId, orderId)
                 .orElseThrow(() -> new RuntimeException("Not found"));
         documentRepository.delete(delete);
-        orderService.recalculateOrderCost(orderId);
+        orderService.recalculateOrderCostAndSave(orderId);
     }
 
     public void changeTranslator(int orderId, int documentId, int translatorId) {
@@ -80,13 +80,16 @@ public class DocumentService {
         documentRepository.save(document);
     }
 
-    public void changeComplexity(int orderId, int documentId, boolean isHardComplexity) {
+    public Document changeComplexity(int orderId, int documentId, boolean isHardComplexity, boolean updateRate) {
         Document document = documentRepository.getDocumentByIdAndOrderId(documentId, orderId)
                 .orElseThrow(() -> new RuntimeException("Not found"));
         document.setIsHardComplexity(isHardComplexity);
-        updateTranslatorRate(document);
 
-        documentRepository.save(document);
+        if (updateRate) {
+            updateTranslatorRate(document);
+        }
+
+        return documentRepository.save(document);
     }
 
     private void updateTranslatorRate(Document document) {

@@ -27,20 +27,20 @@ public class ApostilleService {
     public void create(Apostille apostille, int orderId) {
         apostille.setOrder(orderService.getReference(orderId));
         apostilleRepository.save(apostille);
-        orderService.recalculateOrderCost(orderId);
+        orderService.recalculateOrderCostAndSave(orderId);
     }
 
     public void update(Apostille apostille, int orderId) {
         apostille.setOrder(orderService.getReference(orderId));
         apostilleRepository.save(apostille);
-        orderService.recalculateOrderCost(apostille.getOrder().getId());
+        orderService.recalculateOrderCostAndSave(apostille.getOrder().getId());
     }
 
     public void delete(int orderId, int apostilleId) {
         Apostille delete = apostilleRepository.getApostilleByIdAndOrderId(apostilleId, orderId)
                 .orElseThrow(() -> new RuntimeException("Not found"));
         apostilleRepository.delete(delete);
-        orderService.recalculateOrderCost(delete.getOrder().getId());
+        orderService.recalculateOrderCostAndSave(delete.getOrder().getId());
     }
 
 }
