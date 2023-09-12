@@ -3,8 +3,8 @@ package com.translationagency.ordermanager.util;
 import com.translationagency.ordermanager.entity.Apostille;
 import com.translationagency.ordermanager.entity.Document;
 import com.translationagency.ordermanager.entity.Order;
-import com.translationagency.ordermanager.to.OrderDetailTo;
-import com.translationagency.ordermanager.to.OrderTo;
+import com.translationagency.ordermanager.to.order.OrderDetailTo;
+import com.translationagency.ordermanager.to.order.OrderTo;
 
 import java.util.List;
 

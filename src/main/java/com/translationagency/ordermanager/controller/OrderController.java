@@ -2,8 +2,8 @@ package com.translationagency.ordermanager.controller;
 
 import com.translationagency.ordermanager.entity.Order;
 import com.translationagency.ordermanager.service.OrderService;
-import com.translationagency.ordermanager.to.OrderDetailTo;
-import com.translationagency.ordermanager.to.OrderTo;
+import com.translationagency.ordermanager.to.order.OrderDetailTo;
+import com.translationagency.ordermanager.to.order.OrderTo;
 import com.translationagency.ordermanager.util.OrderUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

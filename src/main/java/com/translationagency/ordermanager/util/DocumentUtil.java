@@ -1,7 +1,7 @@
 package com.translationagency.ordermanager.util;
 
 import com.translationagency.ordermanager.entity.Document;
-import com.translationagency.ordermanager.to.DocumentTo;
+import com.translationagency.ordermanager.to.document.DocumentTo;
 
 import java.util.List;
 

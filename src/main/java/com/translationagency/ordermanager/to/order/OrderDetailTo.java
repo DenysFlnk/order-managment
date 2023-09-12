@@ -1,7 +1,8 @@
-package com.translationagency.ordermanager.to;
+package com.translationagency.ordermanager.to.order;
 
 import com.translationagency.ordermanager.entity.Apostille;
 import com.translationagency.ordermanager.entity.OrderStatus;
+import com.translationagency.ordermanager.to.document.DocumentTo;
 
 import java.time.LocalDate;
 import java.util.List;

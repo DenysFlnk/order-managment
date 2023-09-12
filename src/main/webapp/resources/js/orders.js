@@ -32,12 +32,12 @@ function loadContent(currentPage) {
                                <td>${creationDate}</td> 
                                <td>${deliveryDate}</td> 
                                <td>${order.note}</td>
-                               <td><button type="button" class="btn btn-warning btn-lg" 
+                               <td><button type="button" class="btn btn-warning" 
                                 onclick="redirectTo('${detailsUrl}')">
-                                <span class="fa fa-ellipsis"></span></button></td>
-                               <td><button type="button" class="btn btn-danger btn-lg" 
+                                <span class="fa-solid fa-pencil"></span></button></td>
+                               <td><button type="button" class="btn btn-danger" 
                                 onclick="deleteAndUpdateTable(${order.id})">
-                                <span class="fa fa-minus"></span></button></td>`);
+                                <span class="fa-solid fa-xmark"></span></button></td>`);
                 orderTable.append(newRow);
             });
             updatePagination(objectsInPage);

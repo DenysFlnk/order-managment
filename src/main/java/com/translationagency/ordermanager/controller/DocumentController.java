@@ -2,7 +2,7 @@ package com.translationagency.ordermanager.controller;
 
 import com.translationagency.ordermanager.entity.Document;
 import com.translationagency.ordermanager.service.DocumentService;
-import com.translationagency.ordermanager.to.DocumentTo;
+import com.translationagency.ordermanager.to.document.DocumentTo;
 import com.translationagency.ordermanager.util.DocumentUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

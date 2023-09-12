@@ -87,7 +87,7 @@ table tr.hard-complexity {
 }
 
 .table-inc-font {
-    font-size: 20px;
+    font-size: 19px;
 }
 
 .hidden {
@@ -99,6 +99,14 @@ table tr.hard-complexity {
     padding: 20px;
     border-radius: 10px;
     display: block;
+}
+
+tr[translator-available="false"] {
+    opacity: 0.3;
+}
+
+tr[translator-available="true"] {
+    opacity: 1;
 }
 
 

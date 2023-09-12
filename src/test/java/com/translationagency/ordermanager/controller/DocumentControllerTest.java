@@ -6,7 +6,7 @@ import com.translationagency.ordermanager.data.OrderTestData;
 import com.translationagency.ordermanager.data.TranslatorTestData;
 import com.translationagency.ordermanager.entity.Document;
 import com.translationagency.ordermanager.repository.DocumentRepository;
-import com.translationagency.ordermanager.to.DocumentTo;
+import com.translationagency.ordermanager.to.document.DocumentTo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

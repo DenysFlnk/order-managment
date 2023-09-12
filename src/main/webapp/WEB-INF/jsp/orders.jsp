@@ -6,36 +6,37 @@
 <jsp:include page="fragments/body-header.jsp"/>
 <script type="text/javascript" src="resources/js/common.js" defer></script>
 <script type="text/javascript" src="resources/js/orders.js" defer></script>
-<br/>
-<h2 class="text-center">Order list</h2>
-<br/>
+<h2 class="text-center p-2">Order list</h2>
 <div class="container-fluid">
-    <button class="btn btn-success btn-lg btn-block" onclick="openModal('createOrder')">
-        <span class="fas fa-plus fa-lg"></span>
-        Add order
-    </button>
+    <div class="align-items-start">
+        <button class="btn btn-success btn-lg" onclick="openModal('createOrder')">
+            <span class="fas fa-plus fa-lg"></span>
+            Add order
+        </button>
+    </div>
 </div>
-<br/>
-<table class="table table-bordered table-inc-font" id="datatable">
-    <thead>
-    <tr>
-        <th scope="col">#</th>
-        <th scope="col">Customer name</th>
-        <th scope="col">Customer phone</th>
-        <th scope="col">Customer email</th>
-        <th scope="col">Prepaid, uah</th>
-        <th scope="col">Surcharge, uah</th>
-        <th scope="col">Summary cost, uah</th>
-        <th scope="col">Creation date</th>
-        <th scope="col">Delivery date</th>
-        <th scope="col">Notes</th>
-        <th scope="col"><span class="fa fa-ellipsis"></span></th>
-        <th scope="col"><span class="fa fa-ellipsis"></span></th>
-    </tr>
-    </thead>
-    <tbody id="datatableBody">
-    </tbody>
-</table>
+<div class="container-fluid d-flex justify-content-center p-2">
+    <table class="table table-bordered table-inc-font" id="datatable">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Customer name</th>
+            <th scope="col">Customer phone</th>
+            <th scope="col">Customer email</th>
+            <th scope="col">Prepaid, uah</th>
+            <th scope="col">Surcharge, uah</th>
+            <th scope="col">Summary cost, uah</th>
+            <th scope="col">Creation date</th>
+            <th scope="col">Delivery date</th>
+            <th scope="col">Notes</th>
+            <th scope="col"><span class="fa fa-ellipsis"></span></th>
+            <th scope="col"><span class="fa fa-ellipsis"></span></th>
+        </tr>
+        </thead>
+        <tbody id="datatableBody">
+        </tbody>
+    </table>
+</div>
 <div class="d-flex justify-content-center">
     <ul class="pagination" id="orderPagination">
     </ul>

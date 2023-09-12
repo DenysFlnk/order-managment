@@ -2,7 +2,7 @@ package com.translationagency.ordermanager.data;
 
 import com.translationagency.ordermanager.entity.Document;
 import com.translationagency.ordermanager.entity.Language;
-import com.translationagency.ordermanager.to.DocumentTo;
+import com.translationagency.ordermanager.to.document.DocumentTo;
 import com.translationagency.ordermanager.util.DocumentUtil;
 
 import java.util.List;

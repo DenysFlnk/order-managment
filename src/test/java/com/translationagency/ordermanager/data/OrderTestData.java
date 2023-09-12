@@ -3,8 +3,8 @@ package com.translationagency.ordermanager.data;
 import com.translationagency.ordermanager.controller.OrderController;
 import com.translationagency.ordermanager.entity.Order;
 import com.translationagency.ordermanager.entity.OrderStatus;
-import com.translationagency.ordermanager.to.OrderDetailTo;
-import com.translationagency.ordermanager.to.OrderTo;
+import com.translationagency.ordermanager.to.order.OrderDetailTo;
+import com.translationagency.ordermanager.to.order.OrderTo;
 import com.translationagency.ordermanager.util.OrderUtil;
 
 import java.time.LocalDate;

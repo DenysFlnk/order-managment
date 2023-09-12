@@ -1,4 +1,4 @@
-package com.translationagency.ordermanager.to;
+package com.translationagency.ordermanager.to.document;
 
 import com.translationagency.ordermanager.entity.Language;
 
