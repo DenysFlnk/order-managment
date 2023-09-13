@@ -65,7 +65,7 @@ CREATE TABLE documents (
 	signs_number FLOAT,
 	notarization INTEGER DEFAULT 0,
 	office_cost INTEGER NOT NULL,
-	translator_id INTEGER REFERENCES translator(id),
+	translator_id INTEGER REFERENCES translator(id) ON DELETE SET NULL,
 	translator_rate VARCHAR,
 	translator_tax INTEGER
 );

@@ -15,6 +15,9 @@ public interface TranslatorRepository extends JpaRepository<Translator, Integer>
     @Query("SELECT t FROM Translator t LEFT JOIN FETCH t.rates r WHERE t.id=?1")
     Optional<Translator> getWithRates(int id);
 
+    @Query("SELECT t FROM Translator t LEFT JOIN FETCH t.rates")
+    List<Translator> getAllWithRates(Pageable pageable);
+
     @Query("SELECT t FROM Translator t LEFT JOIN FETCH t.rates WHERE t.available = true")
     List<Translator> getAllActiveWithRates(Pageable pageable);
 

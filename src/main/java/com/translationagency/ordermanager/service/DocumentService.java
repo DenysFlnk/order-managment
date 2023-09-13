@@ -39,7 +39,7 @@ public class DocumentService {
 
     public Document create(Document document, int orderId, int translatorId) {
         document.setOrder(orderService.getReference(orderId));
-        document.setTranslator(translatorService.get(translatorId));
+        document.setTranslator(translatorService.getWithRates(translatorId));
 
         Document created = documentRepository.save(document);
 
@@ -57,7 +57,7 @@ public class DocumentService {
 
     public void update(Document document, int orderId, int translatorId) {
         document.setOrder(orderService.getReference(orderId));
-        document.setTranslator(translatorService.get(translatorId));
+        document.setTranslator(translatorService.getWithRates(translatorId));
         documentRepository.save(document);
 
         orderService.recalculateOrderCostAndSave(orderId);
@@ -96,7 +96,7 @@ public class DocumentService {
         if (document.getTranslator() == null) {
             return;
         }
-        Translator translatorWithRates = translatorService.get(document.getTranslator().getId());
+        Translator translatorWithRates = translatorService.getWithRates(document.getTranslator().getId());
         String updatedRate = TranslatorUtil.computeTranslatorRate(translatorWithRates,
                 document.getDocumentLanguage(), document.getIsHardComplexity());
         document.setTranslatorRate(updatedRate);

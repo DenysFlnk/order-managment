@@ -3,13 +3,27 @@ package com.translationagency.ordermanager.util;
 import com.translationagency.ordermanager.entity.Language;
 import com.translationagency.ordermanager.entity.LanguageRate;
 import com.translationagency.ordermanager.entity.Translator;
-import com.translationagency.ordermanager.to.TranslatorTo;
+import com.translationagency.ordermanager.to.translator.TranslatorManageTo;
+import com.translationagency.ordermanager.to.translator.TranslatorTo;
 
 import java.util.List;
 
 public class TranslatorUtil {
 
     public TranslatorUtil() {
+    }
+
+    public static List<TranslatorManageTo> getManageTos(List<Translator> translators) {
+        return translators.stream().map(TranslatorUtil::getManageTo).toList();
+    }
+
+    public static TranslatorManageTo getManageTo(Translator translator) {
+        return new TranslatorManageTo(translator.id(), translator.getName(), translator.getEmail(),
+                translator.getPhoneNumber(), getLanguages(translator.getRates()), translator.isAvailable());
+    }
+
+    private static List<Language> getLanguages(List<LanguageRate> languageRates) {
+        return languageRates.stream().map(LanguageRate::getLanguage).toList();
     }
 
     public static List<TranslatorTo> getTos(Language language, boolean isHardComplexity,

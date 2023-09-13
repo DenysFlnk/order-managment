@@ -1,5 +1,6 @@
 package com.translationagency.ordermanager.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -22,7 +23,7 @@ public class Translator extends BaseEntity {
     @Column(name = "name")
     @NotNull
     @NotBlank
-    @Size(min = 5, max = 40)
+    @Size(min = 3, max = 40)
     private String name;
 
     @Column(name = "email")
@@ -36,6 +37,7 @@ public class Translator extends BaseEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "translator")
     @JsonManagedReference
+    @JsonIgnore
     @ToString.Exclude
     private List<LanguageRate> rates;
 
