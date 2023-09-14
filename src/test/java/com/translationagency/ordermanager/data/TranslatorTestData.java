@@ -3,10 +3,16 @@ package com.translationagency.ordermanager.data;
 import com.translationagency.ordermanager.entity.Language;
 import com.translationagency.ordermanager.entity.LanguageRate;
 import com.translationagency.ordermanager.entity.Translator;
+import com.translationagency.ordermanager.to.translator.TranslatorManageTo;
+import com.translationagency.ordermanager.to.translator.TranslatorTo;
+import com.translationagency.ordermanager.util.TranslatorUtil;
 
 import java.util.List;
 
 public class TranslatorTestData {
+
+    public static final String TRANSLATOR_REST_URL = "/rest-api/translators";
+
     public static final Translator jared = new Translator(
             1, "Jared", "jared.ely@gmail.com", "+380692222111",
             null, true
@@ -112,5 +118,39 @@ public class TranslatorTestData {
         susan.setRates(susanRates);
         margaret.setRates(margaretRates);
         lisa.setRates(lisaRates);
+    }
+
+    public static final int ALL_COUNT = 11;
+
+    public static final int ENGLISH_COUNT = 4;
+
+    public static final int NEW_ID = lisa.id() + 1;
+
+    private static final List<Translator> firstTen = List.of(jared, mary, patricia, linda, barbara, elizabeth, jennifer,
+            maria, susan, margaret);
+
+    public static List<TranslatorManageTo> firstTenManageTos = TranslatorUtil.getManageTos(firstTen);
+
+    private static final List<Translator> firstThreeEnglishTranslators = List.of(jared, patricia, linda);
+
+    public static final List<TranslatorTo> firstThreeEnglishTranslatorTos = TranslatorUtil.getTos(Language.ENGLISH,
+            false, firstThreeEnglishTranslators);
+
+    public static Translator getNew() {
+        return new Translator("Joshua","joshua@gmail.com", "+380999999999", null, true);
+    }
+
+    public static Translator getUpdated() {
+        Translator updated = new Translator(jared);
+        updated.setName("Jar");
+
+        return updated;
+    }
+
+    public static Translator getWithChangedAvailability() {
+        Translator translator = new Translator(jared);
+        translator.setAvailable(false);
+
+        return translator;
     }
 }

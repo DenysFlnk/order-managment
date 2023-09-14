@@ -53,4 +53,13 @@ public class Translator extends BaseEntity {
         this.rates = rates;
         this.available = available;
     }
+
+    public Translator(Translator translator) {
+        super(translator.id);
+        this.name = translator.name;
+        this.email = translator.email;
+        this.phoneNumber = translator.phoneNumber;
+        this.rates = translator.rates;
+        this.available = translator.available;
+    }
 }
