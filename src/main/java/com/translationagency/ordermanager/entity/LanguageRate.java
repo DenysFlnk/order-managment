@@ -2,7 +2,6 @@ package com.translationagency.ordermanager.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
@@ -24,7 +23,6 @@ public class LanguageRate extends BaseEntity {
     @Column(name = "language")
     @Enumerated(EnumType.STRING)
     @NotNull
-    @NotBlank
     private Language language;
 
     @Column(name = "common_rate")

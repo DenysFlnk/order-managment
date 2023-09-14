@@ -174,6 +174,7 @@ function deleteRate(rateId) {
             method: "DELETE",
             success: function () {
                 loadRates(currentTranslator);
+                loadContent(translatorPage);
             }
         });
     }
@@ -189,7 +190,7 @@ function saveRate() {
     let method = "POST";
     let url = translatorsRestUrl + `/${currentTranslator}/language-rates`;
 
-    if (rateId !== "" || rateId !== null) {
+    if (rateId !== "" && rateId !== null) {
         method = "PUT";
         url = url + `/${rateId}`;
     }
@@ -202,6 +203,7 @@ function saveRate() {
         success: function () {
             closeModal("editRate");
             loadRates(currentTranslator);
+            loadContent(translatorPage);
         }
     });
 }
