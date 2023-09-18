@@ -4,7 +4,8 @@ VALUES ('normal user','some_password'),
 
 INSERT INTO user_role(user_id, role)
 VALUES (1, 'USER'),
-       (2, 'ADMIN');
+       (2, 'ADMIN'),
+       (2, 'USER');
 
 INSERT INTO translator(name, email, phone_number)
 VALUES ('Jared', 'jared.ely@gmail.com', '+380692222111'),

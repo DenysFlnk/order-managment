@@ -101,11 +101,11 @@ table tr.hard-complexity {
     display: block;
 }
 
-tr[translator-available="false"] {
+tr[available="false"] {
     opacity: 0.3;
 }
 
-tr[translator-available="true"] {
+tr[available="true"] {
     opacity: 1;
 }
 

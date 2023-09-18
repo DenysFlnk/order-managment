@@ -15,8 +15,8 @@ function loadContent(currentPage) {
             translatorTable.empty();
             data.forEach(translator => {
                 let newRow = $('<tr>');
-                newRow.attr("translator-available", translator.available);
-                let checkBox = translator.available ? "checked" : ""
+                newRow.attr("available", translator.available);
+                let checkBox = translator.available ? "checked" : "";
                 newRow.append(`<td><input type="checkbox" ${checkBox} 
                                onclick="changeAvailability($(this), ${translator.id})"></td>
                                <td>${translator.name}</td>
@@ -31,7 +31,7 @@ function loadContent(currentPage) {
                                 <span class="fa-solid fa-pencil"></span></button></td>
                                <td><button type="button" class="btn btn-danger" 
                                 onclick="deleteTranslator('${translator.id}')">
-                                <span class="fa-solid fa-xmark"></span></button></td>`)
+                                <span class="fa-solid fa-xmark"></span></button></td>`);
                 translatorTable.append(newRow);
             });
             updatePagination(objectsInPage);

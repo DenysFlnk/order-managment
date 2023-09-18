@@ -64,11 +64,11 @@ function loadDocuments(order) {
         newRow.append(`<td>${doc.translatorRate === null ? "-" : doc.translatorRate}</td>
                        <td>${doc.translatorTax === null ? "-" : doc.translatorTax}</td>
                        <td><button type="button" class="btn btn-warning" 
-                                onclick="editDocument('${doc.id}')"><span class="fa fa-ellipsis"></span></button>
+                                onclick="editDocument('${doc.id}')"><span class="fa-solid fa-pencil"></span></button>
                                 </td>
                        <td><button type="button" class="btn btn-danger" 
                                 onclick="deleteDocument('${doc.id}')">
-                                <span class="fa fa-minus"></span></button>
+                                <span class="fa-solid fa-xmark"></span></button>
                                 </td>`);
 
         $('#docTableBody').append(newRow);
@@ -183,11 +183,11 @@ function loadApostilles(order) {
                         <td>${apostille.submissionDepartment}</td>
                         <td>${apostille.cost}</td>
                         <td><button type="button" class="btn btn-warning" onclick="editApostille('${apostille.id}')">
-                                    <span class="fa fa-ellipsis"></span>
+                                    <span class="fa-solid fa-pencil"></span>
                             </button>
                         </td>
                         <td><button type="button" class="btn btn-danger" onclick="deleteApostille('${apostille.id}')">
-                                    <span class="fa fa-minus"></span>
+                                    <span class="fa-solid fa-xmark"></span>
                             </button>
                         </td>
                        </tr>`;
