@@ -9,83 +9,89 @@ DROP TABLE IF EXISTS users;
 
 CREATE TABLE users
 (
-    id  		    INTEGER PRIMARY KEY AUTO_INCREMENT,
-    user_name  		VARCHAR		         NOT NULL,
-    user_password 	VARCHAR			     NOT NULL,
-    enabled  		BOOLEAN DEFAULT TRUE NOT NULL
+    id            INTEGER PRIMARY KEY AUTO_INCREMENT,
+    user_name     VARCHAR              NOT NULL,
+    user_password VARCHAR              NOT NULL,
+    enabled       BOOLEAN DEFAULT TRUE NOT NULL
 );
 CREATE UNIQUE INDEX users_unique_name_idx ON users (user_name);
 
 CREATE TABLE user_role
 (
-    user_id INTEGER      NOT NULL,
-    role    VARCHAR		 NOT NULL,
+    user_id INTEGER NOT NULL,
+    role    VARCHAR NOT NULL,
     CONSTRAINT user_role_idx UNIQUE (user_id, role),
     FOREIGN KEY (user_id) REFERENCES USERS (id) ON DELETE CASCADE
 );
 
-CREATE TABLE orders (
-                        id 		        INTEGER PRIMARY KEY AUTO_INCREMENT,
-                        customer_name 	VARCHAR 	NOT NULL,
-                        customer_phone 	VARCHAR,
-                        customer_email 	VARCHAR,
-                        prepaid 		INTEGER     NOT NULL,
-                        surcharge 		INTEGER,
-                        summary_cost 	INTEGER,
-                        creation_date 	DATE 		DEFAULT NOW(),
-                        delivery_date 	DATE,
-                        status 			VARCHAR NOT NULL DEFAULT 'IN_WORK',
-                        note TEXT
+CREATE TABLE orders
+(
+    id             INTEGER PRIMARY KEY AUTO_INCREMENT,
+    customer_name  VARCHAR NOT NULL,
+    customer_phone VARCHAR,
+    customer_email VARCHAR,
+    prepaid        INTEGER NOT NULL,
+    surcharge      INTEGER,
+    summary_cost   INTEGER,
+    creation_date  DATE             DEFAULT NOW(),
+    delivery_date  DATE,
+    status         VARCHAR NOT NULL DEFAULT 'IN_WORK',
+    note           TEXT
 );
 
-CREATE TABLE translator (
-                            id INTEGER PRIMARY KEY AUTO_INCREMENT,
-                            name VARCHAR NOT NULL,
-                            email VARCHAR NOT NULL,
-                            phone_number VARCHAR,
-                            available BOOLEAN DEFAULT TRUE
+CREATE TABLE translator
+(
+    id           INTEGER PRIMARY KEY AUTO_INCREMENT,
+    name         VARCHAR NOT NULL,
+    email        VARCHAR NOT NULL,
+    phone_number VARCHAR,
+    available    BOOLEAN DEFAULT TRUE
 );
 
-CREATE TABLE language_rate (
-                               translator_id INTEGER REFERENCES translator(id) ON DELETE CASCADE,
-                               id INTEGER PRIMARY KEY AUTO_INCREMENT,
-                               language VARCHAR,
-                               common_rate INTEGER,
-                               hard_rate INTEGER,
-                               signs FLOAT,
-                               CONSTRAINT translator_language_idx UNIQUE (translator_id,language)
+CREATE TABLE language_rate
+(
+    translator_id INTEGER REFERENCES translator (id) ON DELETE CASCADE,
+    id            INTEGER PRIMARY KEY AUTO_INCREMENT,
+    language      VARCHAR,
+    common_rate   INTEGER,
+    hard_rate     INTEGER,
+    signs         FLOAT,
+    CONSTRAINT translator_language_idx UNIQUE (translator_id, language)
 );
 
-CREATE TABLE documents (
-                           order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE NOT NULL,
-                           id INTEGER PRIMARY KEY AUTO_INCREMENT,
-                           document_language VARCHAR NOT NULL,
-                           hard_complexity BOOLEAN DEFAULT FALSE,
-                           office_rate INTEGER NOT NULL,
-                           signs_number FLOAT,
-                           notarization INTEGER DEFAULT 0,
-                           office_cost INTEGER NOT NULL,
-                           translator_id INTEGER REFERENCES translator(id),
-                           translator_rate VARCHAR,
-                           translator_tax INTEGER
+CREATE TABLE documents
+(
+    order_id          INTEGER REFERENCES orders (id) ON DELETE CASCADE NOT NULL,
+    id                INTEGER PRIMARY KEY AUTO_INCREMENT,
+    document_language VARCHAR                                          NOT NULL,
+    hard_complexity   BOOLEAN DEFAULT FALSE,
+    office_rate       INTEGER                                          NOT NULL,
+    signs_number      FLOAT,
+    notarization      INTEGER DEFAULT 0,
+    office_cost       INTEGER                                          NOT NULL,
+    translator_id     INTEGER REFERENCES translator (id),
+    translator_rate   VARCHAR,
+    translator_tax    INTEGER
 );
 
-CREATE TABLE apostille (
-                           order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE NOT NULL,
-                           id INTEGER PRIMARY KEY AUTO_INCREMENT,
-                           title VARCHAR,
-                           submission_country VARCHAR,
-                           submission_department VARCHAR,
-                           apostille_cost INTEGER
+CREATE TABLE apostille
+(
+    order_id              INTEGER REFERENCES orders (id) ON DELETE CASCADE NOT NULL,
+    id                    INTEGER PRIMARY KEY AUTO_INCREMENT,
+    title                 VARCHAR,
+    submission_country    VARCHAR,
+    submission_department VARCHAR,
+    apostille_cost        INTEGER
 );
 
 INSERT INTO users(user_name, user_password)
-VALUES ('normal user','some_password'),
+VALUES ('normal user', 'some_password'),
        ('admin', 'some_admin_password');
 
 INSERT INTO user_role(user_id, role)
 VALUES (1, 'USER'),
-       (2, 'ADMIN');
+       (2, 'ADMIN'),
+       (2, 'USER');
 
 INSERT INTO translator(name, email, phone_number)
 VALUES ('Jared', 'jared.ely@gmail.com', '+380692222111'),
@@ -118,9 +124,11 @@ VALUES (1, 'ENGLISH', 180, 200, 1.0),
        (10, 'POLISH', 150, 200, 1.0),
        (11, 'POLISH', 200, 210, 1.0);
 
-INSERT INTO orders(customer_name, customer_phone, customer_email, prepaid, surcharge, summary_cost, creation_date, delivery_date, note)
+INSERT INTO orders(customer_name, customer_phone, customer_email, prepaid, surcharge, summary_cost, creation_date,
+                   delivery_date, note)
 VALUES ('Nancy', '+380981233344', 'nancy.thomas@gmail.com', 600, -150, 450, '2023-02-15', '2023-02-17', 'check naming'),
-       ('Karen', '+380978419375', 'karen.jackson@gmail.com', 2000, 100, 2100, '2023-02-18', '2023-02-25', 'important note'),
+       ('Karen', '+380978419375', 'karen.jackson@gmail.com', 2000, 100, 2100, '2023-02-18', '2023-02-25',
+        'important note'),
        ('Betty', '+380395520473', 'betty.white@gmail.com', 300, 1450, 1750, '2023-02-20', '2023-02-21', 'make coffee'),
        ('Helen', '+380654584344', 'helen.harris@gmail.com', 2000, 350, 2350, '2023-02-21', '2023-02-22', ''),
        ('Sandra', '+380981232946', 'sandra.martin@gmail.com', 1300, 0, 1300, '2023-02-21', '2023-02-24', ''),
@@ -128,7 +136,8 @@ VALUES ('Nancy', '+380981233344', 'nancy.thomas@gmail.com', 600, -150, 450, '202
        ('Carol', '+380991209844', 'carol.garcia@gmail.com', 850, 0, 850, '2023-02-22', '2023-02-24', 'print copies'),
        ('Ruth', '+380981235332', 'ruth.martinez@gmail.com', 600, 0, 600, '2023-02-22', '2023-02-23', ''),
        ('Sharon', '+380672638588', 'sharon.robinson@gmail.com', 850, 0, 850, '2023-02-23', '2023-02-28', ''),
-       ('Michelle', '+380980300293', 'michelle.clark@gmail.com', 300, 30, 330, '2023-02-23', '2023-02-24', 'send to email'),
+       ('Michelle', '+380980300293', 'michelle.clark@gmail.com', 300, 30, 330, '2023-02-23', '2023-02-24',
+        'send to email'),
        ('Laura', '+380661232315', 'laura.rodriguez@gmail.com', 570, -50, 570, '2023-02-23', '2023-02-25', ''),
        ('Sarah', '+380669638432', 'sarah.lewis@gmail.com', 300, 0, 300, '2023-02-24', '2023-02-26', ''),
        ('Terri', '+380983333455', 'terri.vasquez@gmail.com', 350, 0, 350, '2023-02-24', '2023-02-25', ''),

@@ -49,4 +49,12 @@ public class User extends BaseEntity implements Serializable {
         this.enabled = user.isEnabled();
         this.roles = user.getRoles();
     }
+
+    public User(Integer id, String name, String password, boolean enabled, Set<Role> roles) {
+        super(id);
+        this.name = name;
+        this.password = password;
+        this.enabled = enabled;
+        this.roles = roles;
+    }
 }
