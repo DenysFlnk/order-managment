@@ -1,6 +1,6 @@
-const ordersRestUrl = "rest-api/orders"
-const ordersUrl = "orders"
-
+const ordersRestUrl = "rest-api/orders";
+const ordersUrl = "orders";
+const usersRestUrl = "rest-api/users";
 const translatorsRestUrl = "rest-api/translators";
 
 function doDelete(url) {
