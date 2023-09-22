@@ -27,6 +27,11 @@ public class UserService {
     }
 
     public void update(User user) {
+        if (user.getPassword() == null || user.getPassword().equals("")) {
+            User userWithPassword = userRepository.findById(user.id())
+                    .orElseThrow(() -> new NoSuchElementException("Not found"));
+            user.setPassword(userWithPassword.getPassword());
+        }
         userRepository.save(user);
     }
 
