@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import static com.translationagency.ordermanager.util.UserUtil.*;
+
 @Service
 @AllArgsConstructor
 public class UserService {
@@ -23,6 +25,7 @@ public class UserService {
     }
 
     public void create(User user) {
+        setSHA1Encoder(user);
         userRepository.save(user);
     }
 
@@ -31,6 +34,8 @@ public class UserService {
             User userWithPassword = userRepository.findById(user.id())
                     .orElseThrow(() -> new NoSuchElementException("Not found"));
             user.setPassword(userWithPassword.getPassword());
+        } else {
+            setSHA1Encoder(user);
         }
         userRepository.save(user);
     }

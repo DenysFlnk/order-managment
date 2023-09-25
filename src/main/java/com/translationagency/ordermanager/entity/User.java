@@ -29,7 +29,7 @@ public class User extends BaseEntity implements Serializable {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull
     @NotBlank
-    @Size(min = 6, max = 30)
+    @Size(min = 6)
     private String password;
 
     @Column(name = "enabled")

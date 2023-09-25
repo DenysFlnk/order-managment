@@ -2,12 +2,17 @@ const ordersRestUrl = "rest-api/orders";
 const ordersUrl = "orders";
 const usersRestUrl = "rest-api/users";
 const translatorsRestUrl = "rest-api/translators";
+const csrfToken = $("meta[name='_csrf']").attr("content");
+const csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
 function doDelete(url) {
     if (confirm("Are you sure?")) {
         $.ajax({
             url: url,
             method: "DELETE",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
             success: function () {
                 loadContent();
             }

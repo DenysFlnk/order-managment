@@ -46,6 +46,7 @@ public class Order extends BaseEntity {
     private Integer summaryCost;
 
     @Column(name = "creation_date")
+    @NotNull
     private LocalDate creationDate;
 
     @Column(name = "delivery_date")

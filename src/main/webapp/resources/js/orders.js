@@ -79,11 +79,16 @@ function deleteAndUpdateTable(id) {
 
 function save() {
     let form = $("#detailsForm");
+    let json = convertFormToJson(form);
+    json.orderStatus = "IN_WORK";
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: ordersRestUrl,
-        data: convertFormToJsonString(form)
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
+        data: JSON.stringify(json)
     }).done(function (data, textStatus, jqXHR) {
         closeModal("editRow");
         if (textStatus === "success") {

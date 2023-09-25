@@ -66,6 +66,9 @@ function changeAvailability(checkBox, translatorId) {
     $.ajax({
        url: translatorsRestUrl + `/${translatorId}?isAvailable=${isAvailable}`,
        method: "PATCH",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
        success: function () {
            loadContent(translatorPage);
        }
@@ -107,6 +110,9 @@ function saveTranslator() {
         contentType: "application/json; charset=utf-8",
         method: method,
         data: JSON.stringify(json),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
         success: function () {
             closeModal("translatorModal");
             loadContent(translatorPage);
@@ -119,6 +125,9 @@ function deleteTranslator(translatorId) {
         $.ajax({
            url: translatorsRestUrl + `/${translatorId}`,
            method: "DELETE",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
            success: function () {
                loadContent(translatorPage);
            }
@@ -172,6 +181,9 @@ function deleteRate(rateId) {
         $.ajax({
             url: translatorsRestUrl + `/${currentTranslator}/language-rates/${rateId}`,
             method: "DELETE",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
             success: function () {
                 loadRates(currentTranslator);
                 loadContent(translatorPage);
@@ -200,6 +212,9 @@ function saveRate() {
         contentType: "application/json; charset=utf-8",
         method: method,
         data: JSON.stringify(json),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
         success: function () {
             closeModal("editRate");
             loadRates(currentTranslator);

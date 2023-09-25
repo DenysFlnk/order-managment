@@ -163,6 +163,9 @@ function updateTranslator(documentId, translatorId, translatorName, translatorRa
         $.ajax({
             url: ordersRestUrl + `/${orderId}/documents/${documentId}/translator?translatorId=${translatorId}`,
             method: "PATCH",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
             success: function () {
                 closeModal("changeTranslator");
                 loadContent();
@@ -246,6 +249,9 @@ function changeDocumentComplexity(checkbox, id) {
         url: ordersRestUrl +
             `/${orderId}/documents/${id}/complexity?isHardComplexity=${isHardComplexity}&updateRate=${updateRate}`,
         method: "PATCH",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
         success: function () {
             loadContent();
         }
@@ -274,6 +280,9 @@ function saveDocument() {
         contentType: "application/json; charset=utf-8",
         method: method,
         data: JSON.stringify(json),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
         success: function () {
             closeModal("docModal");
             loadContent();
@@ -297,6 +306,9 @@ function saveApostille() {
         contentType: "application/json; charset=utf-8",
         method: method,
         data: convertFormToJsonString(editForm),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
         success: function () {
             closeModal("aposModal");
             loadContent();
@@ -311,6 +323,9 @@ function saveOrder() {
         contentType: "application/json; charset=utf-8",
         method: "PUT",
         data: convertFormToJsonString(editForm),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
         success: function () {
             location.href = "orders";
         }
