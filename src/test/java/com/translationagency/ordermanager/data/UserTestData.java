@@ -12,9 +12,11 @@ public class UserTestData {
 
     public static final String USER_REST_URL = "/rest-api/users";
 
-    public static User normalUser = new User(1, "normal user",null, true, Set.of(Role.USER));
+    public static User normalUser = new User(1, "normal user","some_password", true, Set.of(Role.USER));
 
-    public static User adminUser = new User(2, "admin", null, true, Set.of(Role.ADMIN, Role.USER));
+    public static User adminUser = new User(2, "admin", "some_admin_password", true, Set.of(Role.ADMIN, Role.USER));
+
+    public static User invalidUser = new User("invalidName", "invalidPassword", false, null);
 
     public static List<User> allUsers = List.of(normalUser,adminUser);
 

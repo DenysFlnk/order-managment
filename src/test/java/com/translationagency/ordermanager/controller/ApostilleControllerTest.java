@@ -1,6 +1,6 @@
 package com.translationagency.ordermanager.controller;
 
-import com.translationagency.ordermanager.AbstractControllerTest;
+import com.translationagency.ordermanager.AbstractTest;
 import com.translationagency.ordermanager.JsonUtil;
 import com.translationagency.ordermanager.data.OrderTestData;
 import com.translationagency.ordermanager.entity.Apostille;
@@ -18,8 +18,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static com.translationagency.ordermanager.TestUtil.*;
 
-class ApostilleControllerTest extends AbstractControllerTest {
+class ApostilleControllerTest extends AbstractTest {
 
     @Autowired
     private ApostilleRepository apostilleRepository;
@@ -27,7 +28,8 @@ class ApostilleControllerTest extends AbstractControllerTest {
     @Test
     void getAll() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(OrderTestData.URL + "/" +
-                        OrderTestData.markOrder.id() + "/apostilles"))
+                                OrderTestData.markOrder.id() + "/apostilles")
+                        .with(httpBasic()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -41,7 +43,8 @@ class ApostilleControllerTest extends AbstractControllerTest {
     @Test
     void get() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(OrderTestData.URL + "/" +
-                        OrderTestData.markOrder.id() + "/apostilles/" + markOrder_apos.id()))
+                        OrderTestData.markOrder.id() + "/apostilles/" + markOrder_apos.id())
+                        .with(httpBasic()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -57,6 +60,7 @@ class ApostilleControllerTest extends AbstractControllerTest {
         Apostille newApos = getNew();
         mockMvc.perform(MockMvcRequestBuilders.post(OrderTestData.URL + "/" +
                                 OrderTestData.markOrder.id() + "/apostilles")
+                        .with(httpBasic())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.writeValueToJson(newApos)))
                 .andDo(print())
@@ -73,6 +77,7 @@ class ApostilleControllerTest extends AbstractControllerTest {
         Apostille updated = getUpdated();
         mockMvc.perform(MockMvcRequestBuilders.put(OrderTestData.URL + "/" +
                                 OrderTestData.stevenOrder.id() + "/apostilles/" + stevenOrder_apos.id())
+                        .with(httpBasic())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.writeValueToJson(updated)))
                 .andDo(print())
@@ -84,7 +89,8 @@ class ApostilleControllerTest extends AbstractControllerTest {
     @Test
     void delete() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete(OrderTestData.URL + "/" +
-                        OrderTestData.stevenOrder.id() + "/apostilles/" + stevenOrder_apos.id()))
+                        OrderTestData.stevenOrder.id() + "/apostilles/" + stevenOrder_apos.id())
+                        .with(httpBasic()))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 

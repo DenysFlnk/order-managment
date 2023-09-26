@@ -14,7 +14,7 @@ import java.io.UnsupportedEncodingException;
 @ActiveProfiles("dev")
 @Transactional
 @AutoConfigureMockMvc
-public class AbstractControllerTest {
+public class AbstractTest {
     @Autowired
     protected MockMvc mockMvc;
 

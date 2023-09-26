@@ -1,6 +1,6 @@
 package com.translationagency.ordermanager.controller;
 
-import com.translationagency.ordermanager.AbstractControllerTest;
+import com.translationagency.ordermanager.AbstractTest;
 import com.translationagency.ordermanager.JsonUtil;
 import com.translationagency.ordermanager.entity.Order;
 import com.translationagency.ordermanager.repository.OrderRepository;
@@ -19,8 +19,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static com.translationagency.ordermanager.TestUtil.*;
 
-class OrderControllerTest extends AbstractControllerTest {
+class OrderControllerTest extends AbstractTest {
 
     @Autowired
     private OrderRepository orderRepository;
@@ -28,7 +29,8 @@ class OrderControllerTest extends AbstractControllerTest {
     @Test
     void getAll() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(URL +
-                        "?page=0&size=10"))
+                        "?page=0&size=10")
+                        .with(httpBasic()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -41,7 +43,8 @@ class OrderControllerTest extends AbstractControllerTest {
 
     @Test
     void getAllCount() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(URL + "/count"))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(URL + "/count")
+                        .with(httpBasic()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -54,7 +57,8 @@ class OrderControllerTest extends AbstractControllerTest {
 
     @Test
     void get() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(URL + "/2"))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(URL + "/2")
+                        .with(httpBasic()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -70,6 +74,7 @@ class OrderControllerTest extends AbstractControllerTest {
         Order newOrder = getNew();
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(URL)
+                        .with(httpBasic())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.writeValueToJson(newOrder)))
                 .andDo(print())
@@ -91,6 +96,7 @@ class OrderControllerTest extends AbstractControllerTest {
         Order updated = getUpdated();
 
         mockMvc.perform(MockMvcRequestBuilders.put(URL)
+                        .with(httpBasic())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.writeValueToJson(updated)))
                 .andDo(print())
@@ -101,7 +107,8 @@ class OrderControllerTest extends AbstractControllerTest {
 
     @Test
     void delete() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete(URL + "/" + karenOrder.id()))
+        mockMvc.perform(MockMvcRequestBuilders.delete(URL + "/" + karenOrder.id())
+                        .with(httpBasic()))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 

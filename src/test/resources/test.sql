@@ -85,8 +85,8 @@ CREATE TABLE apostille
 );
 
 INSERT INTO users(user_name, user_password)
-VALUES ('normal user', 'some_password'),
-       ('admin', 'some_admin_password');
+VALUES ('normal user', '{noop}some_password'),
+       ('admin', '{noop}some_admin_password');
 
 INSERT INTO user_role(user_id, role)
 VALUES (1, 'USER'),

@@ -23,7 +23,7 @@ public class AppConfig {
         return dataSource;
     }
 
-    @Profile("dev")
+    @Profile({"dev", "loginTest"})
     @Bean
     public DataSource dataSourceForTests() {
         return new EmbeddedDatabaseBuilder()

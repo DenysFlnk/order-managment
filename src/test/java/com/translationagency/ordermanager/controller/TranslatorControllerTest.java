@@ -1,6 +1,6 @@
 package com.translationagency.ordermanager.controller;
 
-import com.translationagency.ordermanager.AbstractControllerTest;
+import com.translationagency.ordermanager.AbstractTest;
 import com.translationagency.ordermanager.JsonUtil;
 import com.translationagency.ordermanager.entity.Translator;
 import com.translationagency.ordermanager.repository.TranslatorRepository;
@@ -19,8 +19,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static com.translationagency.ordermanager.TestUtil.*;
 
-class TranslatorControllerTest extends AbstractControllerTest {
+class TranslatorControllerTest extends AbstractTest {
 
     @Autowired
     private TranslatorRepository translatorRepository;
@@ -28,7 +29,8 @@ class TranslatorControllerTest extends AbstractControllerTest {
     @Test
     void getAll() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(TRANSLATOR_REST_URL +
-                        "?page=0&size=10"))
+                        "?page=0&size=10")
+                        .with(httpBasic()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -42,7 +44,8 @@ class TranslatorControllerTest extends AbstractControllerTest {
     @Test
     void getAllCount() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(TRANSLATOR_REST_URL +
-                        "/count"))
+                        "/count")
+                        .with(httpBasic()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -56,7 +59,8 @@ class TranslatorControllerTest extends AbstractControllerTest {
     @Test
     void get() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(TRANSLATOR_REST_URL +
-                        "/" + jared.id()))
+                        "/" + jared.id())
+                        .with(httpBasic()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -70,7 +74,8 @@ class TranslatorControllerTest extends AbstractControllerTest {
     @Test
     void getAllActiveByLanguage() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(TRANSLATOR_REST_URL +
-                        "/document" + "?language=ENGLISH&isHardComplexity=false&page=0&size=3"))
+                        "/document" + "?language=ENGLISH&isHardComplexity=false&page=0&size=3")
+                        .with(httpBasic()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -84,7 +89,8 @@ class TranslatorControllerTest extends AbstractControllerTest {
     @Test
     void getAllActiveByLanguageCount() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(TRANSLATOR_REST_URL +
-                        "/document/count?language=ENGLISH"))
+                        "/document/count?language=ENGLISH")
+                        .with(httpBasic()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -99,6 +105,7 @@ class TranslatorControllerTest extends AbstractControllerTest {
     void create() throws Exception {
         Translator created = getNew();
         mockMvc.perform(MockMvcRequestBuilders.post(TRANSLATOR_REST_URL)
+                        .with(httpBasic())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.writeValueToJson(created)))
                 .andDo(print())
@@ -114,6 +121,7 @@ class TranslatorControllerTest extends AbstractControllerTest {
     void update() throws Exception {
         Translator updated = getUpdated();
         mockMvc.perform(MockMvcRequestBuilders.put(TRANSLATOR_REST_URL + "/" + updated.id())
+                        .with(httpBasic())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.writeValueToJson(updated)))
                 .andDo(print())
@@ -126,7 +134,8 @@ class TranslatorControllerTest extends AbstractControllerTest {
 
     @Test
     void delete() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete(TRANSLATOR_REST_URL + "/" + jared.id()))
+        mockMvc.perform(MockMvcRequestBuilders.delete(TRANSLATOR_REST_URL + "/" + jared.id())
+                        .with(httpBasic()))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
@@ -137,7 +146,8 @@ class TranslatorControllerTest extends AbstractControllerTest {
     @Test
     void changeAvailability() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.patch(TRANSLATOR_REST_URL + "/" + jared.id() +
-                        "?isAvailable=false"))
+                        "?isAvailable=false")
+                        .with(httpBasic()))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
