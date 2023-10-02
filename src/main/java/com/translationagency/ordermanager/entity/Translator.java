@@ -10,6 +10,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "translator")
@@ -61,5 +62,20 @@ public class Translator extends BaseEntity {
         this.phoneNumber = translator.phoneNumber;
         this.rates = translator.rates;
         this.available = translator.available;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Translator that = (Translator) o;
+        return available == that.available && name.equals(that.name) && email.equals(that.email) &&
+                Objects.equals(phoneNumber, that.phoneNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), name, email, phoneNumber, available);
     }
 }

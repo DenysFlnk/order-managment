@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "documents")
 @Getter
@@ -80,5 +82,25 @@ public class Document extends BaseEntity {
         this.translator = document.getTranslator();
         this.translatorRate = document.getTranslatorRate();
         this.translatorTax = document.getTranslatorTax();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Document document = (Document) o;
+        return officeRate == document.officeRate && notarizationCost == document.notarizationCost &&
+                officeCost == document.officeCost && documentLanguage == document.documentLanguage &&
+                Objects.equals(isHardComplexity, document.isHardComplexity) &&
+                Objects.equals(signsNumber, document.signsNumber) && Objects.equals(translator, document.translator) &&
+                Objects.equals(translatorRate, document.translatorRate) &&
+                Objects.equals(translatorTax, document.translatorTax);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), documentLanguage, isHardComplexity, officeRate, signsNumber,
+                notarizationCost, officeCost, translator, translatorRate, translatorTax);
     }
 }

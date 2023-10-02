@@ -8,6 +8,8 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "apostille")
 @Getter
@@ -61,5 +63,21 @@ public class Apostille extends BaseEntity {
         this.submissionCountry = apostille.getSubmissionCountry();
         this.submissionDepartment = apostille.getSubmissionDepartment();
         this.cost = apostille.getCost();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Apostille apostille = (Apostille) o;
+        return cost == apostille.cost && title.equals(apostille.title) &&
+                submissionCountry.equals(apostille.submissionCountry) &&
+                submissionDepartment.equals(apostille.submissionDepartment);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), title, submissionCountry, submissionDepartment, cost);
     }
 }

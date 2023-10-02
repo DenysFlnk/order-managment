@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "language_rate")
 @Getter
@@ -48,5 +50,20 @@ public class LanguageRate extends BaseEntity {
         this.commonRate = commonRate;
         this.hardRate = hardRate;
         this.signs = signs;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        LanguageRate that = (LanguageRate) o;
+        return commonRate == that.commonRate && hardRate == that.hardRate && Double.compare(that.signs, signs) == 0 &&
+                language == that.language;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), language, commonRate, hardRate, signs);
     }
 }

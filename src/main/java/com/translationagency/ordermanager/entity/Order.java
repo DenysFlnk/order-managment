@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.Range;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "orders")
@@ -103,5 +104,25 @@ public class Order extends BaseEntity {
         this.note = order.getNote();
         this.documents = order.getDocuments();
         this.apostilles = order.getApostilles();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Order order = (Order) o;
+        return prepaid == order.prepaid && customerName.equals(order.customerName) &&
+                Objects.equals(customerPhone, order.customerPhone) &&
+                Objects.equals(customerEmail, order.customerEmail) && Objects.equals(surcharge, order.surcharge) &&
+                Objects.equals(summaryCost, order.summaryCost) && creationDate.equals(order.creationDate) &&
+                deliveryDate.equals(order.deliveryDate) && orderStatus == order.orderStatus &&
+                Objects.equals(note, order.note);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), customerName, customerPhone, customerEmail, prepaid, surcharge,
+                summaryCost, creationDate, deliveryDate, orderStatus, note);
     }
 }

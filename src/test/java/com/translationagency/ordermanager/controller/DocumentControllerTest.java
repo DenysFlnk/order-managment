@@ -2,6 +2,7 @@ package com.translationagency.ordermanager.controller;
 
 import com.translationagency.ordermanager.AbstractTest;
 import com.translationagency.ordermanager.JsonUtil;
+import com.translationagency.ordermanager.TestUtil;
 import com.translationagency.ordermanager.data.OrderTestData;
 import com.translationagency.ordermanager.data.TranslatorTestData;
 import com.translationagency.ordermanager.entity.Document;
@@ -15,12 +16,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
 
+import static com.translationagency.ordermanager.TestUtil.httpBasic;
 import static com.translationagency.ordermanager.data.DocumentTestData.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static com.translationagency.ordermanager.TestUtil.*;
 
 class DocumentControllerTest extends AbstractTest {
 
@@ -30,7 +31,7 @@ class DocumentControllerTest extends AbstractTest {
     @Test
     void getAll() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(OrderTestData.URL + "/" +
-                        OrderTestData.carolOrder.id() + "/documents")
+                                OrderTestData.carolOrder.id() + "/documents")
                         .with(httpBasic()))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -45,7 +46,7 @@ class DocumentControllerTest extends AbstractTest {
     @Test
     void get() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(OrderTestData.URL + "/" +
-                        OrderTestData.michelleOrder.id() + "/documents/" + michelleOrder_doc.id())
+                                OrderTestData.michelleOrder.id() + "/documents/" + michelleOrder_doc.id())
                         .with(httpBasic()))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -61,7 +62,7 @@ class DocumentControllerTest extends AbstractTest {
     void create() throws Exception {
         Document newDoc = getNew();
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(OrderTestData.URL + "/" +
-                        OrderTestData.joyOrder.id() + "/documents")
+                                OrderTestData.joyOrder.id() + "/documents")
                         .with(httpBasic())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.writeValueToJson(newDoc)))
@@ -94,7 +95,7 @@ class DocumentControllerTest extends AbstractTest {
     @Test
     void delete() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete(OrderTestData.URL + "/" +
-                        OrderTestData.michelleOrder.id() + "/documents/" + michelleOrder_doc.id())
+                                OrderTestData.michelleOrder.id() + "/documents/" + michelleOrder_doc.id())
                         .with(httpBasic()))
                 .andDo(print())
                 .andExpect(status().isNoContent());
@@ -107,8 +108,8 @@ class DocumentControllerTest extends AbstractTest {
     void changeComplexity() throws Exception {
         Document updated = getWithChangedComplexity();
         mockMvc.perform(MockMvcRequestBuilders.patch(OrderTestData.URL + "/" +
-                        OrderTestData.sarahOrder.id() + "/documents/" + sarahOrder_doc.id() +
-                        "/complexity?isHardComplexity=true&updateRate=true")
+                                OrderTestData.sarahOrder.id() + "/documents/" + sarahOrder_doc.id() +
+                                "/complexity?isHardComplexity=true&updateRate=true")
                         .with(httpBasic()))
                 .andDo(print())
                 .andExpect(status().isNoContent());
@@ -120,12 +121,13 @@ class DocumentControllerTest extends AbstractTest {
     void changeTranslator() throws Exception {
         Document updated = getWithChangedTranslator();
         mockMvc.perform(MockMvcRequestBuilders.patch(OrderTestData.URL + "/" +
-                        OrderTestData.sarahOrder.id() + "/documents/" + sarahOrder_doc.id() +
-                        "/translator?translatorId=" + TranslatorTestData.jared.id())
+                                OrderTestData.sarahOrder.id() + "/documents/" + sarahOrder_doc.id() +
+                                "/translator?translatorId=" + TranslatorTestData.jared.id())
                         .with(httpBasic()))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        assertEquals(updated, documentRepository.findById(updated.id()).orElse(null));
+        TestUtil.assertDocumentTranslator(updated, documentRepository.findById(updated.id())
+                .orElseThrow(ClassNotFoundException::new));
     }
 }
