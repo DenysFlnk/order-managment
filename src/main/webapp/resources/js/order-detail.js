@@ -46,8 +46,9 @@ function loadDocuments(order) {
         }
 
         newRow.append(`<td hidden="hidden">${doc.id}</td>
-                       <td><input type="checkbox" ${checkBox} onclick="changeDocumentComplexity($(this), ${doc.id})"></td>
-                       <td>${doc.language.toLowerCase()}</td>   
+                       <td><input id="complexity" type="checkbox" ${checkBox} onclick="changeDocumentComplexity($(this), 
+                       ${doc.id})"></td>
+                       <td id="language">${doc.language.toLowerCase()}</td>   
                        <td>${doc.officeRate}</td> 
                        <td>${doc.signsNumber === null ? "-" : doc.signsNumber}</td>
                        <td>${doc.notarizationCost}</td> 
@@ -55,14 +56,14 @@ function loadDocuments(order) {
 
         if (doc.translatorName === null) {
             newRow.append(`<td><button type="button" class="btn btn-success" 
-                                onclick="showTranslatorsFor('${doc}')"><span class="fa fa-plus"></span></button>
+                                onclick="showTranslatorsFor('${doc.id}')"><span class="fa fa-plus"></span></button>
                                 </td>`);
         } else {
             newRow.append(`<td>${doc.translatorName}</td>`);
         }
 
-        newRow.append(`<td>${doc.translatorRate === null ? "-" : doc.translatorRate}</td>
-                       <td>${doc.translatorTax === null ? "-" : doc.translatorTax}</td>
+        newRow.append(`<td>${doc.translatorRate === null || doc.translatorRate === "" ? "-" : doc.translatorRate}</td>
+                       <td>${doc.translatorTax === null || doc.translatorTax === "" ? "-" : doc.translatorTax}</td>
                        <td><button type="button" class="btn btn-warning" 
                                 onclick="editDocument('${doc.id}')"><span class="fa-solid fa-pencil"></span></button>
                                 </td>
@@ -79,15 +80,17 @@ function deleteDocument(id) {
     doDelete(`${ordersRestUrl}/${orderId}/documents/${id}`);
 }
 
-function showTranslatorsFor(doc) {
+function showTranslatorsFor(docId) {
     openModal('changeTranslator');
     translatorPage = 0;
-
     let orderDocument;
-    if (doc === "" || doc == null) {
-        const editForm = $('#docForm');
-        let isHardComplexity = editForm.find('#isHardComplexity').is(":checked") ? "true" : "false";
-        let documentLanguage = editForm.find('#documentLanguage').val();
+    let isHardComplexity;
+    let documentLanguage;
+
+    if (docId === "" || docId === null) {
+        let form = $('#docForm');
+        isHardComplexity = form.find('#isHardComplexity').is(":checked") ? "true" : "false";
+        documentLanguage = form.find('#documentLanguage').val();
 
         orderDocument = {
             id: null,
@@ -95,7 +98,14 @@ function showTranslatorsFor(doc) {
             isHardComplexity: isHardComplexity
         }
     } else {
-        orderDocument = doc;
+        isHardComplexity = $('#complexity').val() === "on" ? "true" : "false";
+        documentLanguage = $('#language').text().toUpperCase();
+
+        orderDocument = {
+            id: docId,
+            language: documentLanguage,
+            isHardComplexity: isHardComplexity
+        };
     }
 
     getPaginatedTranslators(orderDocument, translatorPage);
@@ -169,6 +179,7 @@ function updateTranslator(documentId, translatorId, translatorName, translatorRa
             success: function () {
                 closeModal("changeTranslator");
                 loadContent();
+                successNotyBottomRight();
             }
         });
     }
