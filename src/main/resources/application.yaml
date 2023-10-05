@@ -1,7 +1,8 @@
 spring:
   profiles:
     active: prod
-
+  config:
+    import: sendgrid.yaml
   jpa:
     show-sql: true
     open-in-view: false
