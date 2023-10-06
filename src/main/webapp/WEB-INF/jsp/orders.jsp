@@ -90,8 +90,8 @@
 
                     <div class="form-group">
                         <label for="note" class="col-form-label">Note</label>
-                        <input type="text" class="form-control" id="note" name="note"
-                               placeholder="some notes...">
+                        <textarea class="form-control" id="note" name="note"
+                                  placeholder="some notes..." rows="2"></textarea>
                     </div>
                     <input type="hidden" id="orderStatus" name="orderStatus" value="IN_WORK">
                 </form>

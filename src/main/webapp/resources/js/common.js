@@ -66,23 +66,23 @@ function closeNoty() {
     }
 }
 
-function successNotyBottomRight() {
+function successNotyBottomRight(text) {
     closeNoty();
     new Noty({
-        text: "<span class='fa fa-lg fa-check'></span> &nbsp;",
+        text: "<span class='fa fa-lg fa-check'></span> &nbsp;" + text,
         type: 'success',
         layout: "bottomRight",
-        timeout: 1000
+        timeout: 1500
     }).show();
 }
 
-function successNotyCenter() {
+function reminderToEmailTranslator() {
     closeNoty();
     new Noty({
-        text: "<span class='fa fa-lg fa-check'></span> &nbsp;",
-        type: 'success',
+        text: "<h5>Don`t forget to send email to translator!&nbsp; <span class='fa fa-sm fa-envelope'></span</h5>",
+        type: 'warning',
         layout: "center",
-        timeout: 1000
+        timeout: 2000
     }).show();
 }
 

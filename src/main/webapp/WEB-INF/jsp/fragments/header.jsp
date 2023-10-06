@@ -11,6 +11,7 @@
 
     <link href="resources/css/style.css" rel="stylesheet">
     <link href="resources/css/all.min.css" rel="stylesheet">
+    <link href="resources/css/noty.css" rel="stylesheet">
 
 
     <script type="text/javascript" src="resources/js/jquery/jquery-3.7.0.min.js"></script>

@@ -6,9 +6,9 @@ import java.util.Map;
 
 public class EmailUtil {
 
-    public static EmailTo getToFromRequestParameters(int orderId, Map<String, String> allParam) {
+    public static EmailTo getToFromRequestParameters(Map<String, String> allParam) {
         EmailTo email = new EmailTo();
-        email.setOrderNumber(orderId);
+        email.setOrderNumber(Integer.parseInt(allParam.get("orderId")));
         email.setSenderEmail(allParam.get("senderEmail"));
         email.setTargetEmail(allParam.get("targetEmail"));
         email.setTranslatorName(allParam.get("translatorName"));

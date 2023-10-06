@@ -16,21 +16,20 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping(value = EmailController.EMAIL_REST_API)
+@RequestMapping(value = EmailController.EMAIL_URL)
 @Slf4j
 @AllArgsConstructor
 public class EmailController {
 
-    public static final String EMAIL_REST_API = "rest-api/orders/{id}/email";
+    public static final String EMAIL_URL = "translators/email";
 
     private EmailService emailService;
 
     @PostMapping()
     public ResponseEntity<String> sendEmailWithAttachments(@RequestParam(value = "file") List<MultipartFile> files,
-                                                           @RequestParam Map<String, String> allParam,
-                                                           @PathVariable int id) {
-        log.info("sendEmailWithAttachments for order {}", id);
-        EmailTo email = EmailUtil.getToFromRequestParameters(id, allParam);
+                                                           @RequestParam Map<String, String> allParam) {
+        log.info("sendEmailWithAttachments for order {}", allParam.get("orderId"));
+        EmailTo email = EmailUtil.getToFromRequestParameters(allParam);
         Response response = emailService.sendEmailWithAttachment(email, files);
         return new ResponseEntity<>(response.getBody(), HttpStatusCode.valueOf(response.getStatusCode()));
     }

@@ -45,10 +45,10 @@ function loadDocuments(order) {
             checkBox = "checked";
         }
 
-        newRow.append(`<td hidden="hidden">${doc.id}</td>
-                       <td><input id="complexity" type="checkbox" ${checkBox} onclick="changeDocumentComplexity($(this), 
+        newRow.append(`<td id="docId" hidden="hidden">${doc.id}</td>
+                       <td><input id="docComplexity" type="checkbox" ${checkBox} onclick="changeDocumentComplexity($(this), 
                        ${doc.id})"></td>
-                       <td id="language">${doc.language.toLowerCase()}</td>   
+                       <td id="docLanguage">${doc.language.toLowerCase()}</td>   
                        <td>${doc.officeRate}</td> 
                        <td>${doc.signsNumber === null ? "-" : doc.signsNumber}</td>
                        <td>${doc.notarizationCost}</td> 
@@ -56,10 +56,14 @@ function loadDocuments(order) {
 
         if (doc.translatorName === null) {
             newRow.append(`<td><button type="button" class="btn btn-success" 
-                                onclick="showTranslatorsFor('${doc.id}')"><span class="fa fa-plus"></span></button>
-                                </td>`);
+                                onclick="showTranslatorsFor($(this))"><span class="fa fa-plus"></span></button>
+                                </td>
+                           <td></td>`);
         } else {
-            newRow.append(`<td>${doc.translatorName}</td>`);
+            newRow.append(`<td>${doc.translatorName}</td>
+                           <td><button type="button" class="btn btn-light" 
+                                onclick="openEmailModal('${doc.translatorId}')">
+                                <span class="fa-solid fa-envelope"></span></button></td>`);
         }
 
         newRow.append(`<td>${doc.translatorRate === null || doc.translatorRate === "" ? "-" : doc.translatorRate}</td>
@@ -80,14 +84,14 @@ function deleteDocument(id) {
     doDelete(`${ordersRestUrl}/${orderId}/documents/${id}`);
 }
 
-function showTranslatorsFor(docId) {
+function showTranslatorsFor(btn) {
     openModal('changeTranslator');
     translatorPage = 0;
     let orderDocument;
     let isHardComplexity;
     let documentLanguage;
 
-    if (docId === "" || docId === null) {
+    if (btn === "" || btn === undefined) {
         let form = $('#docForm');
         isHardComplexity = form.find('#isHardComplexity').is(":checked") ? "true" : "false";
         documentLanguage = form.find('#documentLanguage').val();
@@ -98,8 +102,9 @@ function showTranslatorsFor(docId) {
             isHardComplexity: isHardComplexity
         }
     } else {
-        isHardComplexity = $('#complexity').val() === "on" ? "true" : "false";
-        documentLanguage = $('#language').text().toUpperCase();
+        let docId = btn.closest("tr").find('td#docId').text();
+        isHardComplexity = btn.closest("tr").find('input#docComplexity').is(":checked") ? "true" : "false";
+        documentLanguage = btn.closest("tr").find('td#docLanguage').text().toUpperCase();
 
         orderDocument = {
             id: docId,
@@ -169,6 +174,7 @@ function updateTranslator(documentId, translatorId, translatorName, translatorRa
         editForm.find('input[name="translatorName"]').val(translatorName);
         editForm.find('input[name="translatorRate"]').val(translatorRate);
         closeModal("changeTranslator");
+        reminderToEmailTranslator();
     } else {
         $.ajax({
             url: ordersRestUrl + `/${orderId}/documents/${documentId}/translator?translatorId=${translatorId}`,
@@ -179,7 +185,7 @@ function updateTranslator(documentId, translatorId, translatorName, translatorRa
             success: function () {
                 closeModal("changeTranslator");
                 loadContent();
-                successNotyBottomRight();
+                reminderToEmailTranslator();
             }
         });
     }
@@ -281,7 +287,7 @@ function saveDocument() {
     let method = "PUT";
     let url = ordersRestUrl + `/${orderId}/documents/${documentId}?translatorId=${translatorId}`;
 
-    if (documentId === null || documentId === "") {
+    if (documentId === undefined || documentId === "") {
         method = "POST";
         url = ordersRestUrl + `/${orderId}/documents?translatorId=${translatorId}`;
     }

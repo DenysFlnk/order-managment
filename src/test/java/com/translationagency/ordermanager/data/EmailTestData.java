@@ -25,6 +25,7 @@ public class EmailTestData {
 
     private static Map<String, List<String>> getParamsFromTo() {
         Map<String, List<String>> map = new HashMap<>();
+        map.put("orderId", List.of(String.valueOf(email.getOrderNumber())));
         map.put("senderEmail", List.of(email.getSenderEmail()));
         map.put("targetEmail", List.of(email.getTargetEmail()));
         map.put("translatorName", List.of(email.getTranslatorName()));

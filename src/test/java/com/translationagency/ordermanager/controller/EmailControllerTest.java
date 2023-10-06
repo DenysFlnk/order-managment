@@ -13,7 +13,7 @@ class EmailControllerTest extends AbstractTest {
 
     @Test
     void sendEmailWithAttachments() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.multipart("/rest-api/orders/5/email")
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/translators/email")
                         .file(file1)
                         .file(file2)
                         .params(allParams)
