@@ -6,6 +6,7 @@ import com.translationagency.ordermanager.service.TranslatorService;
 import com.translationagency.ordermanager.to.translator.TranslatorManageTo;
 import com.translationagency.ordermanager.to.translator.TranslatorTo;
 import com.translationagency.ordermanager.util.TranslatorUtil;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +15,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.translationagency.ordermanager.util.validation.ValidationUtil.*;
 
 @RestController
 @RequestMapping(value = TranslatorController.TRANSLATOR_REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -70,15 +73,16 @@ public class TranslatorController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody Translator translator) {
+    public void create(@Valid @RequestBody Translator translator) {
         log.info("create {}", translator);
         translatorService.create(translator);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable int id, @RequestBody Translator translator) {
+    public void update(@PathVariable int id, @Valid @RequestBody Translator translator) {
         log.info("update id {}, data {}", id, translator);
+        assureIdConsistent(translator, id);
         translatorService.update(translator);
     }
 

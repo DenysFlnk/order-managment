@@ -5,6 +5,7 @@ import com.sendgrid.Request;
 import com.sendgrid.Response;
 import com.sendgrid.SendGrid;
 import com.translationagency.ordermanager.email.attachment.Attachment;
+import com.translationagency.ordermanager.exception_handling.error.EmailException;
 import com.translationagency.ordermanager.to.email.EmailTo;
 import jakarta.annotation.Nullable;
 import jakarta.annotation.PostConstruct;
@@ -37,7 +38,7 @@ public class SendGridService {
         try {
             return sendGrid.api(createRequest(email, files));
         } catch (IOException e) {
-            throw new RuntimeException(e); // TODO exception handling
+            throw new EmailException(e.getLocalizedMessage());
         }
     }
 

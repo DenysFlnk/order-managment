@@ -2,12 +2,15 @@ package com.translationagency.ordermanager.service;
 
 import com.translationagency.ordermanager.entity.Document;
 import com.translationagency.ordermanager.entity.Translator;
+import com.translationagency.ordermanager.exception_handling.error.IllegalRequestDataException;
 import com.translationagency.ordermanager.repository.DocumentRepository;
 import com.translationagency.ordermanager.util.TranslatorUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.translationagency.ordermanager.util.validation.ValidationUtil.*;
 
 @Service
 @AllArgsConstructor
@@ -24,11 +27,12 @@ public class DocumentService {
     }
 
     public Document get(int orderId, int documentId) {
-        return documentRepository.getDocumentByIdAndOrderId(documentId, orderId)
-                .orElseThrow(() -> new RuntimeException("Not found"));
+        return checkNotFoundWithId(documentRepository.getDocumentByIdAndOrderId(documentId, orderId).orElse(null),
+                documentId);
     }
 
     public Document create(Document document, int orderId) {
+        checkNew(document);
         document.setOrder(orderService.getReference(orderId));
         Document created = documentRepository.save(document);
 
@@ -37,9 +41,10 @@ public class DocumentService {
         return created;
     }
 
-    public Document create(Document document, int orderId, int translatorId) {
-        document.setOrder(orderService.getReference(orderId));
-        document.setTranslator(translatorService.getWithRates(translatorId));
+    public Document createWithTranslator(Document document, int orderId, int translatorId) {
+        checkNew(document);
+        document.setOrder(checkNotFoundWithId(orderService.getReference(orderId), orderId));
+        document.setTranslator(checkNotFoundWithId(translatorService.getWithRates(translatorId), translatorId));
 
         Document created = documentRepository.save(document);
 
@@ -49,40 +54,40 @@ public class DocumentService {
     }
 
     public void update(Document document, int orderId) {
-        document.setOrder(orderService.getReference(orderId));
+        document.setOrder(checkNotFoundWithId(orderService.getReference(orderId), orderId));
         documentRepository.save(document);
 
         orderService.recalculateOrderCostAndSave(orderId);
     }
 
-    public void update(Document document, int orderId, int translatorId) {
-        document.setOrder(orderService.getReference(orderId));
-        document.setTranslator(translatorService.getWithRates(translatorId));
+    public void updateWithTranslator(Document document, int orderId, int translatorId) {
+        document.setOrder(checkNotFoundWithId(orderService.getReference(orderId), orderId));
+        document.setTranslator(checkNotFoundWithId(translatorService.getWithRates(translatorId), translatorId));
         documentRepository.save(document);
 
         orderService.recalculateOrderCostAndSave(orderId);
     }
 
     public void delete(int orderId, int documentId) {
-        Document delete = documentRepository.getDocumentByIdAndOrderId(documentId, orderId)
-                .orElseThrow(() -> new RuntimeException("Not found"));
+        Document delete = checkNotFoundWithId(documentRepository.getDocumentByIdAndOrderId(documentId, orderId)
+                        .orElse(null), documentId);
         documentRepository.delete(delete);
         orderService.recalculateOrderCostAndSave(orderId);
     }
 
     public void changeTranslator(int orderId, int documentId, int translatorId) {
-        Document document = documentRepository.getDocumentByIdAndOrderId(documentId, orderId)
-                .orElseThrow(() -> new RuntimeException("Not found"));
+        Document document = checkNotFoundWithId(documentRepository.getDocumentByIdAndOrderId(documentId, orderId)
+                .orElse(null), documentId);
 
-        document.setTranslator(translatorService.getReferenceById(translatorId));
+        document.setTranslator(checkNotFoundWithId(translatorService.getReferenceById(translatorId), translatorId));
         updateTranslatorRate(document);
 
         documentRepository.save(document);
     }
 
     public Document changeComplexity(int orderId, int documentId, boolean isHardComplexity, boolean updateRate) {
-        Document document = documentRepository.getDocumentByIdAndOrderId(documentId, orderId)
-                .orElseThrow(() -> new RuntimeException("Not found"));
+        Document document = checkNotFoundWithId(documentRepository.getDocumentByIdAndOrderId(documentId, orderId)
+                .orElse(null), documentId);
         document.setIsHardComplexity(isHardComplexity);
 
         if (updateRate) {
@@ -94,7 +99,7 @@ public class DocumentService {
 
     private void updateTranslatorRate(Document document) {
         if (document.getTranslator() == null) {
-            return;
+            throw new IllegalRequestDataException("Document must has translator");
         }
         Translator translatorWithRates = translatorService.getWithRates(document.getTranslator().getId());
         String updatedRate = TranslatorUtil.computeTranslatorRate(translatorWithRates,

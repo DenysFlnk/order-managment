@@ -1,5 +1,6 @@
 package com.translationagency.ordermanager.email.attachment;
 
+import com.translationagency.ordermanager.exception_handling.error.AttachmentException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +26,7 @@ public class Attachment {
         try {
             this.content = file.getBytes();
         } catch (IOException e) {
-            throw new RuntimeException(e); //TODO exception
+            throw new AttachmentException(e.getLocalizedMessage());
         }
     }
 

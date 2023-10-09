@@ -2,6 +2,7 @@ package com.translationagency.ordermanager.controller;
 
 import com.translationagency.ordermanager.entity.LanguageRate;
 import com.translationagency.ordermanager.service.LanguageRateService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.translationagency.ordermanager.util.validation.ValidationUtil.*;
 
 @RestController
 @RequestMapping(value = LanguageRateController.LANGUAGE_RATE_REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -34,15 +37,16 @@ public class LanguageRateController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@PathVariable int id, @RequestBody LanguageRate rate) {
+    public void create(@PathVariable int id, @Valid @RequestBody LanguageRate rate) {
         log.info("create for translator {}, rate {}", id, rate);
         languageRateService.create(id, rate);
     }
 
     @PutMapping("/{rateId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable int id, @PathVariable int rateId, @RequestBody LanguageRate rate) {
+    public void update(@PathVariable int id, @PathVariable int rateId, @Valid @RequestBody LanguageRate rate) {
         log.info("update rate {} for translator {} with data {}", rateId, id, rate);
+        assureIdConsistent(rate, rateId);
         languageRateService.update(id, rate);
     }
 

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.translationagency.ordermanager.util.validation.ValidationUtil.*;
+
 @Service
 @AllArgsConstructor
 public class ApostilleService {
@@ -20,11 +22,12 @@ public class ApostilleService {
     }
 
     public Apostille get(int orderId, int apostilleId) {
-        return apostilleRepository.getApostilleByIdAndOrderId(apostilleId, orderId)
-                .orElseThrow(() -> new RuntimeException("Not found"));
+        return checkNotFoundWithId(apostilleRepository.getApostilleByIdAndOrderId(apostilleId, orderId).orElse(null),
+                apostilleId);
     }
 
     public void create(Apostille apostille, int orderId) {
+        checkNew(apostille);
         apostille.setOrder(orderService.getReference(orderId));
         apostilleRepository.save(apostille);
         orderService.recalculateOrderCostAndSave(orderId);
@@ -37,8 +40,8 @@ public class ApostilleService {
     }
 
     public void delete(int orderId, int apostilleId) {
-        Apostille delete = apostilleRepository.getApostilleByIdAndOrderId(apostilleId, orderId)
-                .orElseThrow(() -> new RuntimeException("Not found"));
+        Apostille delete = checkNotFoundWithId(apostilleRepository.getApostilleByIdAndOrderId(apostilleId, orderId)
+                .orElse(null), apostilleId);
         apostilleRepository.delete(delete);
         orderService.recalculateOrderCostAndSave(delete.getOrder().getId());
     }

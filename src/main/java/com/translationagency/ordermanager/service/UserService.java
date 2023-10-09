@@ -6,9 +6,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static com.translationagency.ordermanager.util.UserUtil.*;
+import static com.translationagency.ordermanager.util.validation.ValidationUtil.*;
 
 @Service
 @AllArgsConstructor
@@ -21,32 +21,33 @@ public class UserService {
     }
 
     public User get(int id) {
-        return userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Not found"));
+        return checkNotFoundWithId(userRepository.findById(id).orElse(null), id);
     }
 
     public void create(User user) {
+        checkNew(user);
         setSHA1Encoder(user);
         userRepository.save(user);
     }
 
-    public void update(User user) {
-        if (user.getPassword() == null || user.getPassword().equals("")) {
-            User userWithPassword = userRepository.findById(user.id())
-                    .orElseThrow(() -> new NoSuchElementException("Not found"));
+    public void update(User user, int id) {
+        if (user.getPassword() == null) {
+            User userWithPassword = checkNotFoundWithId(userRepository.findById(id).orElse(null), id);
             user.setPassword(userWithPassword.getPassword());
         } else {
+            checkUserPassword(user);
             setSHA1Encoder(user);
         }
         userRepository.save(user);
     }
 
     public void delete(int id) {
-        User delete = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Not found"));
+        User delete = checkNotFoundWithId(userRepository.findById(id).orElse(null), id);
         userRepository.delete(delete);
     }
 
     public void enable(int id, boolean isEnabled) {
-        User user = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Not found"));
+        User user = checkNotFoundWithId(userRepository.findById(id).orElse(null), id);
         user.setEnabled(isEnabled);
         userRepository.save(user);
     }

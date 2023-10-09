@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.translationagency.ordermanager.util.validation.ValidationUtil.*;
+
 @Service
 @AllArgsConstructor
 public class OrderService {
@@ -28,7 +30,7 @@ public class OrderService {
     }
 
     public Order get(int id) {
-        Order order = orderRepository.getWithDocument(id).orElseThrow(() -> new RuntimeException("Not found"));
+        Order order = checkNotFoundWithId(orderRepository.getWithDocument(id).orElse(null), id);
         List<Apostille> apostilles = apostilleRepository.getAllByOrderId(id);
         order.setApostilles(apostilles);
         return order;
@@ -36,6 +38,7 @@ public class OrderService {
 
 
     public Order create(Order order) {
+        checkNew(order);
         return orderRepository.save(order);
     }
 
@@ -45,7 +48,7 @@ public class OrderService {
     }
 
     public void delete(int id) {
-        Order delete = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
+        Order delete = checkNotFoundWithId(orderRepository.getWithDocument(id).orElse(null), id);
         orderRepository.delete(delete);
     }
 
@@ -54,7 +57,7 @@ public class OrderService {
     }
 
     public void recalculateOrderCostAndSave(int id) {
-        Order order = get(id);
+        Order order = checkNotFoundWithId(get(id), id);
         recalculateOrderCost(order);
         orderRepository.save(order);
     }

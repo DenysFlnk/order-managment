@@ -6,7 +6,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
+
+import static com.translationagency.ordermanager.util.validation.ValidationUtil.*;
 
 @Service
 @AllArgsConstructor
@@ -21,23 +22,24 @@ public class LanguageRateService {
     }
 
     public LanguageRate get(int translatorId, int id) {
-        return languageRateRepository.getByTranslatorIdAndId(translatorId, id)
-                .orElseThrow(() -> new NoSuchElementException("Not found"));
+        return checkNotFoundWithId(languageRateRepository.getByTranslatorIdAndId(translatorId, id).orElse(null),
+                translatorId);
     }
 
     public void create(int translatorId, LanguageRate languageRate) {
-        languageRate.setTranslator(translatorService.getReferenceById(translatorId));
+        checkNew(languageRate);
+        languageRate.setTranslator(checkNotFoundWithId(translatorService.getReferenceById(translatorId), translatorId));
         languageRateRepository.save(languageRate);
     }
 
     public void update(int translatorId, LanguageRate languageRate) {
-        languageRate.setTranslator(translatorService.getReferenceById(translatorId));
+        languageRate.setTranslator(checkNotFoundWithId(translatorService.getReferenceById(translatorId), translatorId));
         languageRateRepository.save(languageRate);
     }
 
     public void delete(int translatorId, int id) {
-        LanguageRate delete = languageRateRepository.getByTranslatorIdAndId(translatorId, id)
-                .orElseThrow(() -> new NoSuchElementException("Not found"));
+        LanguageRate delete = checkNotFoundWithId(languageRateRepository.getByTranslatorIdAndId(translatorId, id)
+                        .orElse(null), translatorId);
         languageRateRepository.delete(delete);
     }
 }

@@ -2,6 +2,7 @@ package com.translationagency.ordermanager.controller;
 
 import com.translationagency.ordermanager.entity.User;
 import com.translationagency.ordermanager.service.UserService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.translationagency.ordermanager.util.validation.ValidationUtil.*;
 
 @RestController
 @RequestMapping(value = UserController.USER_REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -34,16 +37,17 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody User user) {
+    public void create(@Valid @RequestBody User user) {
         log.info("create {}", user);
         userService.create(user);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable int id, @RequestBody User user) {
+    public void update(@PathVariable int id, @Valid @RequestBody User user) {
         log.info("update id {}, data {}", id, user);
-        userService.update(user);
+        assureIdConsistent(user, id);
+        userService.update(user, id);
     }
 
     @DeleteMapping("/{id}")

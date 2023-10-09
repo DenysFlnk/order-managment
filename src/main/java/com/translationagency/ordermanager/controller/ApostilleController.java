@@ -2,6 +2,7 @@ package com.translationagency.ordermanager.controller;
 
 import com.translationagency.ordermanager.entity.Apostille;
 import com.translationagency.ordermanager.service.ApostilleService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.translationagency.ordermanager.util.validation.ValidationUtil.*;
 
 @RestController
 @RequestMapping(value = ApostilleController.APOSTILLE_REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -34,15 +37,16 @@ public class ApostilleController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@PathVariable int id, @RequestBody Apostille apostille) {
+    public void create(@PathVariable int id, @Valid @RequestBody Apostille apostille) {
         log.info("create for order {}, apostille {}", id, apostille);
         apostilleService.create(apostille, id);
     }
 
     @PutMapping("/{apostilleId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable int id, @PathVariable int apostilleId, @RequestBody Apostille apostille) {
+    public void update(@PathVariable int id, @PathVariable int apostilleId, @Valid @RequestBody Apostille apostille) {
         log.info("update apostille {}, data {}", apostilleId, apostille);
+        assureIdConsistent(apostille, apostilleId);
         apostilleService.update(apostille, id);
     }
 

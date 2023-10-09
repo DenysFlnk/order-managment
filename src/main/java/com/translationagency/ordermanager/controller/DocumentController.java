@@ -4,6 +4,7 @@ import com.translationagency.ordermanager.entity.Document;
 import com.translationagency.ordermanager.service.DocumentService;
 import com.translationagency.ordermanager.to.document.DocumentTo;
 import com.translationagency.ordermanager.util.DocumentUtil;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.translationagency.ordermanager.util.validation.ValidationUtil.*;
 
 @RestController
 @RequestMapping(value = DocumentController.DOCUMENT_REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -39,22 +42,23 @@ public class DocumentController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Document create(@PathVariable int id, @RequestParam(required = false) Integer translatorId,
-                           @RequestBody Document document) {
+                           @Valid @RequestBody Document document) {
         log.info("create document {} for order {}, translatorId {}", document, id, translatorId);
         return translatorId == null ?
-                documentService.create(document, id) : documentService.create(document, id, translatorId);
+                documentService.create(document, id) : documentService.createWithTranslator(document, id, translatorId);
     }
 
     @PutMapping("/{documentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable int id,  @RequestParam(required = false) Integer translatorId,
                        @PathVariable int documentId,
-                       @RequestBody Document document) {
+                       @Valid @RequestBody Document document) {
         log.info("update document {} with data {} for order {}, translatorId {}", documentId, document, id, translatorId);
+        assureIdConsistent(document, documentId);
         if (translatorId == null) {
             documentService.update(document, id);
         } else {
-            documentService.update(document, id, translatorId);
+            documentService.updateWithTranslator(document, id, translatorId);
         }
     }
 

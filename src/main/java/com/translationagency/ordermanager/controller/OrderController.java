@@ -5,6 +5,7 @@ import com.translationagency.ordermanager.service.OrderService;
 import com.translationagency.ordermanager.to.order.OrderDetailTo;
 import com.translationagency.ordermanager.to.order.OrderTo;
 import com.translationagency.ordermanager.util.OrderUtil;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +18,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+
+import static com.translationagency.ordermanager.util.validation.ValidationUtil.*;
 
 @RestController
 @RequestMapping(value = OrderController.ORDER_REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -52,7 +55,7 @@ public class OrderController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Void> create(@RequestBody Order order) {
+    public ResponseEntity<Void> create(@Valid @RequestBody Order order) {
         log.info("create {}", order);
         Order created = orderService.create(order);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -63,8 +66,9 @@ public class OrderController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody Order order) {
+    public void update(@Valid @RequestBody Order order, @PathVariable int id) {
         log.info("update {}", order);
+        assureIdConsistent(order, id);
         orderService.update(order);
     }
 

@@ -1,5 +1,7 @@
 package com.translationagency.ordermanager.email.attachment;
 
+import com.translationagency.ordermanager.exception_handling.error.AttachmentException;
+
 public enum FileType {
     JPEG("image/jpeg"),
     PNG("image/png"),
@@ -24,6 +26,6 @@ public enum FileType {
                 return type;
             }
         }
-        throw new RuntimeException(typeName + " is not supported"); //TODO exception
+        throw new AttachmentException(typeName + " is not supported");
     }
 }

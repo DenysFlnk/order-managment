@@ -1,6 +1,7 @@
 package com.translationagency.ordermanager.util;
 
 import com.translationagency.ordermanager.to.email.EmailTo;
+import com.translationagency.ordermanager.util.validation.ValidationUtil;
 
 import java.util.Map;
 
@@ -14,6 +15,8 @@ public class EmailUtil {
         email.setTranslatorName(allParam.get("translatorName"));
         email.setSubject(allParam.get("subject"));
         email.setAddInfo(allParam.get("addInfo"));
+
+        ValidationUtil.checkIfEmailHasAnyNullField(email);
 
         return email;
     }
