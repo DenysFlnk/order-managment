@@ -95,7 +95,7 @@ class OrderControllerTest extends AbstractTest {
     void update() throws Exception {
         Order updated = getUpdated();
 
-        mockMvc.perform(MockMvcRequestBuilders.put(URL)
+        mockMvc.perform(MockMvcRequestBuilders.put(URL + "/" + updated.id())
                         .with(httpBasic())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.writeValueToJson(updated)))

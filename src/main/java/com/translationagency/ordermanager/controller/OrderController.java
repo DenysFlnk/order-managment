@@ -64,7 +64,7 @@ public class OrderController {
         return ResponseEntity.created(uriOfNewResource).build();
     }
 
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody Order order, @PathVariable int id) {
         log.info("update {}", order);
