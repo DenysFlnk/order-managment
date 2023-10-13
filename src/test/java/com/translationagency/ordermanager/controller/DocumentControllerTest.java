@@ -6,6 +6,8 @@ import com.translationagency.ordermanager.TestUtil;
 import com.translationagency.ordermanager.data.OrderTestData;
 import com.translationagency.ordermanager.data.TranslatorTestData;
 import com.translationagency.ordermanager.entity.Document;
+import com.translationagency.ordermanager.exception_handling.error.ErrorInfo;
+import com.translationagency.ordermanager.exception_handling.error.ErrorType;
 import com.translationagency.ordermanager.repository.DocumentRepository;
 import com.translationagency.ordermanager.to.document.DocumentTo;
 import org.junit.jupiter.api.Test;
@@ -59,6 +61,21 @@ class DocumentControllerTest extends AbstractTest {
     }
 
     @Test
+    void getNotFound() throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(OrderTestData.URL + "/" +
+                                OrderTestData.michelleOrder.id() + "/documents/" + 88)
+                        .with(httpBasic()))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        ErrorInfo actual = JsonUtil.readValueFromJson(getContentAsString(result), ErrorInfo.class);
+
+        assertEquals(ErrorType.NOT_FOUND, actual.type());
+    }
+
+    @Test
     void create() throws Exception {
         Document newDoc = getNew();
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(OrderTestData.URL + "/" +
@@ -79,6 +96,24 @@ class DocumentControllerTest extends AbstractTest {
     }
 
     @Test
+    void createNotNew() throws Exception {
+        Document newDoc = getNew();
+        newDoc.setId(88);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(OrderTestData.URL + "/" +
+                                OrderTestData.joyOrder.id() + "/documents")
+                        .with(httpBasic())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JsonUtil.writeValueToJson(newDoc)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andReturn();
+
+        ErrorInfo actual = JsonUtil.readValueFromJson(getContentAsString(result), ErrorInfo.class);
+
+        assertEquals(ErrorType.BAD_REQUEST, actual.type());
+    }
+
+    @Test
     void update() throws Exception {
         Document updated = getUpdated();
         mockMvc.perform(MockMvcRequestBuilders.put(OrderTestData.URL + "/" +
@@ -90,6 +125,42 @@ class DocumentControllerTest extends AbstractTest {
                 .andExpect(status().isNoContent());
 
         assertEquals(updated, documentRepository.findById(updated.id()).orElse(null));
+    }
+
+    @Test
+    void updateNotConsistentId() throws Exception {
+        Document updated = getUpdated();
+        updated.setId(88);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(OrderTestData.URL + "/" +
+                                OrderTestData.michelleOrder.id() + "/documents/" + michelleOrder_doc.id())
+                        .with(httpBasic())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JsonUtil.writeValueToJson(updated)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andReturn();
+
+        ErrorInfo actual = JsonUtil.readValueFromJson(getContentAsString(result), ErrorInfo.class);
+
+        assertEquals(ErrorType.BAD_REQUEST, actual.type());
+    }
+
+    @Test
+    void updateBindViolation() throws Exception {
+        Document updated = getUpdated();
+        updated.setDocumentLanguage(null);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(OrderTestData.URL + "/" +
+                                OrderTestData.michelleOrder.id() + "/documents/" + michelleOrder_doc.id())
+                        .with(httpBasic())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JsonUtil.writeValueToJson(updated)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andReturn();
+
+        ErrorInfo actual = JsonUtil.readValueFromJson(getContentAsString(result), ErrorInfo.class);
+
+        assertEquals(ErrorType.BAD_DATA, actual.type());
     }
 
     @Test

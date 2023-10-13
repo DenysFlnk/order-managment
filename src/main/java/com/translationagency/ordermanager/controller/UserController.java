@@ -47,7 +47,7 @@ public class UserController {
     public void update(@PathVariable int id, @Valid @RequestBody User user) {
         log.info("update id {}, data {}", id, user);
         assureIdConsistent(user, id);
-        userService.update(user, id);
+        userService.update(user);
     }
 
     @DeleteMapping("/{id}")

@@ -39,10 +39,12 @@ public class OrderService {
 
     public Order create(Order order) {
         checkNew(order);
+        checkDateBoundaries(order.getCreationDate(), order.getDeliveryDate());
         return orderRepository.save(order);
     }
 
     public void update(Order order) {
+        checkDateBoundaries(order.getCreationDate(), order.getDeliveryDate());
         updateSurcharge(order);
         orderRepository.save(order);
     }

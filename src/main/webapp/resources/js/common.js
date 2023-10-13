@@ -4,6 +4,9 @@ const usersRestUrl = "rest-api/users";
 const translatorsRestUrl = "rest-api/translators";
 const csrfToken = $("meta[name='_csrf']").attr("content");
 const csrfHeader = $("meta[name='_csrf_header']").attr("content");
+$(document).ajaxError(function (event, jqXHR, options, jsExc) {
+    failNoty(jqXHR);
+});
 
 function doDelete(url) {
     if (confirm("Are you sure?")) {

@@ -1,16 +1,15 @@
 package com.translationagency.ordermanager.util.validation;
 
-import com.translationagency.ordermanager.entity.User;
 import com.translationagency.ordermanager.exception_handling.error.AppException;
 import com.translationagency.ordermanager.exception_handling.error.EmailException;
 import com.translationagency.ordermanager.exception_handling.error.IllegalRequestDataException;
 import com.translationagency.ordermanager.exception_handling.error.NotFoundException;
 import com.translationagency.ordermanager.to.email.EmailTo;
-import jakarta.validation.constraints.Size;
 import org.springframework.data.domain.Persistable;
 import org.springframework.util.Assert;
 
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 
 public final class ValidationUtil {
 
@@ -36,11 +35,11 @@ public final class ValidationUtil {
 
     public static void checkIfEmailHasAnyNullField(EmailTo object) {
         Class<?> clazz = EmailTo.class;
-        Field[] fields = clazz.getFields();
+        Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
             field.setAccessible(true);
             try {
-                if (field.get(object) == null) {
+                if (field.get(object).equals("")) {
                     throw new EmailException("Email must has " + field.getName());
                 }
             } catch (IllegalAccessException e) {
@@ -49,23 +48,9 @@ public final class ValidationUtil {
         }
     }
 
-    public static void checkUserPassword(User user) {
-        String check = user.getPassword().replace(" ", "");
-        try {
-            int minConstraint = getMinPasswordLength();
-            if (check.length() < minConstraint) {
-                throw new IllegalRequestDataException("Password length must be " + minConstraint + " or bigger");
-            }
-        } catch (NoSuchFieldException e) {
-            throw new AppException(e.getLocalizedMessage());
+    public static void checkDateBoundaries(LocalDate creationDate, LocalDate deliveryDate) {
+        if (creationDate.isAfter(deliveryDate)) {
+            throw new IllegalRequestDataException("Creation date must be before or on the same day as delivery date");
         }
-    }
-
-    private static int getMinPasswordLength() throws NoSuchFieldException {
-        Class<?> clazz = User.class;
-        Field password = clazz.getDeclaredField("password");
-        password.setAccessible(true);
-        Size constraint = password.getAnnotation(Size.class);
-        return constraint.min();
     }
 }

@@ -71,6 +71,7 @@ public class SecurityConfig {
                                 .anyRequest().hasRole(Role.USER.name()))
                 .formLogin(login -> login.loginPage("/login-form").permitAll()
                         .defaultSuccessUrl("/orders")
+                        .failureUrl("/login-form?error=true")
                         .loginProcessingUrl("/security-check")
                         .usernameParameter("username")
                         .passwordParameter("password"))

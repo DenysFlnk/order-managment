@@ -7,6 +7,9 @@ const rateTable = $('#rateTableBody');
 const translatorPagination = $('#translatorPagination');
 
 function loadContent(currentPage) {
+/*    $(document).ajaxError(function (event, jqXHR, options, jsExc) {
+            failNoty(jqXHR);
+    });*/
     translatorPage = currentPage === undefined ? 0 : currentPage;
     $.ajax({
         url: translatorsRestUrl + `?page=${translatorPage}&size=${objectsInPage}`,

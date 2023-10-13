@@ -6,6 +6,9 @@ let orderPage;
 let objectsInPage = 10;
 
 function loadContent(currentPage) {
+/*    $(document).ajaxError(function (event, jqXHR, options, jsExc) {
+            failNoty(jqXHR);
+    });*/
     orderPage = currentPage === undefined ? 0 : currentPage;
     $.ajax({
         url: ordersRestUrl + `?page=${orderPage}`,

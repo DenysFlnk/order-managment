@@ -1,9 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <html>
 <jsp:include page="fragments/header.jsp"/>
+<script type="text/javascript" src="resources/js/common.js" defer></script>
 
 <body>
 <jsp:include page="fragments/body-header.jsp"/>
@@ -22,7 +25,6 @@
                                 <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
                             </svg>
                         </div>
-
                         <form action="security-check" method="post">
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                             <input type="text" name="username" id="username" class="form-control my-4 py-2" placeholder="Username" />
@@ -37,5 +39,16 @@
         </div>
     </div>
 </section>
+<script type="text/javascript">
+    <c:if test="${param.error}">
+    failedNote = new Noty({
+        text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;<br>" +
+            `${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}`,
+        type: "error",
+        layout: "center"
+    });
+    failedNote.show()
+    </c:if>
+</script>
 </body>
 </html>

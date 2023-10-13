@@ -4,8 +4,6 @@
 
 <body onload="loadContent()">
 <jsp:include page="fragments/body-header.jsp"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bcryptjs/2.4.3/bcrypt.min.js"></script>
-<script type="text/javascript" src="resources/js/bcrypt/bcrypt.min.js" defer></script>
 <script type="text/javascript" src="resources/js/common.js" defer></script>
 <script type="text/javascript" src="resources/js/users.js" defer></script>
 <br/>

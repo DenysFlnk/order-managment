@@ -4,6 +4,8 @@ import com.translationagency.ordermanager.AbstractTest;
 import com.translationagency.ordermanager.JsonUtil;
 import com.translationagency.ordermanager.data.OrderTestData;
 import com.translationagency.ordermanager.entity.Apostille;
+import com.translationagency.ordermanager.exception_handling.error.ErrorInfo;
+import com.translationagency.ordermanager.exception_handling.error.ErrorType;
 import com.translationagency.ordermanager.repository.ApostilleRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +58,21 @@ class ApostilleControllerTest extends AbstractTest {
     }
 
     @Test
+    void getNotFound() throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(OrderTestData.URL + "/" +
+                                OrderTestData.markOrder.id() + "/apostilles/" + 88)
+                        .with(httpBasic()))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        ErrorInfo actual = JsonUtil.readValueFromJson(getContentAsString(result), ErrorInfo.class);
+
+        assertEquals(ErrorType.NOT_FOUND, actual.type());
+    }
+
+    @Test
     void create() throws Exception {
         Apostille newApos = getNew();
         mockMvc.perform(MockMvcRequestBuilders.post(OrderTestData.URL + "/" +
@@ -70,6 +87,42 @@ class ApostilleControllerTest extends AbstractTest {
         newApos.setId(newId);
 
         assertEquals(newApos, apostilleRepository.findById(newApos.id()).orElse(null));
+    }
+
+    @Test
+    void createBindViolation() throws Exception {
+        Apostille newApos = getNew();
+        newApos.setSubmissionCountry(null);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(OrderTestData.URL + "/" +
+                                OrderTestData.markOrder.id() + "/apostilles")
+                        .with(httpBasic())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JsonUtil.writeValueToJson(newApos)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andReturn();
+
+        ErrorInfo actual = JsonUtil.readValueFromJson(getContentAsString(result), ErrorInfo.class);
+
+        assertEquals(ErrorType.BAD_DATA, actual.type());
+    }
+
+    @Test
+    void createNotNew() throws Exception {
+        Apostille newApos = getNew();
+        newApos.setId(88);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(OrderTestData.URL + "/" +
+                                OrderTestData.markOrder.id() + "/apostilles")
+                        .with(httpBasic())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JsonUtil.writeValueToJson(newApos)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andReturn();
+
+        ErrorInfo actual = JsonUtil.readValueFromJson(getContentAsString(result), ErrorInfo.class);
+
+        assertEquals(ErrorType.BAD_REQUEST, actual.type());
     }
 
     @Test

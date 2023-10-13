@@ -3,6 +3,8 @@ package com.translationagency.ordermanager.controller;
 import com.translationagency.ordermanager.AbstractTest;
 import com.translationagency.ordermanager.JsonUtil;
 import com.translationagency.ordermanager.entity.Translator;
+import com.translationagency.ordermanager.exception_handling.error.ErrorInfo;
+import com.translationagency.ordermanager.exception_handling.error.ErrorType;
 import com.translationagency.ordermanager.repository.TranslatorRepository;
 import com.translationagency.ordermanager.to.translator.TranslatorManageTo;
 import com.translationagency.ordermanager.to.translator.TranslatorTo;
@@ -118,6 +120,23 @@ class TranslatorControllerTest extends AbstractTest {
     }
 
     @Test
+    void createNotNew() throws Exception {
+        Translator created = getNew();
+        created.setId(0);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(TRANSLATOR_REST_URL)
+                        .with(httpBasic())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JsonUtil.writeValueToJson(created)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andReturn();
+
+        ErrorInfo actual = JsonUtil.readValueFromJson(getContentAsString(result), ErrorInfo.class);
+
+        assertEquals(ErrorType.BAD_REQUEST, actual.type());
+    }
+
+    @Test
     void update() throws Exception {
         Translator updated = getUpdated();
         mockMvc.perform(MockMvcRequestBuilders.put(TRANSLATOR_REST_URL + "/" + updated.id())
@@ -133,6 +152,23 @@ class TranslatorControllerTest extends AbstractTest {
     }
 
     @Test
+    void updateBindViolation() throws Exception {
+        Translator updated = getUpdated();
+        updated.setName(null);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(TRANSLATOR_REST_URL + "/" + updated.id())
+                        .with(httpBasic())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JsonUtil.writeValueToJson(updated)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andReturn();
+
+        ErrorInfo actual = JsonUtil.readValueFromJson(getContentAsString(result), ErrorInfo.class);
+
+        assertEquals(ErrorType.BAD_DATA, actual.type());
+    }
+
+    @Test
     void delete() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete(TRANSLATOR_REST_URL + "/" + jared.id())
                         .with(httpBasic()))
@@ -141,6 +177,14 @@ class TranslatorControllerTest extends AbstractTest {
 
         assertThrows(ClassNotFoundException.class, () -> translatorRepository.findById(jared.id())
                 .orElseThrow(ClassNotFoundException::new));
+    }
+
+    @Test
+    void deleteNotFound() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete(TRANSLATOR_REST_URL + "/" + 0)
+                        .with(httpBasic()))
+                .andDo(print())
+                .andExpect(status().isNotFound());
     }
 
     @Test

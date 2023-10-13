@@ -8,6 +8,9 @@ let orderId = parseOrderIdFromUrl(orderUrl);
 const dateFormat = "YYYY-MM-DD";
 
 function loadContent() {
+    $(document).ajaxError(function (event, jqXHR, options, jsExc) {
+            failNoty(jqXHR);
+    });
     $('#orderNumber').prop("textContent", "Order #KP0" + orderId);
     $.ajax({
         url: `${ordersRestUrl}/${orderId}`,
@@ -336,7 +339,7 @@ function saveApostille() {
 function saveOrder() {
     const editForm = $('#orderForm');
     $.ajax({
-        url: ordersRestUrl,
+        url: ordersRestUrl + `/${orderId}`,
         contentType: "application/json; charset=utf-8",
         method: "PUT",
         data: convertFormToJsonString(editForm),

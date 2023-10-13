@@ -3,6 +3,9 @@ const userForm = $('#userForm');
 const roleAdmin = $('#roleAdmin');
 
 function loadContent() {
+/*    $(document).ajaxError(function (event, jqXHR, options, jsExc) {
+            failNoty(jqXHR);
+    });*/
     $.ajax({
         url: usersRestUrl,
         method: "GET",
@@ -68,17 +71,41 @@ function saveUser() {
         json.roles = ["USER"]
     }
     json.enabled = "true";
-    if (json.password !== "") {
-        json.password = enc(json.password);
+
+    function invalidPasswordNoty() {
+        closeNoty();
+        failedNote = new Noty({
+            text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;<br>" + "Password length must be >= 6" +
+                " and not contain blank characters",
+            type: "error",
+            layout: "bottomRight"
+        });
+        failedNote.show()
     }
 
-    let method = "POST";
-    let url = usersRestUrl;
-
-    if (userId !== "" && userId !== null) {
+    let method;
+    let url;
+    if (userId === "" || userId === undefined) {
+        method = "POST";
+        url = usersRestUrl;
+        if (!isValidPassword(json.password)) {
+            invalidPasswordNoty();
+            return;
+        }
+        json.password = enc(json.password);
+    } else {
         method ="PUT";
-        url = url + `/${userId}`;
+        url = usersRestUrl + `/${userId}`;
         json.enabled = userForm.find("#enabled").val();
+        if (json.password !== "" && json.password !== undefined) {
+            if (!isValidPassword(json.password)) {
+                invalidPasswordNoty();
+                return;
+            }
+            json.password = enc(json.password);
+        } else {
+            json.password = null;
+        }
     }
 
     $.ajax({
@@ -101,6 +128,14 @@ function closeUserModal() {
     closeNoty();
     roleAdmin.prop("checked", false);
     closeModal("userModal");
+}
+
+function isValidPassword(password) {
+    if (password.includes(" ")) {
+        return false;
+    }
+    return password.length >= 6;
+
 }
 
 function enc(msg) {

@@ -34,7 +34,7 @@ public class FormLoginTest extends AbstractTest {
                         .param("username", invalidUser.getName())
                         .param("password", invalidUser.getPassword()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/login-form?error"));
+                .andExpect(redirectedUrl("/login-form?error=true"));
     }
 
     @Test

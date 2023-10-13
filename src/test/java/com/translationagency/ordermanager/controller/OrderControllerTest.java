@@ -3,6 +3,8 @@ package com.translationagency.ordermanager.controller;
 import com.translationagency.ordermanager.AbstractTest;
 import com.translationagency.ordermanager.JsonUtil;
 import com.translationagency.ordermanager.entity.Order;
+import com.translationagency.ordermanager.exception_handling.error.ErrorInfo;
+import com.translationagency.ordermanager.exception_handling.error.ErrorType;
 import com.translationagency.ordermanager.repository.OrderRepository;
 import com.translationagency.ordermanager.to.order.OrderDetailTo;
 import com.translationagency.ordermanager.to.order.OrderTo;
@@ -57,7 +59,7 @@ class OrderControllerTest extends AbstractTest {
 
     @Test
     void get() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(URL + "/2")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(URL + "/" + karenOrder.id())
                         .with(httpBasic()))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -67,6 +69,20 @@ class OrderControllerTest extends AbstractTest {
         OrderDetailTo actual = JsonUtil.readValueFromJson(getContentAsString(result), OrderDetailTo.class);
 
         assertEquals(getDetailTo(), actual);
+    }
+
+    @Test
+    void getNotFound() throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(URL + "/" + 0)
+                        .with(httpBasic()))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        ErrorInfo actual = JsonUtil.readValueFromJson(getContentAsString(result), ErrorInfo.class);
+
+        assertEquals(ErrorType.NOT_FOUND, actual.type());
     }
 
     @Test
@@ -89,6 +105,40 @@ class OrderControllerTest extends AbstractTest {
         Order actual = orderRepository.findById(newId).orElse(null);
         newOrder.setId(newId);
         assertEquals(newOrder, actual);
+    }
+
+    @Test
+    void createBindViolation() throws Exception {
+        Order newOrder = getNew();
+        newOrder.setCreationDate(null);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(URL)
+                        .with(httpBasic())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JsonUtil.writeValueToJson(newOrder)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andReturn();
+
+        ErrorInfo actual = JsonUtil.readValueFromJson(getContentAsString(result), ErrorInfo.class);
+
+        assertEquals(ErrorType.BAD_DATA, actual.type());
+    }
+
+    @Test
+    void createNotNew() throws Exception {
+        Order newOrder = getNew();
+        newOrder.setId(88);
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(URL)
+                        .with(httpBasic())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JsonUtil.writeValueToJson(newOrder)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andReturn();
+
+        ErrorInfo actual = JsonUtil.readValueFromJson(getContentAsString(result), ErrorInfo.class);
+
+        assertEquals(ErrorType.BAD_REQUEST, actual.type());
     }
 
     @Test

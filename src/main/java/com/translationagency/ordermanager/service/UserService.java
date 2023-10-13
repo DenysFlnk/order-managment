@@ -7,8 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.translationagency.ordermanager.util.UserUtil.*;
-import static com.translationagency.ordermanager.util.validation.ValidationUtil.*;
+import static com.translationagency.ordermanager.util.UserUtil.setSHA1Encoder;
+import static com.translationagency.ordermanager.util.validation.ValidationUtil.checkNew;
+import static com.translationagency.ordermanager.util.validation.ValidationUtil.checkNotFoundWithId;
 
 @Service
 @AllArgsConstructor
@@ -30,15 +31,13 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void update(User user, int id) {
+    public void update(User user) {
         if (user.getPassword() == null) {
-            User userWithPassword = checkNotFoundWithId(userRepository.findById(id).orElse(null), id);
-            user.setPassword(userWithPassword.getPassword());
-        } else {
-            checkUserPassword(user);
+            userRepository.updateWithoutPassword(user);
+        }else {
             setSHA1Encoder(user);
+            userRepository.save(user);
         }
-        userRepository.save(user);
     }
 
     public void delete(int id) {

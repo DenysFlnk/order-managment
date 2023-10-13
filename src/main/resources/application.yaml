@@ -4,7 +4,6 @@ spring:
   config:
     import: sendgrid.yaml
   jpa:
-    show-sql: true
     open-in-view: false
     hibernate:
       ddl-auto: none
@@ -19,3 +18,6 @@ server:
     context-path: /translation-agency
     session:
       timeout: 240m
+  error:
+    whitelabel:
+      enabled: false
