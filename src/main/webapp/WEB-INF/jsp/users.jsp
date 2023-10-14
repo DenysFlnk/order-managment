@@ -2,7 +2,7 @@
 <html>
 <jsp:include page="fragments/header.jsp"/>
 
-<body onload="loadContent()">
+<body onload="loadContent()" class="d-flex flex-column h-100">
 <jsp:include page="fragments/body-header.jsp"/>
 <script type="text/javascript" src="resources/js/common.js" defer></script>
 <script type="text/javascript" src="resources/js/users.js" defer></script>
@@ -73,4 +73,5 @@
         </div>
     </div>
 </div>
+<jsp:include page="fragments/footer.jsp"/>
 </body>

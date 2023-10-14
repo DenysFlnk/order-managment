@@ -8,7 +8,7 @@
 <jsp:include page="fragments/header.jsp"/>
 <script type="text/javascript" src="resources/js/common.js" defer></script>
 
-<body>
+<body class="d-flex flex-column h-100">
 <jsp:include page="fragments/body-header.jsp"/>
 <section>
     <div class="container mt-5 pt-5">
@@ -50,5 +50,6 @@
     failedNote.show()
     </c:if>
 </script>
+<jsp:include page="fragments/footer.jsp"/>
 </body>
 </html>

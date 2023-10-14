@@ -2,7 +2,7 @@
 <html>
 <jsp:include page="fragments/header.jsp"/>
 
-<body onload="loadContent(0)">
+<body onload="loadContent(0)" class="d-flex flex-column h-100">
 <jsp:include page="fragments/body-header.jsp"/>
 <script type="text/javascript" src="resources/js/common.js" defer></script>
 <script type="text/javascript" src="resources/js/orders.js" defer></script>
@@ -109,5 +109,6 @@
         </div>
     </div>
 </div>
+<jsp:include page="fragments/footer.jsp"/>
 </body>
 </html>

@@ -4,7 +4,7 @@
 <html>
 <jsp:include page="fragments/header.jsp"/>
 
-<body>
+<body class="d-flex flex-column h-100">
 <jsp:include page="fragments/body-header.jsp"/>
 <div class="jumbotron">
     <div class="container text-center">
@@ -15,5 +15,6 @@
         <a href="orders">back to Orders</a>
     </div>
 </div>
+<jsp:include page="fragments/footer.jsp"/>
 </body>
 </html>
