@@ -7,9 +7,6 @@ const rateTable = $('#rateTableBody');
 const translatorPagination = $('#translatorPagination');
 
 function loadContent(currentPage) {
-/*    $(document).ajaxError(function (event, jqXHR, options, jsExc) {
-            failNoty(jqXHR);
-    });*/
     translatorPage = currentPage === undefined ? 0 : currentPage;
     $.ajax({
         url: translatorsRestUrl + `?page=${translatorPage}&size=${objectsInPage}`,
@@ -124,7 +121,7 @@ function saveTranslator() {
 }
 
 function deleteTranslator(translatorId) {
-    if (confirm("Are you sure?")) {
+    if (confirm(i18n["noty.confirmDelete"])) {
         $.ajax({
            url: translatorsRestUrl + `/${translatorId}`,
            method: "DELETE",
@@ -180,7 +177,7 @@ function editRate(rateId) {
 }
 
 function deleteRate(rateId) {
-    if (confirm("Are you sure?")) {
+    if (confirm(i18n["noty.confirmDelete"])) {
         $.ajax({
             url: translatorsRestUrl + `/${currentTranslator}/language-rates/${rateId}`,
             method: "DELETE",

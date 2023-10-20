@@ -33,7 +33,7 @@ function sendEmail() {
         },
         success: function () {
             closeModal("emailModal");
-            successNotyBottomRight("Email sent successfully");
+            successNotyBottomRight(i18n["noty.email.success"]);
         }
     });
 }

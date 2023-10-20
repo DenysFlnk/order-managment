@@ -12,6 +12,8 @@ spring:
         format_sql: true
         default_batch_fetch_size: 20
         jdbc.batch_size: 20
+  main:
+    allow-bean-definition-overriding: true
 
 server:
   servlet:

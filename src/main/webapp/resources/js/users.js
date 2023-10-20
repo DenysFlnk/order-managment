@@ -3,9 +3,6 @@ const userForm = $('#userForm');
 const roleAdmin = $('#roleAdmin');
 
 function loadContent() {
-/*    $(document).ajaxError(function (event, jqXHR, options, jsExc) {
-            failNoty(jqXHR);
-    });*/
     $.ajax({
         url: usersRestUrl,
         method: "GET",
@@ -75,8 +72,7 @@ function saveUser() {
     function invalidPasswordNoty() {
         closeNoty();
         failedNote = new Noty({
-            text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;<br>" + "Password length must be >= 6" +
-                " and not contain blank characters",
+            text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;<br>" + i18n["noty.password"],
             type: "error",
             layout: "bottomRight"
         });

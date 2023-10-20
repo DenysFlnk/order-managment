@@ -8,10 +8,7 @@ let orderId = parseOrderIdFromUrl(orderUrl);
 const dateFormat = "YYYY-MM-DD";
 
 function loadContent() {
-    $(document).ajaxError(function (event, jqXHR, options, jsExc) {
-            failNoty(jqXHR);
-    });
-    $('#orderNumber').prop("textContent", "Order #KP0" + orderId);
+    $('#orderNumber').prop("textContent", i18n["common.order"] + orderId);
     $.ajax({
         url: `${ordersRestUrl}/${orderId}`,
         method: "GET",

@@ -18,7 +18,7 @@
                     <div class="card-body">
                         <div class="text-center">
                             <h2>
-                                Hello! Please log in to start.
+                                <spring:message code="login.hello"/>
                             </h2>
                             <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
@@ -30,7 +30,8 @@
                             <input type="text" name="username" id="username" class="form-control my-4 py-2" placeholder="Username" />
                             <input type="password" name="password" id="password" class="form-control my-4 py-2" placeholder="Password" />
                             <div class="text-center mt-3">
-                                <button class="btn btn-primary" value="Log in" type="submit">Login</button>
+                                <button class="btn btn-primary" value="Log in" type="submit">
+                                    <spring:message code="login.button"/></button>
                             </div>
                         </form>
                     </div>

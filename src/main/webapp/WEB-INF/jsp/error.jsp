@@ -10,9 +10,9 @@
     <div class="container text-center">
         <br>
         <h4 class="my-3">${status}</h4>
-        <h2>Access denied</h2>
+        <h2><spring:message code="error.message"/></h2>
         <h4 class="my-5">${message}</h4>
-        <a href="orders">back to Orders</a>
+        <a href="orders"><spring:message code="error.redirect"/></a>
     </div>
 </div>
 <jsp:include page="fragments/footer.jsp"/>

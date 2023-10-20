@@ -66,7 +66,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .authorizeHttpRequests(authorizeHttpRequests ->
-                        authorizeHttpRequests.requestMatchers("/WEB-INF/jsp/**", "/resources/**").permitAll()
+                        authorizeHttpRequests.requestMatchers("/WEB-INF/jsp/**", "/resources/**", "/login-form/**")
+                                .permitAll()
                                 .requestMatchers("/users", "/users/**").hasRole(Role.ADMIN.name())
                                 .anyRequest().hasRole(Role.USER.name()))
                 .formLogin(login -> login.loginPage("/login-form").permitAll()

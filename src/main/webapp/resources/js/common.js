@@ -9,7 +9,7 @@ $(document).ajaxError(function (event, jqXHR, options, jsExc) {
 });
 
 function doDelete(url) {
-    if (confirm("Are you sure?")) {
+    if (confirm(i18n["noty.confirmDelete"])) {
         $.ajax({
             url: url,
             method: "DELETE",
@@ -82,7 +82,8 @@ function successNotyBottomRight(text) {
 function reminderToEmailTranslator() {
     closeNoty();
     new Noty({
-        text: "<h5>Don`t forget to send email to translator!&nbsp; <span class='fa fa-sm fa-envelope'></span</h5>",
+        text: "<h5>" + i18n["noty.email"] +
+            "&nbsp; <span class='fa fa-sm fa-envelope'></span</h5>",
         type: 'warning',
         layout: "center",
         timeout: 2000
