@@ -51,12 +51,12 @@
                     <input type="hidden" id="translatorId" name="id">
                     <input type="hidden" id="available" name="available">
                     <div class="form-group">
-                        <label for="translatorName" class="col-form-label"><spring:message code="common.name"/></label>
+                        <label for="translatorName" class="col-form-label"><spring:message code="common.name"/> *</label>
                         <input type="text" class="form-control" id="translatorName" name="name"
                                placeholder="John">
                     </div>
                     <div class="form-group">
-                        <label for="translatorEmail" class="col-form-label"><spring:message code="common.email"/></label>
+                        <label for="translatorEmail" class="col-form-label"><spring:message code="common.email"/> *</label>
                         <input  type="email" class="form-control" id="translatorEmail" name="email"
                                 placeholder="john@gmail.com">
                     </div>
@@ -66,6 +66,7 @@
                                placeholder="+380xxxxxxx">
                     </div>
                 </form>
+                <h6><spring:message code="common.required"/></h6>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNoty()">
@@ -134,7 +135,7 @@
                     <input type="hidden" id="rateId" name="id">
                     <div class="form-group">
                         <label for="rateLanguage" class="col-form-label">
-                            <spring:message code="translators.language"/>
+                            <spring:message code="translators.language"/> *
                         </label>
                         <select class="form-control" id="rateLanguage" name="language">
                             <option value="" disabled selected>
@@ -183,21 +184,22 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="commonRate" class="col-form-label"><spring:message code="translators.common"/></label>
+                        <label for="commonRate" class="col-form-label"><spring:message code="translators.common"/> *</label>
                         <input type="number" class="form-control" id="commonRate" name="commonRate"
                                placeholder="0">
                     </div>
                     <div class="form-group">
-                        <label for="hardRate" class="col-form-label"><spring:message code="translators.hard"/></label>
+                        <label for="hardRate" class="col-form-label"><spring:message code="translators.hard"/> *</label>
                         <input  type="number" class="form-control" id="hardRate" name="hardRate"
                                 placeholder="0">
                     </div>
                     <div class="form-group">
-                        <label for="signs" class="col-form-label"><spring:message code="translators.signs"/></label>
+                        <label for="signs" class="col-form-label"><spring:message code="translators.signs"/> *</label>
                         <input type="number" step="0.1" class="form-control" id="signs" name="signs"
                                placeholder="0.1">
                     </div>
                 </form>
+                <h6><spring:message code="common.required"/></h6>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNoty()">
                     <span class="fa fa-close"></span>

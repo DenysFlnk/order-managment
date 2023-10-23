@@ -55,7 +55,7 @@
                     <h5><spring:message code="orders.modal.customerInfo"/></h5>
                     <div class="form-group">
                         <label for="customerName" class="col-form-label">
-                            <spring:message code="common.name"/>
+                            <spring:message code="common.name"/> *
                         </label>
                         <input type="text" class="form-control" id="customerName" name="customerName"
                                placeholder="Example E.E.">
@@ -78,19 +78,25 @@
                     </div>
                     <h5><spring:message code="orders.modal.orderInfo"/></h5>
                     <div class="form-group">
-                        <label for="prepaid" class="col-form-label"><spring:message code="orders.prepaid"/></label>
+                        <label for="prepaid" class="col-form-label">
+                            <spring:message code="orders.prepaid"/> *
+                        </label>
                         <input  type="number" class="form-control" id="prepaid" name="prepaid"
                                placeholder="0">
                     </div>
 
                     <div class="form-group">
-                        <label for="creationDate" class="col-form-label"><spring:message code="orders.creation"/></label>
+                        <label for="creationDate" class="col-form-label">
+                            <spring:message code="orders.creation"/> *
+                        </label>
                         <input type="date" class="form-control" id="creationDate" name="creationDate"
                                placeholder="dd.mm.yyyy">
                     </div>
 
                     <div class="form-group">
-                        <label for="deliveryDate" class="col-form-label"><spring:message code="orders.delivery"/></label>
+                        <label for="deliveryDate" class="col-form-label">
+                            <spring:message code="orders.delivery"/> *
+                        </label>
                         <input type="date" class="form-control" id="deliveryDate" name="deliveryDate"
                                placeholder="dd.mm.yyyy">
                     </div>
@@ -102,6 +108,7 @@
                     </div>
                     <input type="hidden" id="orderStatus" name="orderStatus" value="IN_WORK">
                 </form>
+                <h6><spring:message code="common.required"/></h6>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNoty()">

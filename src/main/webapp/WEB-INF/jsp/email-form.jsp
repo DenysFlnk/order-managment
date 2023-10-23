@@ -13,25 +13,25 @@
                     <input type="hidden" id="orderId" name="orderId">
                     <div class="form-group">
                         <label for="senderEmail" class="col-form-label">
-                            <spring:message code="email.sender"/>
+                            <spring:message code="email.sender"/> *
                         </label>
                         <input type="text" class="form-control" id="senderEmail" name="senderEmail" readonly>
                     </div>
                     <div class="form-group">
                         <label for="translatorNameEmailForm" class="col-form-label">
-                            <spring:message code="order-detail.translatorName"/>
+                            <spring:message code="order-detail.translatorName"/> *
                         </label>
                         <input type="text" class="form-control" id="translatorNameEmailForm" name="translatorName" required>
                     </div>
                     <div class="form-group">
                         <label for="targetEmail" class="col-form-label">
-                            <spring:message code="email.translatorEmail"/>
+                            <spring:message code="email.translatorEmail"/> *
                         </label>
                         <input type="email" class="form-control" id="targetEmail" name="targetEmail" required>
                     </div>
                     <div class="form-group">
                         <label for="subject" class="col-form-label">
-                            <spring:message code="email.subject"/>
+                            <spring:message code="email.subject"/> *
                         </label>
                         <input type="text" class="form-control" id="subject" name="subject" required>
                     </div>
@@ -47,6 +47,7 @@
                         <input type="file" id="file" name="file" accept=".pdf, .doc, .docx, .png, .jpeg, .txt" multiple required>
                     </div>
                 </form>
+                <h6><spring:message code="common.required"/></h6>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNoty()">

@@ -45,14 +45,14 @@
                     <input type="hidden" id="enabled" name="enabled">
                     <div class="form-group">
                         <label for="userName" class="col-form-label">
-                            <spring:message code="common.name"/>
+                            <spring:message code="common.name"/> *
                         </label>
                         <input type="text" class="form-control" id="userName" name="name"
                                placeholder="John">
                     </div>
                     <div class="form-group">
                         <label for="userPassword" class="col-form-label">
-                            <spring:message code="users.password"/>
+                            <spring:message code="users.password"/> *
                         </label>
                         <input type="text" class="form-control" id="userPassword" name="password">
                     </div>
@@ -66,6 +66,7 @@
                         </div>
                     </div>
                 </form>
+                <h6><spring:message code="common.required"/></h6>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeUserModal()">

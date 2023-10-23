@@ -68,8 +68,7 @@ public class OrderService {
         int orderCost = OrderUtil.calculateOrderCost(order);
         order.setSummaryCost(orderCost);
 
-        int surcharge = orderCost - order.getPrepaid();
-        order.setSurcharge(surcharge);
+        updateSurcharge(order);
     }
 
     private void updateSurcharge(Order order) {

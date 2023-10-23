@@ -165,7 +165,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="documentLanguage" class="col-form-label">
-                                <spring:message code="translators.language"/>
+                                <spring:message code="translators.language"/> *
                             </label>
                             <select class="form-control" id="documentLanguage" name="language">
                                 <option value="" disabled selected>
@@ -215,7 +215,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="officeRate" class="col-form-label">
-                                <spring:message code="order-detail.officeRate"/>
+                                <spring:message code="order-detail.officeRate"/> *
                             </label>
                             <input type="number" class="form-control" id="officeRate" name="officeRate"
                                    placeholder="0">
@@ -258,6 +258,7 @@
                         <input type="text" class="form-control" id="translatorTax" name="translatorTax">
                     </div>
                 </form>
+                <h6><spring:message code="common.required"/></h6>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNoty()">
@@ -284,14 +285,14 @@
                 <form id="aposForm">
                     <input type="hidden" id="apostilleId" name="id">
                     <div class="form-group">
-                        <label for="title" class="col-form-label"><spring:message code="order-detail.title"/></label>
+                        <label for="title" class="col-form-label"><spring:message code="order-detail.title"/> *</label>
                         <input type="text" class="form-control" id="title" name="title"
                                placeholder="'Title'">
                     </div>
 
                     <div class="form-group">
                         <label for="submissionCountry" class="col-form-label">
-                            <spring:message code="order-detail.subCountry"/>
+                            <spring:message code="order-detail.subCountry"/> *
                         </label>
                         <input type="text" class="form-control" id="submissionCountry" name="submissionCountry"
                                placeholder="Ukraine">
@@ -299,17 +300,18 @@
 
                     <div class="form-group">
                         <label for="submissionDepartment" class="col-form-label">
-                            <spring:message code="order-detail.subDepartment"/>
+                            <spring:message code="order-detail.subDepartment"/> *
                         </label>
                         <input type="email" class="form-control" id="submissionDepartment" name="submissionDepartment"
                                placeholder="Department">
                     </div>
                     <div class="form-group">
-                        <label for="cost" class="col-form-label"><spring:message code="orders.table.cost"/></label>
+                        <label for="cost" class="col-form-label"><spring:message code="orders.table.cost"/> *</label>
                         <input type="number" class="form-control" id="cost" name="cost"
                                placeholder="0">
                     </div>
                 </form>
+                <h6><spring:message code="common.required"/></h6>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeNoty()">
