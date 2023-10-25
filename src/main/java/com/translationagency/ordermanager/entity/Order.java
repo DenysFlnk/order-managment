@@ -2,7 +2,6 @@ package com.translationagency.ordermanager.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -28,12 +27,10 @@ public class Order extends BaseEntity {
     @Size(min = 3, max = 30)
     private String customerName;
 
-    @Column(name = "customer_phone")
-    private String customerPhone;
-
-    @Column(name = "customer_email")
-    @Email
-    private String customerEmail;
+    @Column(name = "customer_contact")
+    @NotNull
+    @NotBlank
+    private String customerContact;
 
     @Column(name = "prepaid")
     @NotNull
@@ -72,13 +69,12 @@ public class Order extends BaseEntity {
     @ToString.Exclude
     private List<Apostille> apostilles;
 
-    public Order(Integer id, String customerName, String customerPhone, String customerEmail, int prepaid,
+    public Order(Integer id, String customerName, String customerContact, int prepaid,
                  Integer surcharge, Integer summaryCost, LocalDate creationDate, LocalDate deliveryDate,
                  OrderStatus orderStatus, String note, List<Document> documents, List<Apostille> apostilles) {
         super(id);
         this.customerName = customerName;
-        this.customerPhone = customerPhone;
-        this.customerEmail = customerEmail;
+        this.customerContact = customerContact;
         this.prepaid = prepaid;
         this.surcharge = surcharge;
         this.summaryCost = summaryCost;
@@ -93,8 +89,7 @@ public class Order extends BaseEntity {
     public Order(Order order) {
         super(order.getId());
         this.customerName = order.getCustomerName();
-        this.customerPhone = order.getCustomerPhone();
-        this.customerEmail = order.getCustomerEmail();
+        this.customerContact = order.getCustomerContact();
         this.prepaid = order.getPrepaid();
         this.surcharge = order.getSurcharge();
         this.summaryCost = order.getSummaryCost();
@@ -112,17 +107,16 @@ public class Order extends BaseEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Order order = (Order) o;
-        return prepaid == order.prepaid && customerName.equals(order.customerName) &&
-                Objects.equals(customerPhone, order.customerPhone) &&
-                Objects.equals(customerEmail, order.customerEmail) && Objects.equals(surcharge, order.surcharge) &&
-                Objects.equals(summaryCost, order.summaryCost) && creationDate.equals(order.creationDate) &&
-                deliveryDate.equals(order.deliveryDate) && orderStatus == order.orderStatus &&
+        return prepaid == order.prepaid && Objects.equals(customerName, order.customerName) &&
+                Objects.equals(customerContact, order.customerContact) && Objects.equals(surcharge, order.surcharge) &&
+                Objects.equals(summaryCost, order.summaryCost) && Objects.equals(creationDate, order.creationDate) &&
+                Objects.equals(deliveryDate, order.deliveryDate) && orderStatus == order.orderStatus &&
                 Objects.equals(note, order.note);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), customerName, customerPhone, customerEmail, prepaid, surcharge,
-                summaryCost, creationDate, deliveryDate, orderStatus, note);
+        return Objects.hash(super.hashCode(), customerName, customerContact, prepaid, surcharge, summaryCost,
+                creationDate, deliveryDate, orderStatus, note);
     }
 }

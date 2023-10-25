@@ -23,7 +23,7 @@ public class OrderUtil {
 
     public static OrderDetailTo getDetailTo(Order order) {
         return new OrderDetailTo(order.id(), getFormattedId(order.id()), order.getCustomerName(),
-                order.getCustomerPhone(), order.getCustomerEmail(), order.getPrepaid(), order.getSurcharge(),
+                order.getCustomerContact(), order.getPrepaid(), order.getSurcharge(),
                 order.getSummaryCost(), order.getCreationDate(), order.getDeliveryDate(),
                 order.getOrderStatus(), order.getNote(), DocumentUtil.getTos(order.getDocuments()),
                 order.getApostilles());
@@ -34,8 +34,9 @@ public class OrderUtil {
     }
 
     private static OrderTo getTo(Order order) {
-        return new OrderTo(order.id(), getFormattedId(order.id()), order.getCustomerName(),
-                order.getCustomerPhone(), order.getCustomerEmail(), order.getPrepaid(), order.getSurcharge(),
+        return new OrderTo(order.id(), DocumentUtil.notarizationCostSum(order.getDocuments()),
+                getFormattedId(order.id()), order.getCustomerName(),
+                order.getCustomerContact(), order.getPrepaid(), order.getSurcharge(),
                 order.getSummaryCost(), order.getCreationDate(), order.getDeliveryDate(),
                 order.getOrderStatus(), order.getNote());
     }

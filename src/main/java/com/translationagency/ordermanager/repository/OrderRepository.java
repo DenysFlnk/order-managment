@@ -13,8 +13,8 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     @Query("SELECT or FROM Order or ORDER BY or.id DESC")
     List<Order> getAll();
 
-    @Query("SELECT or FROM Order or ORDER BY or.id DESC")
-    List<Order> getAll(Pageable pageable);
+    @Query("SELECT or FROM Order or  LEFT JOIN FETCH or.documents ORDER BY or.id DESC")
+    List<Order> getAllWithDocument(Pageable pageable);
 
     @Query("SELECT or FROM Order or LEFT JOIN FETCH or.documents doc WHERE or.id = ?1")
     Optional<Order> getWithDocument(int id);

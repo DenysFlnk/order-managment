@@ -22,15 +22,9 @@
                 <input type="text" class="form-control" id="customerName" name="customerName"
                        placeholder="Example E.E.">
             </div>
-            <div class="form-group col-md-4">
-                <label for="customerPhone"><spring:message code="common.phone"/></label>
-                <input type="text" class="form-control" id="customerPhone" name="customerPhone"
-                       placeholder="+38(***)***-**-**">
-            </div>
-            <div class="form-group col-md-4">
-                <label for="customerEmail"><spring:message code="common.email"/></label>
-                <input type="text" class="form-control" id="customerEmail" name="customerEmail"
-                       placeholder="example@example.com">
+            <div class="form-group col-md-8">
+                <label for="customerContact"><spring:message code="common.contact"/></label>
+                <input type="text" class="form-control" id="customerContact" name="customerContact">
             </div>
         </div>
         <h5><spring:message code="orders.modal.orderInfo"/></h5>

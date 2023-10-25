@@ -22,7 +22,7 @@ public class OrderService {
     private ApostilleRepository apostilleRepository;
 
     public List<Order> getAll(Pageable pageable) {
-        return orderRepository.getAll(pageable);
+        return orderRepository.getAllWithDocument(pageable);
     }
 
     public int getAllCount() {
@@ -59,7 +59,7 @@ public class OrderService {
     }
 
     public void recalculateOrderCostAndSave(int id) {
-        Order order = checkNotFoundWithId(get(id), id);
+        Order order = get(id);
         recalculateOrderCost(order);
         orderRepository.save(order);
     }

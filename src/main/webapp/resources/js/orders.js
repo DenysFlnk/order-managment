@@ -16,9 +16,9 @@ function loadContent(currentPage) {
                 let newRow = $('<tr>');
                 addStatusStyle(order, newRow);
                 newRow.append(`<td>${order.formattedId}</td>
+                               <td>${order.notarizationCost === 0 ? " " : order.notarizationCost}</td> 
                                <td>${order.customerName}</td>   
-                               <td>${order.customerPhone}</td> 
-                               <td>${order.customerEmail}</td> 
+                               <td>${order.customerContact}</td> 
                                <td>${order.prepaid}</td>`);
 
                 let surcharge = order.surcharge === null ? "-" : order.surcharge;

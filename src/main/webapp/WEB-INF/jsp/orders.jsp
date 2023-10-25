@@ -21,9 +21,9 @@
         <thead>
         <tr>
             <th scope="col">#</th>
+            <th scope="col"><spring:message code="order-detail.notarizationCost"/></th>
             <th scope="col"><spring:message code="orders.table.name"/></th>
-            <th scope="col"><spring:message code="orders.table.phone"/></th>
-            <th scope="col"><spring:message code="orders.table.email"/></th>
+            <th scope="col"><spring:message code="common.contact"/></th>
             <th scope="col"><spring:message code="orders.prepaid"/></th>
             <th scope="col"><spring:message code="orders.table.surcharge"/></th>
             <th scope="col"><spring:message code="orders.table.cost"/></th>
@@ -62,20 +62,12 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="customerPhone" class="col-form-label">
-                            <spring:message code="common.phone"/>
+                        <label for="customerContact" class="col-form-label">
+                            Contacts *
                         </label>
-                        <input type="text" class="form-control" id="customerPhone" name="customerPhone"
-                               placeholder="+38(***)***-**-**">
+                        <input type="text" class="form-control" id="customerContact" name="customerContact">
                     </div>
 
-                    <div class="form-group">
-                        <label for="customerEmail" class="col-form-label">
-                            <spring:message code="common.email"/>
-                        </label>
-                        <input type="email" class="form-control" id="customerEmail" name="customerEmail"
-                               placeholder="example@example.com">
-                    </div>
                     <h5><spring:message code="orders.modal.orderInfo"/></h5>
                     <div class="form-group">
                         <label for="prepaid" class="col-form-label">

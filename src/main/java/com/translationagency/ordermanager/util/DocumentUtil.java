@@ -23,4 +23,11 @@ public class DocumentUtil {
                 document.getTranslatorRate(),
                 document.getTranslatorTax());
     }
+
+    public static int notarizationCostSum(List<Document> documents) {
+        if (documents == null) {
+            return 0;
+        }
+        return documents.stream().map(Document::getNotarizationCost).reduce(0, Integer::sum);
+    }
 }

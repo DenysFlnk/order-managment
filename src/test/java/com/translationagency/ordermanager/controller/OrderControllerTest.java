@@ -31,7 +31,7 @@ class OrderControllerTest extends AbstractTest {
     @Test
     void getAll() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(URL +
-                        "?page=0&size=10")
+                        "?page=0&size=5")
                         .with(httpBasic()))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -40,7 +40,7 @@ class OrderControllerTest extends AbstractTest {
 
         List<OrderTo> actual = JsonUtil.readValuesFromJson(getContentAsString(result), OrderTo.class);
 
-        assertIterableEquals(firstTen, actual);
+        assertIterableEquals(getFirstFiveTos(), actual);
     }
 
     @Test
