@@ -21,7 +21,7 @@ public class OrderService {
 
     private ApostilleRepository apostilleRepository;
 
-    public List<Order> getAll(Pageable pageable) {
+    public List<Order> getAllWithDocument(Pageable pageable) {
         return orderRepository.getAllWithDocument(pageable);
     }
 
@@ -29,7 +29,7 @@ public class OrderService {
         return orderRepository.getAll().size();
     }
 
-    public Order get(int id) {
+    public Order getWithDocumentAndApostille(int id) {
         Order order = checkNotFoundWithId(orderRepository.getWithDocument(id).orElse(null), id);
         List<Apostille> apostilles = apostilleRepository.getAllByOrderId(id);
         order.setApostilles(apostilles);
@@ -59,7 +59,7 @@ public class OrderService {
     }
 
     public void recalculateOrderCostAndSave(int id) {
-        Order order = get(id);
+        Order order = getWithDocumentAndApostille(id);
         recalculateOrderCost(order);
         orderRepository.save(order);
     }

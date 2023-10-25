@@ -38,7 +38,7 @@ public class OrderController {
                                 @RequestParam(defaultValue = "10") Integer size) {
         log.info("getAll");
         Pageable pageable = PageRequest.of(page, size);
-        return OrderUtil.getTos(orderService.getAll(pageable));
+        return OrderUtil.getTos(orderService.getAllWithDocument(pageable));
     }
 
     @GetMapping("/count")
@@ -50,7 +50,7 @@ public class OrderController {
     @GetMapping("/{id}")
     public OrderDetailTo get(@PathVariable int id) {
         log.info("get {}", id);
-        return OrderUtil.getDetailTo(orderService.get(id));
+        return OrderUtil.getDetailTo(orderService.getWithDocumentAndApostille(id));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

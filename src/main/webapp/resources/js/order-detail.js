@@ -19,6 +19,7 @@ function loadContent() {
             $('#orderStatus').val(data.orderStatus);
             $('#creationDate').val(formatDate(getDateFromArray(data.creationDate), dateFormat));
             $('#deliveryDate').val(formatDate(getDateFromArray(data.deliveryDate), dateFormat));
+            $('#note').text(data.note);
 
             loadDocuments(data);
             loadApostilles(data);
