@@ -81,6 +81,8 @@ function save() {
     let form = $("#detailsForm");
     let json = convertFormToJson(form);
     json.orderStatus = "IN_WORK";
+    json.surcharge = "0";
+    json.summaryCost = "0";
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
