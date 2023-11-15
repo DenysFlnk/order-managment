@@ -10,7 +10,7 @@
 * [Contact](#contact)
 
 ## General purpose
-To develop multifunctional application for any translation agency. A lot of agencies using plain Microsoft Office or/and Google services to manage its orders from clients and communicate with translators. 
+To develop multifunctional application for translation agency. A lot of agencies using plain Microsoft Office or/and Google services to manage its orders from clients and communicate with translators. 
 The idea is to create app that can automize agency daily routine and improve quality of work.
 
 
@@ -21,6 +21,7 @@ The idea is to create app that can automize agency daily routine and improve qua
 - Spring Data JPA
 - PostgreSQL
 - SendGrid
+- Docker
 - Logback logging
 - Testing:
   - JUnit 5
@@ -38,16 +39,27 @@ App features:
 - Creating and sending email to translator
 
 ## Setup
-Create db in PostgreSQL named "translation_agency" with credentials:
->username: postgres
-> 
->password: userPassword
+1. Install [Docker](https://www.docker.com/).
+2. Create env files:
+````
+#app.env
+SPRING_PROFILES_ACTIVE=deploy
+SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/#your db name 
+SPRING_DATASOURCE_USERNAME=#your username
+SPRING_DATASOURCE_PASSWORD=#your password
 
-Fork this repo to your GitHub and clone to your PC. Run `OrderManagerApplication` in your IDE. 
+#db.env
+POSTGRES_USER=#your username
+POSTGRES_PASSWORD=#your password
+POSTGRES_DB=#your db name
+````
+3. Run command ```docker-compose up -d``` in project directory.
+4. Follow [app link](http://localhost:8080/translation-agency/login-form).
+5. Enjoy!
 
 ## Future goals
 - Internationalization:
-  - Ukrainian (in progress)
+  - Ukrainian (done)
 - Sorting for orders
 - Statistics by month for orders
 - Export reports in pdf
