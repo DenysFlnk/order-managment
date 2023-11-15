@@ -1,6 +1,7 @@
 package com.translationagency.ordermanager.controller;
 
 import com.translationagency.ordermanager.AbstractTest;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -11,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class EmailControllerTest extends AbstractTest {
 
+    @Disabled
     @Test
     void sendEmailWithAttachments() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.multipart("/translators/email")

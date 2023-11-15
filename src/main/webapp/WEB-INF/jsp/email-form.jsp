@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <div class="modal fade" tabindex="-1" id="emailModal">
@@ -15,7 +15,7 @@
                         <label for="senderEmail" class="col-form-label">
                             <spring:message code="email.sender"/> *
                         </label>
-                        <input type="text" class="form-control" id="senderEmail" name="senderEmail" readonly>
+                        <input type="text" class="form-control" id="senderEmail" name="senderEmail">
                     </div>
                     <div class="form-group">
                         <label for="translatorNameEmailForm" class="col-form-label">

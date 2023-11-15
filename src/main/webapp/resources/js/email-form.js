@@ -1,4 +1,4 @@
-const agencyEmail = "filonenko.denys94@gmail.com";
+const agencyEmail = "filonenko.denys94@gmail.com" //change email corresponding to your SendGrid account
 const emailUrl = "translators/email"
 
 function openEmailModal(translatorId) {

@@ -34,7 +34,7 @@ public class SecurityConfig {
 
     private UserRepository userRepository;
 
-    @Profile({"prod", "loginTest"})
+    @Profile({"deploy", "dev", "loginTest"})
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> {
@@ -45,13 +45,13 @@ public class SecurityConfig {
         };
     }
 
-    @Profile({"prod", "loginTest"})
+    @Profile({"deploy", "dev", "loginTest"})
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    @Profile({"prod", "loginTest"})
+    @Profile({"deploy", "dev", "loginTest"})
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
@@ -61,7 +61,7 @@ public class SecurityConfig {
         return daoAuthenticationProvider;
     }
 
-    @Profile({"prod", "loginTest"})
+    @Profile({"deploy", "dev", "loginTest"})
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
@@ -85,7 +85,7 @@ public class SecurityConfig {
                 .build();
     }
 
-    @Profile("dev")
+    @Profile("test")
     @Bean
     public UserDetailsService userDetailsServiceForTests() {
         UserDetails user = org.springframework.security.core.userdetails.User.withDefaultPasswordEncoder()
@@ -96,7 +96,7 @@ public class SecurityConfig {
         return new InMemoryUserDetailsManager(user);
     }
 
-    @Profile("dev")
+    @Profile("test")
     @Bean
     public SecurityFilterChain filterChainForTests(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
