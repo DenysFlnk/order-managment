@@ -38,6 +38,31 @@
                 </div>
             </div>
         </div>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-12 col-sm-7 col-md-6 m-auto">
+                <div class="card border-0 shadow">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <h5>
+                                <spring:message code="login.admin.credentials"/>
+                            </h5>
+                        </div>
+                        <h6><spring:message code="login.name"/>admin</h6>
+                        <h6><spring:message code="login.password"/>some_admin_password</h6>
+                        <br>
+                        <div class="text-center">
+                            <h5>
+                                <spring:message code="login.user.credentials"/>
+                            </h5>
+                        </div>
+                        <h6><spring:message code="login.name"/>normal user</h6>
+                        <h6><spring:message code="login.password"/>some_password</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 <script type="text/javascript">
