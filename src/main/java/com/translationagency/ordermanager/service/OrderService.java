@@ -6,7 +6,6 @@ import com.translationagency.ordermanager.repository.ApostilleRepository;
 import com.translationagency.ordermanager.repository.OrderRepository;
 import com.translationagency.ordermanager.util.OrderUtil;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,8 +20,11 @@ public class OrderService {
 
     private ApostilleRepository apostilleRepository;
 
-    public List<Order> getAllWithDocument(Pageable pageable) {
-        return orderRepository.getAllWithDocument(pageable);
+    public List<Order> getAllWithDocument(int page, int size) {
+        int orderCount = getAllCount();
+        int startIdx = orderCount - (page + 1) * size + 1;
+        int endIdx = startIdx + (size - 1);
+        return orderRepository.getAllWithDocument(startIdx, endIdx);
     }
 
     public int getAllCount() {
