@@ -8,8 +8,6 @@ import com.translationagency.ordermanager.util.OrderUtil;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
-import static com.translationagency.ordermanager.util.validation.ValidationUtil.*;
+import static com.translationagency.ordermanager.util.validation.ValidationUtil.assureIdConsistent;
 
 @RestController
 @RequestMapping(value = OrderController.ORDER_REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -37,8 +35,7 @@ public class OrderController {
     public List<OrderTo> getAll(@RequestParam(defaultValue = "0") Integer page,
                                 @RequestParam(defaultValue = "10") Integer size) {
         log.info("getAll");
-        Pageable pageable = PageRequest.of(page, size);
-        return OrderUtil.getTos(orderService.getAllWithDocument(pageable));
+        return OrderUtil.getTos(orderService.getAllWithDocument(page, size));
     }
 
     @GetMapping("/count")
@@ -64,7 +61,7 @@ public class OrderController {
         return ResponseEntity.created(uriOfNewResource).build();
     }
 
-    @PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody Order order, @PathVariable int id) {
         log.info("update {}", order);
